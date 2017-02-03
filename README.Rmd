@@ -6,7 +6,11 @@ output: rmarkdown::github_document
 
 **Ridicuously basic functionality working at the moment. More coming soon**
 
-TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem and does not do everything Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative. 
+TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineerdfor application testing & validation. 
+
+Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously craefted HTML tags. So, this package does not do _everything_ Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative.
+
+It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to comapre renderings between this package & `phantomjs`.
 
 You can also get it running with two commands:
 
@@ -15,11 +19,13 @@ You can also get it running with two commands:
     
 (Do whatever you Windows ppl do with Docker on your systems to make ^^ work.)
 
-All you need for this package to work is a running Splash instance. You provide the host/port for it and it's scrape-tastic from there.
+You can run Selenium in Docker, so this is not unique to Splash. But, Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
+
+All you need for this package to work is a running Splash instance. You provide the host/port for it and it's scrape-tastic fun from there!
 
 ### About Splash
 
->'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service. It’s a lightweight web browser with an 'HTTP' API, implemented in Python using 'Twisted'and 'QT' and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes'R pacakges but with a Java-free footprint. The (twisted) 'QT' reactor is used to make the sever fully asynchronous allowing to take advantage of 'webkit' concurrency via QT main loop. Some of Splash features include the ability to process multiple webpages in parallel; retrieving HTML results and/or take screenshots; disabling images or use Adblock Plus rules to make rendering faster; executing custom JavaScript in page context; getting detailed rendering info in HAR format.
+>'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service. It’s a lightweight web browser with an 'HTTP' API, implemented in Python using 'Twisted'and 'QT' and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes' R pacakges but with a Java-free footprint. The (twisted) 'QT' reactor is used to make the sever fully asynchronous allowing to take advantage of 'webkit' concurrency via QT main loop. Some of Splash features include the ability to process multiple webpages in parallel; retrieving HTML results and/or take screenshots; disabling images or use Adblock Plus rules to make rendering faster; executing custom JavaScript in page context; getting detailed rendering info in HAR format.
     
 The following functions are implemented:
 
