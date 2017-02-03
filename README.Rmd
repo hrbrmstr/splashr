@@ -27,7 +27,6 @@ The following functions are implemented:
 - `render_jpeg`:	Return a image (in JPEG format) of the javascript-rendered page.
 - `render_png`:	Return a image (in PNG format) of the javascript-rendered page.
 - `splash`:	Configure parameters for connecting to a Splash server
-- `splashr`:	Tools to Work with the 'Splash' JavaScript Rendering Service
 
 ### Installation
 
