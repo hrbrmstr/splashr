@@ -5,18 +5,17 @@
 \title{Return a image (in JPEG format) of the javascript-rendered page.}
 \usage{
 render_jpeg(splash_obj, url, base_url = NULL, quality = 75, width = 1024,
-  height = 768, timeout = 30, resource_timeout = NULL, wait = 0,
-  render_all = FALSE, proxy, js, js_src, filters, allowed_domains = "",
-  allowed_content_types = "", forbidden_content_types = "",
-  viewport = "1024x768", images, headers, body, http_method, save_args,
-  load_args)
+  height = 768, timeout = 30, resource_timeout, wait = 0,
+  render_all = FALSE, proxy, js, js_src, filters, allowed_domains,
+  allowed_content_types, forbidden_content_types, viewport = "1024x768",
+  images, headers, body, http_method, save_args, load_args)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \link{splash}}
 
 \item{url}{The URL to render (required)}
 
-\item{base_url}{TBD The base url to render the page with.}
+\item{base_url}{The base url to render the page with.}
 
 \item{quality}{JPEG quality parameter in range from 0 to 100. Default is quality=75.}
 
@@ -24,7 +23,7 @@ render_jpeg(splash_obj, url, base_url = NULL, quality = 75, width = 1024,
 
 \item{height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.}
 
-\item{timeout}{TBD A timeout (in seconds) for the render (defaults to 30).}
+\item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
 
 \item{resource_timeout}{A timeout (in seconds) for individual network requests.}
 
@@ -32,34 +31,37 @@ render_jpeg(splash_obj, url, base_url = NULL, quality = 75, width = 1024,
 
 \item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering. Default is \code{FASLE}}
 
-\item{proxy}{TBD Proxy profile name or proxy URL.}
+\item{proxy}{Proxy profile name or proxy URL.}
 
-\item{js}{TBD Javascript profile name.}
+\item{js}{Javascript profile name.}
 
-\item{js_src}{TBD JavaScript code to be executed in page context.}
+\item{js_src}{JavaScript code to be executed in page context.}
 
-\item{filters}{TBD Comma-separated list of request filter names.}
+\item{filters}{Comma-separated list of request filter names.}
 
-\item{allowed_domains}{TBD Comma-separated list of allowed domain names. If present, Splash won’t load anything neither from domains not in this list nor from subdomains of domains not in this list.}
+\item{allowed_domains}{Comma-separated list of allowed domain names. If present, Splash won’t load anything neither from domains not in this list nor from subdomains of domains not in this list.}
 
-\item{allowed_content_types}{TBD Comma-separated list of allowed content types. If present, Splash will abort any request if the response’s content type doesn’t match any of the content types in this list. Wildcards are supported.}
+\item{allowed_content_types}{Comma-separated list of allowed content types. If present, Splash will abort any request if the response’s content type doesn’t match any of the content types in this list. Wildcards are supported.}
 
-\item{forbidden_content_types}{TBD Comma-separated list of forbidden content types. If present, Splash will abort any request if the response’s content type matches any of the content types in this list. Wildcards are supported.}
+\item{forbidden_content_types}{Comma-separated list of forbidden content types. If present, Splash will abort any request if the response’s content type matches any of the content types in this list. Wildcards are supported.}
 
 \item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is 1024x768.}
 
-\item{images}{TBD Whether to download images.}
+\item{images}{Whether to download images.}
 
-\item{headers}{TBD HTTP headers to set for the first outgoing request.}
+\item{headers}{HTTP headers to set for the first outgoing request.}
 
-\item{body}{TBD Body of HTTP POST request to be sent if method is POST.}
+\item{body}{Body of HTTP POST request to be sent if method is POST.}
 
-\item{http_method}{TBD HTTP method of outgoing Splash request.}
+\item{http_method}{HTTP method of outgoing Splash request.}
 
-\item{save_args}{TBD A list of argument names to put in cache.}
+\item{save_args}{A list of argument names to put in cache.}
 
-\item{load_args}{TBD Parameter values to load from cache}
+\item{load_args}{Parameter values to load from cache}
 }
 \description{
 Return a image (in JPEG format) of the javascript-rendered page.
+}
+\references{
+\href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}
 }
