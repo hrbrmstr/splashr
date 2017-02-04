@@ -14,7 +14,7 @@ You can also get it running with two commands:
 
 (Do whatever you Windows ppl do with Docker on your systems to make ^^ work.)
 
-You can run Selenium in Docker, so this is not unique to Splash. But, Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
+You can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
 
 All you need for this package to work is a running Splash instance. You provide the host/port for it and it's scrape-tastic fun from there!
 
@@ -29,6 +29,15 @@ The following functions are implemented:
 -   `render_jpeg`: Return a image (in JPEG format) of the javascript-rendered page.
 -   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
 -   `splash`: Configure parameters for connecting to a Splash server
+
+### TODO
+
+Suggest more in a feature req!
+
+-   Implement `render.json`
+-   Implement `execute` (you can script Splash!)
+-   *Possibly* writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
+-   Testing results with all combinations of parameters
 
 ### Installation
 
@@ -61,7 +70,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 313761792
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 333393920
 
 ``` r
 splash("splash", 8050L) %>%
@@ -77,7 +86,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 306408
+    ##  $ maxrss  : int 325580
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -160,7 +169,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 07:01:02 2017"
+    ## [1] "Sat Feb  4 08:02:49 2017"
 
 ``` r
 test_dir("tests/")
