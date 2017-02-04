@@ -6,6 +6,9 @@
 #' @md
 #' @param response_body When `TRUE`, response content is included in the HAR records
 #' @inheritParams render_html
+#' @return a huge `list`
+#' @note a custom `print` method is defined to stop your console from being
+#'       overwhelmed with data. Use [str] to inspect various portions of the result.
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
 render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=30, resource_timeout, wait=0,
@@ -43,4 +46,10 @@ render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=3
 
   out
 
+}
+
+#' @export
+print.splash_har <- function(x, ...) {
+  cat("<splashr render_har() object>")
+  invisible(x)
 }

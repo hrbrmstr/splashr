@@ -4,13 +4,15 @@
 #' @param quality JPEG quality parameter in range from 0 to 100. Default is quality=75.
 #' @inheritParams render_html
 #' @inheritParams render_png
+#' @return a [magick] image object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
-render_jpeg <- function(splash_obj, url, base_url=NULL, quality=75, width=1024, height=768,
-                        timeout=30, resource_timeout, wait=0, render_all=FALSE,
-                        proxy, js, js_src, filters, allowed_domains, allowed_content_types,
-                        forbidden_content_types, viewport="1024x768", images, headers, body,
-                        http_method, save_args, load_args) {
+render_jpeg <- render_jpg <- function(
+  splash_obj, url, base_url=NULL, quality=75, width=1024, height=768,
+  timeout=30, resource_timeout, wait=0, render_all=FALSE,
+  proxy, js, js_src, filters, allowed_domains, allowed_content_types,
+  forbidden_content_types, viewport="1024x768", images, headers, body,
+  http_method, save_args, load_args) {
 
   params <- list(url=url, timeout=timeout, wait=wait, viewport=viewport,
                  quality=quality, width=width, height=height, render_all=as.numeric(render_all))
@@ -38,3 +40,4 @@ render_jpeg <- function(splash_obj, url, base_url=NULL, quality=75, width=1024, 
   magick::image_read(httr::content(res, as="raw"))
 
 }
+

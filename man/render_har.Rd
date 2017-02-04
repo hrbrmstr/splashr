@@ -52,9 +52,16 @@ render_har(splash_obj, url, base_url, response_body = FALSE, timeout = 30,
 
 \item{load_args}{Parameter values to load from cache}
 }
+\value{
+a huge \code{list}
+}
 \description{
 It includes information about requests made, responses received, timings, headers, etc and
 is incredibly detailed, full of information on every componenent loaded.
+}
+\note{
+a custom \code{print} method is defined to stop your console from being
+overwhelmed with data. Use \link{str} to inspect various portions of the result.
 }
 \references{
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}

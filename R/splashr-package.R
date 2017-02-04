@@ -10,6 +10,7 @@
 #' disabling images or use Adblock Plus rules to make rendering faster; executing custom
 #' JavaScript in page context; getting detailed rendering info in HAR format.
 #'
+#' @md
 #' @name splashr
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)

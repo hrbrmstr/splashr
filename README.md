@@ -34,7 +34,7 @@ The following functions are implemented:
 
 Suggest more in a feature req!
 
--   Implement `render.json`
+-   <strike>Implement `render.json`</strike>
 -   Implement `execute` (you can script Splash!)
 -   *Possibly* writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
 -   Testing results with all combinations of parameters
@@ -80,7 +80,7 @@ splash("splash", 8050L) %>%
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 18
+    ##  $ fds     : int 17
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
@@ -169,7 +169,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 08:02:49 2017"
+    ## [1] "Sat Feb  4 09:18:19 2017"
 
 ``` r
 test_dir("tests/")

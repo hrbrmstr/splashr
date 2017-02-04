@@ -3,6 +3,7 @@
 #' @md
 #' @param width,height Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.
 #' @param render_all If `TRUE` extend the viewport to include the whole webpage (possibly very tall) before rendering. Default is `FASLE`
+#' @return a [magick] image object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @inheritParams render_html
 #' @export

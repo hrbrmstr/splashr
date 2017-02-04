@@ -6,7 +6,7 @@
 \alias{splashr-package}
 \title{Tools to Work with the 'Splash' JavaScript Rendering Service}
 \description{
-'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service.
+'Splash' \url{https://github.com/scrapinghub/splash} is a javascript rendering service.
 It’s a lightweight web browser with an 'HTTP' API, implemented in Python using
 'Twisted'and 'QT' and provides some of the core functionality of the 'RSelenium' or
 'seleniumPipes'R pacakges but with a Java-free footprint. The (twisted) 'QT' reactor is

@@ -55,6 +55,9 @@ render_png(splash_obj, url, base_url, width = 1024, height = 768,
 
 \item{load_args}{Parameter values to load from cache}
 }
+\value{
+a \link{magick} image object
+}
 \description{
 Return a image (in PNG format) of the javascript-rendered page.
 }

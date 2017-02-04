@@ -37,7 +37,7 @@ The following functions are implemented:
 
 Suggest more in a feature req!
 
-- Implement `render.json`
+- <strike>Implement `render.json`</strike>
 - Implement `execute` (you can script Splash!)
 - _Possibly_ writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
 - Testing results with all combinations of parameters
