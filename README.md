@@ -1,8 +1,6 @@
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
-**Ridicuously basic functionality working at the moment. More coming soon**
-
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineerdfor application testing & validation.
 
 Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously craefted HTML tags. So, this package does not do *everything* Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative.
@@ -27,6 +25,7 @@ All you need for this package to work is a running Splash instance. You provide 
 The following functions are implemented:
 
 -   `render_html`: Return the HTML of the javascript-rendered page.
+-   `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 -   `render_jpeg`: Return a image (in JPEG format) of the javascript-rendered page.
 -   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
 -   `splash`: Configure parameters for connecting to a Splash server
@@ -47,6 +46,9 @@ options(width=120)
 library(splashr)
 library(magick)
 library(rvest)
+library(anytime)
+library(hrbrmisc) # github
+library(tidyverse)
 
 # current verison
 packageVersion("splashr")
@@ -59,7 +61,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 349298688
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 313761792
 
 ``` r
 splash("splash", 8050L) %>%
@@ -75,7 +77,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 341112
+    ##  $ maxrss  : int 306408
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -90,7 +92,7 @@ splash("splash", 8050L) %>%
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=1.114.1_widgets_244" type="text/javascri ...
+    ## [1] <head>\n<script type="text/javascript" async="async" src="http://uncanny.marvel.com/id?callback=s_c_il%5B1%5D._se ...
     ## [2] <body>\n<iframe src="http://tpc.googlesyndication.com/safeframe/1-0-5/html/container.html" style="visibility: hid ...
 
 ``` r
@@ -102,7 +104,38 @@ read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
     ## [1] <head>\n<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n<link href="https://plus.google.com/10852333737344 ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
-Web page snapshots are easy-peasy too:
+You can also profile pages:
+
+``` r
+splash("splash", 8050L) %>%
+  render_har("http://www.poynter.org/") -> har
+
+data_frame(
+  start=anytime::anytime(har$log$entries$startedDateTime),
+  end=(start + lubridate::milliseconds(har$log$entries$time)),
+  rsrc=sprintf("%02d: %s...", 1:length(start), substr(har$log$entries$request$url, 1, 30))) %>% 
+  mutate(rsrc=factor(rsrc, levels=rev(rsrc))) %>% 
+  bind_cols(xml2::url_parse(har$log$entries$request$url) %>% select(server)) -> df
+
+total_time <- diff(range(c(df$start, df$end)))
+total_time <- sprintf("Total time: %s %s", 
+                      format(unclass(total_time), digits = getOption("digits")),
+                      attr(total_time, "units"))
+
+ggplot(df) +
+  geom_segment(data=df, aes(x=start, xend=end, y=rsrc, yend=rsrc, color=server),
+               size=0.25) +
+  scale_x_datetime(expand=c(0,0)) +
+  labs(x=total_time, y=NULL, 
+       title=sprintf("HAR Waterfalll Profile for [%s]", "http://www.poynter.org/")) +
+  theme_hrbrmstr_msc(grid="") +
+  theme(legend.position="none") +
+  theme(panel.background=element_rect(color="#2b2b2b", fill="#2b2b2b"))
+```
+
+<img src="README_files/figure-markdown_github/unnamed-chunk-5-1.png" width="1056" />
+
+And, web page snapshots are easy-peasy too:
 
 ``` r
 splash("splash", 8050L) %>%
@@ -127,7 +160,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Fri Feb  3 15:39:57 2017"
+    ## [1] "Sat Feb  4 07:01:02 2017"
 
 ``` r
 test_dir("tests/")

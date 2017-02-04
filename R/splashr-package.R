@@ -14,7 +14,7 @@
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)
 #' @import purrr httr magick
-#' @importFrom xml2 read_html
+#' @importFrom xml2 read_html url_parse
 #' @importFrom jsonlite fromJSON
 NULL
 

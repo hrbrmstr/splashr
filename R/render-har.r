@@ -9,9 +9,9 @@
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
 render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=30, resource_timeout, wait=0,
-                        proxy, js, js_src, filters, allowed_domains, allowed_content_types,
-                        forbidden_content_types, viewport="1024x768", images, headers, body,
-                        http_method, save_args, load_args) {
+                       proxy, js, js_src, filters, allowed_domains, allowed_content_types,
+                       forbidden_content_types, viewport="1024x768", images, headers, body,
+                       http_method, save_args, load_args) {
 
   params <- list(url=url, timeout=timeout, wait=wait, viewport=viewport,
                  response_body=as.numeric(response_body))
@@ -36,6 +36,11 @@ render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=3
 
   httr::stop_for_status(res)
 
-  httr::content(res, as="text", encoding="UTF-8")
+  out <- httr::content(res, as="text", encoding="UTF-8")
+  out <- jsonlite::fromJSON(out)
+
+  class(out) <- c("splash_har", class(out))
+
+  out
 
 }
