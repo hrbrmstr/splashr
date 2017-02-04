@@ -36,6 +36,7 @@ Suggest more in a feature req!
 
 -   <strike>Implement `render.json`</strike>
 -   Implement `execute` (you can script Splash!)
+-   Add interation with [`HARtools`](https://github.com/johndharrison/HARtools)
 -   *Possibly* writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
 -   Testing results with all combinations of parameters
 
@@ -70,7 +71,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 333393920
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 356077568
 
 ``` r
 splash("splash", 8050L) %>%
@@ -86,7 +87,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 325580
+    ##  $ maxrss  : int 347732
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -169,7 +170,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 09:18:19 2017"
+    ## [1] "Sat Feb  4 13:25:07 2017"
 
 ``` r
 test_dir("tests/")

@@ -39,6 +39,7 @@ Suggest more in a feature req!
 
 - <strike>Implement `render.json`</strike>
 - Implement `execute` (you can script Splash!)
+- Add interation with [`HARtools`](https://github.com/johndharrison/HARtools)
 - _Possibly_ writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
 - Testing results with all combinations of parameters
 
