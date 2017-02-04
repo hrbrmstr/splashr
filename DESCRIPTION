@@ -27,5 +27,6 @@ Imports:
     httr,
     xml2,
     jsonlite,
-    magick
+    magick,
+    HARtools
 RoxygenNote: 6.0.0

@@ -30,13 +30,15 @@ The following functions are implemented:
 -   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
 -   `splash`: Configure parameters for connecting to a Splash server
 
+Some functions from `HARtools` are imported/exported and `%>%` is imported/exported.
+
 ### TODO
 
 Suggest more in a feature req!
 
 -   <strike>Implement `render.json`</strike>
 -   Implement `execute` (you can script Splash!)
--   Add interation with [`HARtools`](https://github.com/johndharrison/HARtools)
+-   (more than ¾ done) Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)
 -   *Possibly* writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
 -   Testing results with all combinations of parameters
 
@@ -71,7 +73,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 356077568
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 378863616
 
 ``` r
 splash("splash", 8050L) %>%
@@ -87,7 +89,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 347732
+    ##  $ maxrss  : int 369984
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -120,32 +122,39 @@ You can also profile pages:
 splash("splash", 8050L) %>%
   render_har("http://www.poynter.org/") -> har
 
-data_frame(
-  start=anytime::anytime(har$log$entries$startedDateTime),
-  end=(start + lubridate::milliseconds(har$log$entries$time)),
-  rsrc=sprintf("%02d: %s...", 1:length(start), substr(har$log$entries$request$url, 1, 30))) %>% 
-  mutate(rsrc=factor(rsrc, levels=rev(rsrc))) %>% 
-  bind_cols(xml2::url_parse(har$log$entries$request$url) %>% select(server)) -> df
-
-total_time <- diff(range(c(df$start, df$end)))
-total_time <- sprintf("Total time: %s %s", 
-                      format(unclass(total_time), digits = getOption("digits")),
-                      attr(total_time, "units"))
-
-ggplot(df) +
-  geom_segment(data=df, aes(x=start, xend=end, y=rsrc, yend=rsrc, color=server),
-               size=0.25) +
-  scale_x_datetime(expand=c(0,0)) +
-  labs(x=total_time, y=NULL, 
-       title=sprintf("HAR Waterfalll Profile for [%s]", "http://www.poynter.org/")) +
-  theme_hrbrmstr_msc(grid="") +
-  theme(legend.position="none") +
-  theme(panel.background=element_rect(color="#2b2b2b", fill="#2b2b2b"))
+print(har)
 ```
 
-<img src="README_files/figure-markdown_github/unnamed-chunk-5-1.png" width="1056" />
+    ## --------HAR VERSION-------- 
+    ## HAR specification version: 1.2 
+    ## --------HAR CREATOR-------- 
+    ## Created by: Splash 
+    ## version: 2.3.1 
+    ## --------HAR BROWSER-------- 
+    ## Browser: QWebKit 
+    ## version: 538.1 
+    ## --------HAR PAGES-------- 
+    ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
+    ## --------HAR ENTRIES-------- 
+    ## Number of entries: 53 
+    ## REQUESTS: 
+    ## Page: 1 
+    ## Number of entries: 53 
+    ##   -  http://www.poynter.org/ 
+    ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
+    ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
+    ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
+    ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
+    ##      ........ 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsuSInOKwkGjVqYf-u6Jqs7AwKtu3Vg5I9uRWRiJqvMeKGnaWdBEAwcEZ... 
+    ##   -  https://tpc.googlesyndication.com/simgad/541736962153447056 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjstnQKWZmAgTQWYXtIE1Ek_1hT6hsl9Tds_vXV_ZPQiykcV-y-ZQsPZEm... 
+    ##   -  https://tpc.googlesyndication.com/simgad/7689404493724466164 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsvTViMv7cHz-iL9UpuT02AFVcCFa25_XM_MAi6707YHGZI7ggxbXoXNd...
 
-And, web page snapshots are easy-peasy too:
+You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
+
+Full web page snapshots are easy-peasy too:
 
 ``` r
 splash("splash", 8050L) %>%
@@ -170,7 +179,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 13:25:07 2017"
+    ## [1] "Sat Feb  4 14:20:57 2017"
 
 ``` r
 test_dir("tests/")

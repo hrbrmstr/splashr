@@ -3,6 +3,10 @@
 \name{splashr-exports}
 \alias{splashr-exports}
 \alias{\%>\%}
+\alias{writeHAR}
+\alias{HARviewer}
+\alias{renderHARviewer}
+\alias{HARviewerOutput}
 \title{splashr exported operators}
 \description{
 The following functions are imported and then re-exported

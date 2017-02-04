@@ -15,6 +15,7 @@
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)
 #' @import purrr httr magick
+#' @importFrom HARtools writeHAR HARviewer renderHARviewer HARviewerOutput
 #' @importFrom xml2 read_html url_parse
 #' @importFrom jsonlite fromJSON
 NULL
@@ -29,6 +30,26 @@ NULL
 NULL
 
 #' @name %>%
+#' @export
+#' @rdname splashr-exports
+NULL
+
+#' @name writeHAR
+#' @export
+#' @rdname splashr-exports
+NULL
+
+#' @name HARviewer
+#' @export
+#' @rdname splashr-exports
+NULL
+
+#' @name renderHARviewer
+#' @export
+#' @rdname splashr-exports
+NULL
+
+#' @name HARviewerOutput
 #' @export
 #' @rdname splashr-exports
 NULL

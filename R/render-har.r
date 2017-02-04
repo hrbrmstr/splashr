@@ -6,9 +6,7 @@
 #' @md
 #' @param response_body When `TRUE`, response content is included in the HAR records
 #' @inheritParams render_html
-#' @return a huge `list`
-#' @note a custom `print` method is defined to stop your console from being
-#'       overwhelmed with data. Use [str] to inspect various portions of the result.
+#' @return a [HARtools::har] object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
 render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=30, resource_timeout, wait=0,
@@ -40,16 +38,33 @@ render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=3
   httr::stop_for_status(res)
 
   out <- httr::content(res, as="text", encoding="UTF-8")
-  out <- jsonlite::fromJSON(out)
+  spl <- jsonlite::fromJSON(out, flatten=FALSE, simplifyVector=FALSE)
 
-  class(out) <- c("splash_har", class(out))
+  sphar <- list(
+    log=list(
+      version=spl$log$version,
+      creator=spl$log$creator,
+      browser=spl$log$browser,
+      pages=spl$log$pages,
+      entries=spl$log$entries
+    )
+  )
 
-  out
+  class(sphar$log$creator) <- c("harcreator", "list")
+  class(sphar$log$version) <- c("harversion", "character")
+  class(sphar$log$browser) <- c("harbrowser", "list")
+  class(sphar$log$pages) <- c("harpages", "list")
+  class(sphar$log$entries) <- c("harentries", "list")
+  class(sphar$log) <- c("harlog", "list")
+  class(sphar) <- c("har", "list")
 
-}
+  for (i in 1:length(sphar$log$pages)) class(sphar$log$pages[[i]]) <- c("harpage", "list")
+  for (i in 1:length(sphar$log$entries)) {
+    class(sphar$log$entries[[i]]) <- c("harentry", "list")
+    class(sphar$log$entries[[i]]$request) <- c("harrequest", "list")
+    class(sphar$log$entries[[i]]$response) <- c("harresponse", "list")
+  }
 
-#' @export
-print.splash_har <- function(x, ...) {
-  cat("<splashr render_har() object>")
-  invisible(x)
+  sphar
+
 }
