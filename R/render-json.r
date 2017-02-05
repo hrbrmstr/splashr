@@ -33,7 +33,7 @@ render_json <- function(splash_obj, url, base_url=NULL, quality=75, width=1024, 
                         forbidden_content_types, viewport="1024x768", images, headers, body,
                         http_method, save_args, load_args, html=TRUE, png=FALSE, jpeg=FALSE,
                         iframes=TRUE, script=TRUE, console=TRUE, history=TRUE, har=TRUE,
-                        response_body=TRUE) {
+                        response_body=FALSE) {
 
   params <- list(url=url, timeout=timeout, wait=wait, viewport=viewport,
                  quality=quality, width=width, height=height, render_all=as.numeric(render_all),
@@ -63,9 +63,40 @@ render_json <- function(splash_obj, url, base_url=NULL, quality=75, width=1024, 
   httr::stop_for_status(res)
 
   out <- httr::content(res, as="text", encoding="UTF-8")
-  out <- jsonlite::fromJSON(out)
+  out <- jsonlite::fromJSON(out, flatten=FALSE, simplifyVector=FALSE)
 
   class(out) <- c("splash_json", class(out))
+
+  if ("har" %in% names(out)) {
+
+    sphar <- list(
+      log=list(
+        version=out$har$log$version,
+        creator=out$har$log$creator,
+        browser=out$har$log$browser,
+        pages=out$har$log$pages,
+        entries=out$har$log$entries
+      )
+    )
+
+    class(sphar$log$creator) <- c("harcreator", "list")
+    class(sphar$log$version) <- c("harversion", "character")
+    class(sphar$log$browser) <- c("harbrowser", "list")
+    class(sphar$log$pages) <- c("harpages", "list")
+    class(sphar$log$entries) <- c("harentries", "list")
+    class(sphar$log) <- c("harlog", "list")
+    class(sphar) <- c("har", "list")
+
+    for (i in 1:length(sphar$log$pages)) class(sphar$log$pages[[i]]) <- c("harpage", "list")
+    for (i in 1:length(sphar$log$entries)) {
+      class(sphar$log$entries[[i]]) <- c("harentry", "list")
+      if (length(sphar$log$entries[[i]]$request) > 0) class(sphar$log$entries[[i]]$request) <- c("harrequest", "list")
+      if (length(sphar$log$entries[[i]]$response) > 0) class(sphar$log$entries[[i]]$response) <- c("harresponse", "list")
+    }
+
+    out$har <- sphar
+
+  }
 
   out
 

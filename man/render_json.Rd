@@ -10,7 +10,7 @@ render_json(splash_obj, url, base_url = NULL, quality = 75, width = 1024,
   allowed_content_types, forbidden_content_types, viewport = "1024x768",
   images, headers, body, http_method, save_args, load_args, html = TRUE,
   png = FALSE, jpeg = FALSE, iframes = TRUE, script = TRUE,
-  console = TRUE, history = TRUE, har = TRUE, response_body = TRUE)
+  console = TRUE, history = TRUE, har = TRUE, response_body = FALSE)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \link{splash}}
