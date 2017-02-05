@@ -30,3 +30,4 @@ Imports:
     magick,
     HARtools
 RoxygenNote: 6.0.0
+Remotes: wch/harbor
