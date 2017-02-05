@@ -1,11 +1,11 @@
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
-TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineerdfor application testing & validation.
+TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation.
 
-Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously craefted HTML tags. So, this package does not do *everything* Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative.
+Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do *everything* Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative.
 
-It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to comapre renderings between this package & `phantomjs`.
+It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 
 You can also get it running with two commands:
 
@@ -20,7 +20,7 @@ All you need for this package to work is a running Splash instance. You provide 
 
 ### About Splash
 
-> 'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service. It’s a lightweight web browser with an 'HTTP' API, implemented in Python using 'Twisted'and 'QT' and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes' R pacakges but with a Java-free footprint. The (twisted) 'QT' reactor is used to make the sever fully asynchronous allowing to take advantage of 'webkit' concurrency via QT main loop. Some of Splash features include the ability to process multiple webpages in parallel; retrieving HTML results and/or take screenshots; disabling images or use Adblock Plus rules to make rendering faster; executing custom JavaScript in page context; getting detailed rendering info in HAR format.
+> 'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service. It’s a lightweight web browser with an 'HTTP' API, implemented in Python using 'Twisted’ and 'QT' and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes' R packages but with a Java-free footprint. The (twisted) 'QT' reactor is used to make the sever fully asynchronous allowing to take advantage of 'webkit' concurrency via QT main loop. Some of Splash features include the ability to process multiple webpages in parallel; retrieving HTML results and/or take screenshots; disabling images or use Adblock Plus rules to make rendering faster; executing custom JavaScript in page context; getting detailed rendering info in HAR format.
 
 The following functions are implemented:
 
@@ -73,7 +73,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 386650112
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 397705216
 
 ``` r
 splash("splash", 8050L) %>%
@@ -89,7 +89,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 377588
+    ##  $ maxrss  : int 388384
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -104,8 +104,8 @@ splash("splash", 8050L) %>%
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="" id="tealium-tag-3005" src="http://b.scorecardresearch.com/c2/1526 ...
-    ## [2] <body>\n<iframe src="http://tpc.googlesyndication.com/safeframe/1-0-6/html/container.html" style="visibility: hid ...
+    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=1.114.1_widgets_244" type="text/javascri ...
+    ## [2] <body>\n<iframe src="http://tpc.googlesyndication.com/safeframe/1-0-5/html/container.html" style="visibility: hid ...
 
 ``` r
 read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
@@ -136,21 +136,21 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 55 
+    ## Number of entries: 53 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 55 
+    ## Number of entries: 53 
     ##   -  http://www.poynter.org/ 
     ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
     ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
     ##      ........ 
-    ##   -  https://tpc.googlesyndication.com/simgad/15051950277260367536 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsvvx69WMrgV3s_kgG5p0-kJFd0WjpgWHvMTLha9tSUSKYbo6nUGZOz8o... 
-    ##   -  https://tpc.googlesyndication.com/simgad/4474669419740399237 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjstitqT51e9uvAHXczhpezhGWeRF1cZFP4kK8DYmrnN-GIpSFQcC9J3ci... 
-    ##   -  https://www.facebook.com/brandlift.php?campaign_id=fc4e9429a3642ca736ed453559b9636cbc7c7a037f1f8400ee43d0ff7d9400...
+    ##   -  http://ntvcld-a.akamaihd.net/image/upload/w_286,h_161,c_fill,g_auto,f_auto/assets/C6B95A2AECA04462AC9FCD7C9802256... 
+    ##   -  data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACgCAYAAABJ/yOpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccl... 
+    ##   -  http://srv-2017-02-05-03.pixel.parsely.com/plogger/?rand=1486264555280&idsite=poynter.org&url=http%3A%2F%2Fwww.po... 
+    ##   -  https://tpc.googlesyndication.com/simgad/6842796207574772216 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjst8b0fIBntQlYitsxLm3ttuvJblqMbtaye6mD7k4t5HZngXYMdHF5fmc...
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -179,7 +179,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 22:08:19 2017"
+    ## [1] "Sat Feb  4 22:16:00 2017"
 
 ``` r
 test_dir("tests/")
