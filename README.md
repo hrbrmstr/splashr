@@ -38,7 +38,7 @@ Suggest more in a feature req!
 
 -   <strike>Implement `render.json`</strike>
 -   Implement `execute` (you can script Splash!)
--   (more than ¾ done) Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)
+-   <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 -   *Possibly* writing R function wrappers to start Splash which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, possibly using [`harbor`](https://github.com/wch/harbor)
 -   Testing results with all combinations of parameters
 
@@ -73,7 +73,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 378863616
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 386650112
 
 ``` r
 splash("splash", 8050L) %>%
@@ -83,13 +83,13 @@ splash("splash", 8050L) %>%
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 17
+    ##  $ fds     : int 18
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 369984
+    ##  $ maxrss  : int 377588
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -104,8 +104,8 @@ splash("splash", 8050L) %>%
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="async" src="http://uncanny.marvel.com/id?callback=s_c_il%5B1%5D._se ...
-    ## [2] <body>\n<iframe src="http://tpc.googlesyndication.com/safeframe/1-0-5/html/container.html" style="visibility: hid ...
+    ## [1] <head>\n<script type="text/javascript" async="" id="tealium-tag-3005" src="http://b.scorecardresearch.com/c2/1526 ...
+    ## [2] <body>\n<iframe src="http://tpc.googlesyndication.com/safeframe/1-0-6/html/container.html" style="visibility: hid ...
 
 ``` r
 read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
@@ -136,21 +136,21 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 53 
+    ## Number of entries: 55 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 53 
+    ## Number of entries: 55 
     ##   -  http://www.poynter.org/ 
     ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
     ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
     ##      ........ 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsuSInOKwkGjVqYf-u6Jqs7AwKtu3Vg5I9uRWRiJqvMeKGnaWdBEAwcEZ... 
-    ##   -  https://tpc.googlesyndication.com/simgad/541736962153447056 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjstnQKWZmAgTQWYXtIE1Ek_1hT6hsl9Tds_vXV_ZPQiykcV-y-ZQsPZEm... 
-    ##   -  https://tpc.googlesyndication.com/simgad/7689404493724466164 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsvTViMv7cHz-iL9UpuT02AFVcCFa25_XM_MAi6707YHGZI7ggxbXoXNd...
+    ##   -  https://tpc.googlesyndication.com/simgad/15051950277260367536 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsvvx69WMrgV3s_kgG5p0-kJFd0WjpgWHvMTLha9tSUSKYbo6nUGZOz8o... 
+    ##   -  https://tpc.googlesyndication.com/simgad/4474669419740399237 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjstitqT51e9uvAHXczhpezhGWeRF1cZFP4kK8DYmrnN-GIpSFQcC9J3ci... 
+    ##   -  https://www.facebook.com/brandlift.php?campaign_id=fc4e9429a3642ca736ed453559b9636cbc7c7a037f1f8400ee43d0ff7d9400...
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -179,7 +179,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 14:20:57 2017"
+    ## [1] "Sat Feb  4 22:08:19 2017"
 
 ``` r
 test_dir("tests/")
