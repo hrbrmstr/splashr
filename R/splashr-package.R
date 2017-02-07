@@ -14,7 +14,7 @@
 #' @name splashr
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)
-#' @import purrr httr magick
+#' @import purrr httr magick harbor
 #' @importFrom HARtools writeHAR HARviewer renderHARviewer HARviewerOutput
 #' @importFrom xml2 read_html url_parse
 #' @importFrom jsonlite fromJSON
