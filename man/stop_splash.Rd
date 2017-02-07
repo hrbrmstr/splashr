@@ -4,9 +4,13 @@
 \alias{stop_splash}
 \title{Stop a running a Splash server Docker container}
 \usage{
-stop_splash(splash_container)
+stop_splash(splash_container, host = harbor::localhost)
 }
 \arguments{
+\item{splash_container}{saved Splash container id from [start_splash]}
+
+\item{host}{Docker host; defauolts to `localhost`}
+
 \item{splash_container}{Docker `container` object created by [start_splash]}
 }
 \description{

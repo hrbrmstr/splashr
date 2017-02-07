@@ -4,7 +4,10 @@
 \alias{start_splash}
 \title{Start a Splash server Docker container}
 \usage{
-start_splash()
+start_splash(host = harbor::localhost)
+}
+\arguments{
+\item{host}{Docker host; defauolts to `localhost`}
 }
 \value{
 `harbor` `container` object
