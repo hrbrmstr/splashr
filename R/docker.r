@@ -27,8 +27,12 @@ install_splash <- function(host = harbor::localhost) {
 #' stop_splash(splash_container)
 #' }
 start_splash <- function(host = harbor::localhost) {
-  harbor::docker_run(host, image = "scrapinghub/splash", detach = TRUE,
-                     docker_opts = "-p 5023:5023 -p 8050:8050 -p 8051:8051")
+  harbor::docker_run(host,
+                     image = "scrapinghub/splash",
+                     detach = TRUE,
+                     docker_opts = c("-p", "5023:5023",
+                                     "-p", "8050:8050",
+                                     "-p", "8051:8051"))
 }
 
 #' Stop a running a Splash server Docker container
