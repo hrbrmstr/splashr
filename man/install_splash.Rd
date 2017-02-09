@@ -7,7 +7,7 @@
 install_splash(host = harbor::localhost)
 }
 \arguments{
-\item{host}{Docker host; defauolts to \code{localhost}}
+\item{host}{Docker host; defaults to \code{localhost}}
 }
 \value{
 \code{harbor} \code{host} object

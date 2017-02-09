@@ -1,7 +1,7 @@
 #' Retrieve the Docker image for Splash
 #'
 #' @md
-#' @param host Docker host; defauolts to `localhost`
+#' @param host Docker host; defaults to `localhost`
 #' @return `harbor` `host` object
 #' @export
 #' @examples \dontrun{
@@ -16,7 +16,9 @@ install_splash <- function(host = harbor::localhost) {
 #' Start a Splash server Docker container
 #'
 #' @param host Docker host; defauolts to `localhost`
-#' @param add_tempdir if `TRUE` then a local temporary directory (made with [tempdir]())
+#' @param add_tempdir This is `FALSE` initially since you could try to run
+#'   the splash image on a remote system. It has to be a local one for this to work.
+#'   If `TRUE` then a local temporary directory (made with [tempdir]())
 #'   will be added to the mount configuration for use with [render_file](). You will need to
 #'       ensure the necessary system temp dirs are accessible as a mounts. For
 #'       macOS this means adding `/private` to said Docker config.
@@ -30,7 +32,7 @@ install_splash <- function(host = harbor::localhost) {
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-start_splash <- function(host = harbor::localhost, add_tempdir=TRUE) {
+start_splash <- function(host = harbor::localhost, add_tempdir=FALSE) {
 
   doc_opts <- c("-p", "5023:5023",
                 "-p", "8050:8050",
