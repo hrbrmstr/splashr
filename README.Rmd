@@ -39,6 +39,7 @@ All you need for this package to work is a running Splash instance. You provide 
 The following functions are implemented:
 
 - `render_html`:	Return the HTML of the javascript-rendered page.
+- `render_file`: Return the HTML or image (png) of the javascript-rendered page in a local file
 - `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 - `render_jpeg`:	Return a image (in JPEG format) of the javascript-rendered page.
 - `render_png`:	Return a image (in PNG format) of the javascript-rendered page.
@@ -54,6 +55,7 @@ Some functions from `HARtools` are imported/exported and `%>%` is imported/expor
 Suggest more in a feature req!
 
 - <strike>Implement `render.json`</strike>
+- <strike>Implement "file rendering"</strike>
 - Implement `execute` (you can script Splash!)
 - <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 - <strike>_Possibly_ writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
@@ -77,6 +79,8 @@ library(magick)
 library(rvest)
 library(anytime)
 library(hrbrmisc) # github
+library(htmlwidgets)
+library(DiagrammeR)
 library(tidyverse)
 
 # current verison
@@ -136,6 +140,44 @@ splash("splash", 8050L) %>%
 ```
 
 ![](img/cap.jpg)
+
+### Rendering Widgets
+
+```{r}
+splash_vm <- start_splash(add_tempdir=TRUE)
+```
+
+```{r include=FALSE, echo=FALSE}
+Sys.sleep(3)
+```
+
+```{r}
+DiagrammeR("
+  graph LR
+    A-->B
+    A-->C
+    C-->E
+    B-->D
+    C-->D
+    D-->F
+    E-->F
+") %>% 
+  saveWidget("/tmp/diag.html")
+
+splash("localhost") %>% 
+  render_file("/tmp/diag.html", output="html")
+```
+
+```{r eval=FALSE}
+splash("localhost") %>% 
+  render_file("/tmp/diag.html", output="png", wait=2)
+```
+
+![](img/diag.png)
+
+```{r}
+stop_splash(splash_vm)
+```
 
 ### Test Results
 

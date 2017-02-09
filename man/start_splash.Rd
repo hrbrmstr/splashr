@@ -20,7 +20,8 @@ will be added to the mount configuration for use with [render_file](). You will 
 `harbor` `container` object
 }
 \description{
-Start a Splash server Docker container
+If using this in an automation context, you should consider adding a
+`Sys.sleep(3)` (or higher) after starting the docker container.
 }
 \note{
 you need Docker running on your system and have pulled the container with

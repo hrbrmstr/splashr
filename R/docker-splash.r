@@ -15,6 +15,9 @@ install_splash <- function(host = harbor::localhost) {
 
 #' Start a Splash server Docker container
 #'
+#' If using this in an automation context, you should consider adding a
+#' `Sys.sleep(3)` (or higher) after starting the docker container.
+#'
 #' @param host Docker host; defauolts to `localhost`
 #' @param add_tempdir This is `FALSE` initially since you could try to run
 #'   the splash image on a remote system. It has to be a local one for this to work.

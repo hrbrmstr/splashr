@@ -10,9 +10,10 @@
 #' @param file_path Absolute path to a filename on the local host. **This only works with a locally running Splash instance started with [start_splash]().**
 #' @param output either `html` or `png` to get the page content or an image capture
 #' @param viewport View width and height (in pixels) of the browser viewport to render the web page. Format is "`<width>x<height>`". e.g. 800x600. Default value is 1024x768.
+#' @param ... other params to [render_html]() or [render_png]()
 #' @return An XML document or `magick` object
 #' @export
-render_file <- function(splash_obj, file_path, output=c("html", "png"), wait=0, viewport="1024x768") {
+render_file <- function(splash_obj, file_path, output=c("html", "png"), wait=0, viewport="1024x768", ...) {
 
   output <- match.arg(output, c("html", "png"))
 
@@ -23,9 +24,10 @@ render_file <- function(splash_obj, file_path, output=c("html", "png"), wait=0, 
   URL <- sprintf("http://localhost:9999/%s", fil)
 
   if (output == "html") {
-    render_html(splash_obj, URL, wait=wait, viewport=viewport)
+    render_html(splash_obj, URL, wait=wait, viewport=viewport, ...)
   } else {
-    render_png(splash_obj, URL, wait=wait, viewport=viewport)
+    render_png(splash_obj, URL, wait=wait, viewport=viewport, ...)
   }
 
 }
+

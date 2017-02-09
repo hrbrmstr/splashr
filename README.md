@@ -36,6 +36,7 @@ All you need for this package to work is a running Splash instance. You provide 
 The following functions are implemented:
 
 -   `render_html`: Return the HTML of the javascript-rendered page.
+-   `render_file`: Return the HTML or image (png) of the javascript-rendered page in a local file
 -   `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 -   `render_jpeg`: Return a image (in JPEG format) of the javascript-rendered page.
 -   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
@@ -51,6 +52,7 @@ Some functions from `HARtools` are imported/exported and `%>%` is imported/expor
 Suggest more in a feature req!
 
 -   <strike>Implement `render.json`</strike>
+-   <strike>Implement "file rendering"</strike>
 -   Implement `execute` (you can script Splash!)
 -   <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 -   <strike>*Possibly* writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
@@ -74,6 +76,8 @@ library(magick)
 library(rvest)
 library(anytime)
 library(hrbrmisc) # github
+library(htmlwidgets)
+library(DiagrammeR)
 library(tidyverse)
 
 # current verison
@@ -87,7 +91,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 412110848
+    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 462295040
 
 ``` r
 splash("splash", 8050L) %>%
@@ -103,7 +107,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 402452
+    ##  $ maxrss  : int 451460
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -118,7 +122,7 @@ splash("splash", 8050L) %>%
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="" id="tealium-tag-3005" src="http://b.scorecardresearch.com/c2/1526 ...
+    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=1.114.1_widgets_244" type="text/javascri ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
 ``` r
@@ -150,21 +154,21 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 50 
+    ## Number of entries: 56 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 50 
+    ## Number of entries: 56 
     ##   -  http://www.poynter.org/ 
     ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
     ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
     ##      ........ 
-    ##   -  https://stats.g.doubleclick.net/r/collect?v=1&aip=1&t=dc&_r=3&tid=UA-2072784-1&cid=1992506909.1486267047&jid=1325... 
-    ##   -  http://srv-2017-02-05-03.config.parsely.com/config/poynter.org 
-    ##   -  http://srv-2017-02-05-03.pixel.parsely.com/plogger/?rand=1486267047731&idsite=poynter.org&url=http%3A%2F%2Fwww.po... 
-    ##   -  https://tpc.googlesyndication.com/simgad/10025351500812357522 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsv3IVwW6mP5Eu79tajcj_fXJXhJhWb5xWUMF31OW8pkuhKz-68Gbdb1m...
+    ##   -  http://t.brand-server.com/adj?s=13281&sz=300x250&url=http://www.poynter.org/ 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsvaVvbr_IQSstPhvzvsWpiYqUHChLUWRLAecmxq6py54Rs-i9aCMEuQR... 
+    ##   -  http://srv-2017-02-09-22.pixel.parsely.com/plogger/?rand=1486678060999&idsite=poynter.org&url=http%3A%2F%2Fwww.po... 
+    ##   -  http://os4m-d.openx.net/w/1.0/jstag?nc=102766797-YieldLift 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjst2Xvpi5LxMyrFk9_Sw30O5JePbM44dE-0Z7WE046-IhfZcDs-NdDZQD...
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -184,6 +188,49 @@ splash("splash", 8050L) %>%
 
 ![](img/cap.jpg)
 
+### Rendering Widgets
+
+``` r
+splash_vm <- start_splash(add_tempdir=TRUE)
+```
+
+    ## f9f80950cd30b16c9209412d5578ff53b93b2492d578473ee34e67506014a20e
+
+``` r
+DiagrammeR("
+  graph LR
+    A-->B
+    A-->C
+    C-->E
+    B-->D
+    C-->D
+    D-->F
+    E-->F
+") %>% 
+  saveWidget("/tmp/diag.html")
+
+splash("localhost") %>% 
+  render_file("/tmp/diag.html", output="html")
+```
+
+    ## {xml_document}
+    ## <html>
+    ## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<meta charset="utf-8">\n<script src= ...
+    ## [2] <body style="background-color: white; margin: 0px; padding: 40px;">\n<div id="htmlwidget_container">\n<div id="ht ...
+
+``` r
+splash("localhost") %>% 
+  render_file("/tmp/diag.html", output="png", wait=2)
+```
+
+![](img/diag.png)
+
+``` r
+stop_splash(splash_vm)
+```
+
+    ## f9f80950cd30
+
 ### Test Results
 
 ``` r
@@ -193,7 +240,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Feb  4 22:57:33 2017"
+    ## [1] "Thu Feb  9 17:07:52 2017"
 
 ``` r
 test_dir("tests/")

@@ -5,7 +5,7 @@
 \title{Return the HTML or image (png) of the javascript-rendered page in a local file}
 \usage{
 render_file(splash_obj, file_path, output = c("html", "png"), wait = 0,
-  viewport = "1024x768")
+  viewport = "1024x768", ...)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \url{splash}}
@@ -15,6 +15,8 @@ render_file(splash_obj, file_path, output = c("html", "png"), wait = 0,
 \item{output}{either \code{html} or \code{png} to get the page content or an image capture}
 
 \item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is "\code{<width>x<height>}". e.g. 800x600. Default value is 1024x768.}
+
+\item{...}{other params to \url{render_html} or \url{render_png}}
 }
 \value{
 An XML document or \code{magick} object
