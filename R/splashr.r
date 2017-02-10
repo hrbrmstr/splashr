@@ -9,6 +9,10 @@ splash <- function(host, port=8050L) {
   list(host=host, port=port)
 }
 
+#' @rdname splash
+#' @export
+splash_local <- splash("localhost")
+
 s_GET <- purrr::safely(GET)
 
 #' Test if a Splash server is up

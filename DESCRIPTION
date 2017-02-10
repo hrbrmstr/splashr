@@ -19,7 +19,8 @@ URL: http://github.com/hrbrmstr/splashr
 BugReports: https://github.com/hrbrmstr/splashr/issues
 License: AGPL
 Suggests:
-    testthat
+    testthat,
+    tibble
 Depends:
     R (>= 3.2.0)
 Imports:

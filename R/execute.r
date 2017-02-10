@@ -11,6 +11,22 @@
 #' @param load_args Parameter values to load from cache
 #' @return `raw` content from the `httr` call. Given the vast diversity of possible return values, it's up to the caller to handle the return value.
 #' @export
+#' @examples \dontrun{
+#' splash_local %>%
+#'   execute_lua('
+#' function main(splash)
+#'   splash:go("https://projects.fivethirtyeight.com/congress-trump-score/")
+#'   splash:wait(0.5)
+#'   return splash:evaljs("memberScores")
+#' end
+#' ') -> res
+#'
+#' rawToChar(res) %>%
+#'   jsonlite::fromJSON(flatten=TRUE) %>%
+#'   purrr::map(tibble::as_tibble) -> member_scores
+#'
+#' member_scores
+#' }
 execute_lua <- function(splash_obj, lua_source, timeout=30, allowed_domains,
                         proxy, filters, save_args, load_args) {
 
