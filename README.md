@@ -9,8 +9,8 @@ It's also an alternative to `phantomjs` (which you can use in R within or withou
 
 You can also get it running with two commands:
 
-    sudo docker pull scrapinghub/splash
-    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash
+    sudo docker pull hrbrmstr/splashttpd
+    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 hrbrmstr/splashttpd
 
 (Do whatever you Windows ppl do with Docker on your systems to make ^^ work.)
 
@@ -40,6 +40,7 @@ The following functions are implemented:
 -   `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 -   `render_jpeg`: Return a image (in JPEG format) of the javascript-rendered page.
 -   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
+-   `execute_lua`: Execute a custom rendering script and return a result.
 -   `splash`: Configure parameters for connecting to a Splash server
 -   `install_splash`: Retrieve the Docker image for Splash
 -   `start_splash`: Start a Splash server Docker container
@@ -53,7 +54,7 @@ Suggest more in a feature req!
 
 -   <strike>Implement `render.json`</strike>
 -   <strike>Implement "file rendering"</strike>
--   Implement `execute` (you can script Splash!)
+-   <strike>Implement `execute` (you can script Splash!)</strike>
 -   <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 -   <strike>*Possibly* writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
 -   Testing results with all combinations of parameters
@@ -91,7 +92,7 @@ splash("splash", 8050L) %>%
   splash_active()
 ```
 
-    ## Status of splash instance on [http://splash:8050]: ok. Max RSS: 462295040
+    ## [1] TRUE
 
 ``` r
 splash("splash", 8050L) %>%
@@ -107,7 +108,7 @@ splash("splash", 8050L) %>%
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 451460
+    ##  $ maxrss  : int 491092
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://splash:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -122,8 +123,8 @@ splash("splash", 8050L) %>%
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=1.114.1_widgets_244" type="text/javascri ...
-    ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
+    ## [1] <head>\n<script type="text/javascript" async="async" src="http://uncanny.marvel.com/id?callback=s_c_il%5B1%5D._se ...
+    ## [2] <body>\n<iframe src="http://tpc.googlesyndication.com/safeframe/1-0-5/html/container.html" style="visibility: hid ...
 
 ``` r
 read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
@@ -154,21 +155,21 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 56 
+    ## Number of entries: 58 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 56 
+    ## Number of entries: 58 
     ##   -  http://www.poynter.org/ 
     ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
     ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
     ##      ........ 
-    ##   -  http://t.brand-server.com/adj?s=13281&sz=300x250&url=http://www.poynter.org/ 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsvaVvbr_IQSstPhvzvsWpiYqUHChLUWRLAecmxq6py54Rs-i9aCMEuQR... 
-    ##   -  http://srv-2017-02-09-22.pixel.parsely.com/plogger/?rand=1486678060999&idsite=poynter.org&url=http%3A%2F%2Fwww.po... 
-    ##   -  http://os4m-d.openx.net/w/1.0/jstag?nc=102766797-YieldLift 
-    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjst2Xvpi5LxMyrFk9_Sw30O5JePbM44dE-0Z7WE046-IhfZcDs-NdDZQD...
+    ##   -  https://s1.2mdn.net/4633855/GSCS-Bnr-Static-FY17-JO-728x90.jpg 
+    ##   -  https://tpc.googlesyndication.com/simgad/9335380309894607046 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjstJ-3akL2MRC2PYT_DulENf77-tUEfP0yypiv4OS4ub1_Ojuauj-DY9e... 
+    ##   -  https://tpc.googlesyndication.com/simgad/14632508855395020440 
+    ##   -  https://securepubads.g.doubleclick.net/pcs/view?xai=AKAOjsv2rihOMLCrL_JYBP4xufy7QmbU8UXT3z6yt2H-8-NAwymeCUTcxJmkY...
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -188,13 +189,32 @@ splash("splash", 8050L) %>%
 
 ![](img/cap.jpg)
 
+### Executing custom Lua scripts
+
+``` r
+lua_ex <- '
+function main(splash)
+  splash:go("http://rud.is/b")
+  splash:wait(0.5)
+  local title = splash:evaljs("document.title")
+  return {title=title}
+end
+'
+
+res <- splash("localhost") %>% execute_lua(lua_ex)
+
+rawToChar(res) %>% 
+  jsonlite::fromJSON()
+```
+
+    ## $title
+    ## [1] "rud.is | \"In God we trust. All others must bring data\""
+
 ### Rendering Widgets
 
 ``` r
 splash_vm <- start_splash(add_tempdir=TRUE)
 ```
-
-    ## f9f80950cd30b16c9209412d5578ff53b93b2492d578473ee34e67506014a20e
 
 ``` r
 DiagrammeR("
@@ -229,8 +249,6 @@ splash("localhost") %>%
 stop_splash(splash_vm)
 ```
 
-    ## f9f80950cd30
-
 ### Test Results
 
 ``` r
@@ -240,7 +258,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Thu Feb  9 17:07:52 2017"
+    ## [1] "Fri Feb 10 14:02:35 2017"
 
 ``` r
 test_dir("tests/")

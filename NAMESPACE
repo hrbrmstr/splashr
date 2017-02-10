@@ -2,10 +2,10 @@
 
 S3method(print,splash_debug)
 S3method(print,splash_json)
-S3method(print,splash_status)
 export("%>%")
 export(HARviewer)
 export(HARviewerOutput)
+export(execute_lua)
 export(install_splash)
 export(renderHARviewer)
 export(render_file)

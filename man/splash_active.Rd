@@ -2,17 +2,16 @@
 % Please edit documentation in R/splashr.r
 \name{splash_active}
 \alias{splash_active}
-\alias{print.splash_status}
 \title{Test if a Splash server is up}
 \usage{
 splash_active(splash_obj)
-
-\method{print}{splash_status}(x, ...)
 }
 \arguments{
 \item{splash_obj}{A splash connection object}
 }
+\value{
+\code{TRUE} if Slash server is running, otherwise \code{FALSE}
+}
 \description{
 Test if a Splash server is up
 }
-\keyword{internal}

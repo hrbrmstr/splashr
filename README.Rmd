@@ -12,8 +12,8 @@ It's also an alternative to `phantomjs` (which you can use in R within or withou
 
 You can also get it running with two commands:
 
-    sudo docker pull scrapinghub/splash
-    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash
+    sudo docker pull hrbrmstr/splashttpd
+    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 hrbrmstr/splashttpd
     
 (Do whatever you Windows ppl do with Docker on your systems to make ^^ work.)
 
@@ -43,6 +43,7 @@ The following functions are implemented:
 - `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 - `render_jpeg`:	Return a image (in JPEG format) of the javascript-rendered page.
 - `render_png`:	Return a image (in PNG format) of the javascript-rendered page.
+- `execute_lua`: Execute a custom rendering script and return a result.
 - `splash`:	Configure parameters for connecting to a Splash server
 - `install_splash`:	Retrieve the Docker image for Splash
 - `start_splash`:	Start a Splash server Docker container
@@ -56,7 +57,7 @@ Suggest more in a feature req!
 
 - <strike>Implement `render.json`</strike>
 - <strike>Implement "file rendering"</strike>
-- Implement `execute` (you can script Splash!)
+- <strike>Implement `execute` (you can script Splash!)</strike>
 - <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 - <strike>_Possibly_ writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
 - Testing results with all combinations of parameters
@@ -141,14 +142,28 @@ splash("splash", 8050L) %>%
 
 ![](img/cap.jpg)
 
-### Rendering Widgets
+### Executing custom Lua scripts
 
 ```{r}
-splash_vm <- start_splash(add_tempdir=TRUE)
+lua_ex <- '
+function main(splash)
+  splash:go("http://rud.is/b")
+  splash:wait(0.5)
+  local title = splash:evaljs("document.title")
+  return {title=title}
+end
+'
+
+res <- splash("localhost") %>% execute_lua(lua_ex)
+
+rawToChar(res) %>% 
+  jsonlite::fromJSON()
 ```
 
-```{r include=FALSE, echo=FALSE}
-Sys.sleep(3)
+### Rendering Widgets
+
+```{r eval=FALSE}
+splash_vm <- start_splash(add_tempdir=TRUE)
 ```
 
 ```{r}
@@ -175,7 +190,7 @@ splash("localhost") %>%
 
 ![](img/diag.png)
 
-```{r}
+```{r eval=FALSE}
 stop_splash(splash_vm)
 ```
 
