@@ -64,6 +64,24 @@ is_svg <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="image/sv
 #' @export
 is_gif <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="image/gif") }
 
+#' @rdname get_content_type
+#' @export
+is_xhr <- function(x) {
+
+  if (is.null(x$request$headers)) return(NA)
+  if (length(x$request$headers)==0) return(NA)
+
+  y <- map(x$request$headers, "value")
+  names(y) <- tolower(map_chr(x$request$headers, "name"))
+
+  if ("x-requested-with" %in% names(y)) {
+    return(tolower("xmlhttprequest") == tolower(y[["x-requested-with"]]))
+  } else {
+    return(FALSE)
+  }
+
+}
+
 #' Retrieve size of content |  body | headers
 #'
 #' @param har_resp_obj HAR response object

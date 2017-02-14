@@ -40,13 +40,28 @@ render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=3
   out <- httr::content(res, as="text", encoding="UTF-8")
   spl <- jsonlite::fromJSON(out, flatten=FALSE, simplifyVector=FALSE)
 
+  as_har(spl)
+
+}
+
+
+#' Turn a generic Splash HAR response into a HAR object
+#'
+#' @param as_har splash response object as returned by `splash:har()` lua script
+#' @export
+as_har <- function(splash_resp) {
+
+  if (is.raw(splash_resp)) splash_resp <- jsonlite::fromJSON(rawToChar(splash_resp),
+                                                             flatten=FALSE,
+                                                             simplifyVector=FALSE)
+
   sphar <- list(
     log=list(
-      version=spl$log$version,
-      creator=spl$log$creator,
-      browser=spl$log$browser,
-      pages=spl$log$pages,
-      entries=spl$log$entries
+      version=splash_resp$log$version,
+      creator=splash_resp$log$creator,
+      browser=splash_resp$log$browser,
+      pages=splash_resp$log$pages,
+      entries=splash_resp$log$entries
     )
   )
 
@@ -66,5 +81,6 @@ render_har <- function(splash_obj, url, base_url, response_body=FALSE, timeout=3
   }
 
   sphar
+
 
 }

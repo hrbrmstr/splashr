@@ -14,6 +14,7 @@
 \alias{is_png}
 \alias{is_svg}
 \alias{is_gif}
+\alias{is_xhr}
 \title{Retrieve or test content type of a HAR request object}
 \usage{
 get_content_type(har_resp_obj)
@@ -41,6 +42,8 @@ is_png(har_resp_obj)
 is_svg(har_resp_obj)
 
 is_gif(har_resp_obj)
+
+is_xhr(x)
 }
 \arguments{
 \item{har_resp_obj}{HAR response object}

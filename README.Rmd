@@ -66,6 +66,7 @@ Helpers:
 - `is_plain`:	Retrieve or test content type of a HAR request object
 - `is_png`:	Retrieve or test content type of a HAR request object
 - `is_svg`:	Retrieve or test content type of a HAR request object
+- `is_xhr`: Retrieve or test content type of a HAR request object
 - `is_xml`:	Retrieve or test content type of a HAR request object
 
 Some functions from `HARtools` are imported/exported and `%>%` is imported/exported.
