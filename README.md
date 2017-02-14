@@ -46,6 +46,25 @@ The following functions are implemented:
 -   `start_splash`: Start a Splash server Docker container
 -   `stop_splash`: Stop a running a Splash server Docker container
 
+Helpers:
+
+-   `get_body_size`:	Retrieve size of content | body | headers
+-   `get_content_sie`:	Retrieve size of content | body | headers
+-   `get_content_type`	Retrieve or test content type of a HAR request object
+-   `get_headers_size`	Retrieve size of content | body | headers
+-   `is_binary`:	Retrieve or test content type of a HAR request object
+-   `is_content_type`:	Retrieve or test content type of a HAR request object
+-   `is_css`:	Retrieve or test content type of a HAR request object
+-   `is_gif`:	Retrieve or test content type of a HAR request object
+-   `is_html`:	Retrieve or test content type of a HAR request object
+-   `is_javascript`:	Retrieve or test content type of a HAR request object
+-   `is_jpeg`:	Retrieve or test content type of a HAR request object
+-   `is_json`:	Retrieve or test content type of a HAR request object
+-   `is_plain`:	Retrieve or test content type of a HAR request object
+-   `is_png`:	Retrieve or test content type of a HAR request object
+-   `is_svg`:	Retrieve or test content type of a HAR request object
+-   `is_xml`:	Retrieve or test content type of a HAR request object
+
 Some functions from `HARtools` are imported/exported and `%>%` is imported/exported.
 
 ### TODO
@@ -85,7 +104,7 @@ library(tidyverse)
 packageVersion("splashr")
 ```
 
-    ## [1] '0.1.0'
+    ## [1] '0.2.0'
 
 ``` r
 splash("splash", 8050L) %>%
@@ -258,7 +277,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Fri Feb 10 14:02:35 2017"
+    ## [1] "Tue Feb 14 09:02:35 2017"
 
 ``` r
 test_dir("tests/")
