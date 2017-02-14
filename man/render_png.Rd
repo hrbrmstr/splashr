@@ -5,7 +5,7 @@
 \title{Return a image (in PNG format) of the javascript-rendered page.}
 \usage{
 render_png(splash_obj, url, base_url, width = 1024, height = 768,
-  render_all = FALSE, timeout = 30, resource_timeout, wait = 0, proxy, js,
+  render_all = TRUE, timeout = 30, resource_timeout, wait = 0, proxy, js,
   js_src, filters, allowed_domains, allowed_content_types,
   forbidden_content_types, viewport = "1024x768", images, headers, body,
   http_method, save_args, load_args)
@@ -19,7 +19,7 @@ render_png(splash_obj, url, base_url, width = 1024, height = 768,
 
 \item{width, height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.}
 
-\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering. Default is \code{FASLE}}
+\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering.}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
 

@@ -2,12 +2,12 @@
 #'
 #' @md
 #' @param width,height Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.
-#' @param render_all If `TRUE` extend the viewport to include the whole webpage (possibly very tall) before rendering. Default is `FASLE`
+#' @param render_all If `TRUE` extend the viewport to include the whole webpage (possibly very tall) before rendering.
 #' @return a [magick] image object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @inheritParams render_html
 #' @export
-render_png <- function(splash_obj, url, base_url, width=1024, height=768, render_all=FALSE,
+render_png <- function(splash_obj, url, base_url, width=1024, height=768, render_all=TRUE,
                        timeout=30, resource_timeout, wait=0,
                        proxy, js, js_src, filters, allowed_domains, allowed_content_types,
                        forbidden_content_types, viewport="1024x768", images, headers, body,

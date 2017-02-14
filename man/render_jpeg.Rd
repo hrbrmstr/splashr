@@ -29,7 +29,7 @@ render_jpeg(splash_obj, url, base_url = NULL, quality = 75, width = 1024,
 
 \item{wait}{Time (in seconds) to wait for updates after page is loaded (defaults to 0).}
 
-\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering. Default is \code{FASLE}}
+\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering.}
 
 \item{proxy}{Proxy profile name or proxy URL.}
 
