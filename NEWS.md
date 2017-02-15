@@ -1,3 +1,8 @@
+0.3.0
+
+* added `as_req()`
+* added `as_request()`
+
 0.2.0
 
 * added `execute`()

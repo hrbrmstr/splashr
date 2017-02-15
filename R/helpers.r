@@ -1,3 +1,15 @@
+#' Retrieve the body content of a HAR entry
+#'
+#' @md
+#' @param har_resp_obj HAR response object
+#' @return A `raw` vector of the content or `NULL`
+#' @export
+get_response_body <- function(har_resp_obj) {
+  resp <- har_resp_obj$response$content$text
+  if (resp == "") return(NULL)
+  openssl::base64_decode(resp)
+}
+
 #' Retrieve or test content type of a HAR request object
 #'
 #' @param har_resp_obj HAR response object
@@ -46,23 +58,23 @@ is_javascript <- function(har_resp_obj) {
 
 #' @rdname get_content_type
 #' @export
-is_html <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="text/html") }
+is_html <- function(har_resp_obj) { is_content_type(har_resp_obj, type="text/html") }
 
 #' @rdname get_content_type
 #' @export
-is_jpeg <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="image/jpeg") }
+is_jpeg <- function(har_resp_obj) { is_content_type(har_resp_obj, type="image/jpeg") }
 
 #' @rdname get_content_type
 #' @export
-is_png <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="image/png") }
+is_png <- function(har_resp_obj) { is_content_type(har_resp_obj, type="image/png") }
 
 #' @rdname get_content_type
 #' @export
-is_svg <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="image/svg+xml") }
+is_svg <- function(har_resp_obj) { is_content_type(har_resp_obj, type="image/svg+xml") }
 
 #' @rdname get_content_type
 #' @export
-is_gif <- function(har_resp_obj) {  is_content_type(har_resp_obj, type="image/gif") }
+is_gif <- function(har_resp_obj) { is_content_type(har_resp_obj, type="image/gif") }
 
 #' @rdname get_content_type
 #' @export
@@ -82,29 +94,30 @@ is_xhr <- function(x) {
 
 }
 
-#' Retrieve size of content |  body | headers
+#' Retrieve request URL
 #'
 #' @param har_resp_obj HAR response object
 #' @export
-get_content_size <- function(har_resp_obj) {
-  csize <- har_resp_obj$response$content$size
-  if (is.null(csize)) return(NA_real_)
-  return(as.numeric(csize))
+get_request_url <- function(har_resp_obj) {
+  utype <- har_resp_obj$request$url
+  if (utype == "") return(NA_character_)
+  utype
 }
 
-#' @rdname get_content_size
+#' Retrieve or test request type
+#'
+#' @param har_resp_obj HAR response object
 #' @export
-get_body_size <- function(har_resp_obj) {
-  bsize <- har_resp_obj$response$bodySize
-  if (is.null(bsize)) return(NA_real_)
-  return(as.numeric(bsize))
+get_request_type <- function(har_resp_obj) {
+  rtype <- har_resp_obj$request$method
+  if (rtype == "") return(NA_character_)
+  rtype
 }
 
-#' @rdname get_content_size
+#' @rdname get_request_type
 #' @export
-get_headers_size <- function(har_resp_obj) {
-  hsize <- har_resp_obj$response$headersSize
-  if (is.null(hsize)) return(NA_real_)
-  return(as.numeric(hsize))
-}
+is_get <- function(har_resp_obj) { get_requet_type(har_resp_obj) == "GET" }
 
+#' @rdname get_request_type
+#' @export
+is_post <- function(har_resp_obj) { get_requet_type(har_resp_obj) == "POST" }

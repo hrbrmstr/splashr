@@ -33,7 +33,7 @@ All you need for this package to work is a running Splash instance. You provide 
 
 > 'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service. It’s a lightweight web browser with an 'HTTP' API, implemented in Python using 'Twisted'and 'QT' [and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes' R packages but with a Java-free footprint]. The (twisted) 'QT' reactor is used to make the sever fully asynchronous allowing to take advantage of 'webkit' concurrency via QT main loop. Some of Splash features include the ability to process multiple webpages in parallel; retrieving HTML results and/or take screenshots; disabling images or use Adblock Plus rules to make rendering faster; executing custom JavaScript in page context; getting detailed rendering info in HAR format.
 
-The following functions are implemented: 
+The following functions are implemented:
 
 -   `render_html`: Return the HTML of the javascript-rendered page.
 -   `render_file`: Return the HTML or image (png) of the javascript-rendered page in a local file
@@ -46,10 +46,7 @@ The following functions are implemented:
 -   `start_splash`: Start a Splash server Docker container
 -   `stop_splash`: Stop a running a Splash server Docker container
 
-Mini-DSL (domain-specific language). These can be used to create a "script" without actually
-scripting in Lua. They are a less-powerful/configurable set of calls than what you
-can make with a full Lua function but the idea is to have it take care of very common but
-simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG image of a site:
+Mini-DSL (domain-specific language). These can be used to create a "script" without actually scripting in Lua. They are a less-powerful/configurable set of calls than what you can make with a full Lua function but the idea is to have it take care of very common but simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG image of a site:
 
 -   `splash_plugins`:	Enable or disable browser plugins (e.g. Flash).
 -   `splash_images`:	Enable/disable images
@@ -60,7 +57,12 @@ simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG 
 -   `splash_html`:	Return a HTML snapshot of a current page.
 -   `splash_png`:	Return a screenshot of a current page in PNG format.
 
-Helpers: 
+`httr` helpers. These help turn various bits of `splashr` objects into `httr`-ish things:
+
+-   `as_req`:  Turn a HAR response entry into a working `httr` function you can use to make a request with
+-   `as_request`:  Turn a HAR response entry into an `httr` `response`-like object (i.e. you can use `httr::content()` on it)
+
+Helpers:
 
 -   `get_body_size`:	Retrieve size of content | body | headers
 -   `get_content_sie`:	Retrieve size of content | body | headers
@@ -119,7 +121,7 @@ library(tidyverse)
 packageVersion("splashr")
 ```
 
-    ## [1] '0.2.0'
+    ## [1] '0.3.0'
 
 ``` r
 splash("splash", 8050L) %>%
@@ -292,7 +294,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Tue Feb 14 09:02:35 2017"
+    ## [1] "Tue Feb 15 09:02:35 2017"
 
 ``` r
 test_dir("tests/")

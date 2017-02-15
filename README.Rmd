@@ -49,10 +49,7 @@ The following functions are implemented:
 - `start_splash`:	Start a Splash server Docker container
 - `stop_splash`:	Stop a running a Splash server Docker container
 
-Mini-DSL (domain-specific language). These can be used to create a "script" without actually
-scripting in Lua. They are a less-powerful/configurable set of calls than what you
-can make with a full Lua function but the idea is to have it take care of very common but
-simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG image of a site:
+Mini-DSL (domain-specific language). These can be used to create a "script" without actually scripting in Lua. They are a less-powerful/configurable set of calls than what you can make with a full Lua function but the idea is to have it take care of very common but simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG image of a site:
 
 - `splash_plugins`:	Enable or disable browser plugins (e.g. Flash).
 - `splash_images`:	Enable/disable images
@@ -62,6 +59,11 @@ simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG 
 - `splash_har`:	Return information about Splash interaction with a website in HAR format.
 - `splash_html`:	Return a HTML snapshot of a current page.
 - `splash_png`:	Return a screenshot of a current page in PNG format.
+
+`httr` helpers. These help turn various bits of `splashr` objects into `httr`-ish things:
+
+- `as_req`:  Turn a HAR response entry into a working `httr` function you can use to make a request with
+- `as_request`:  Turn a HAR response entry into an `httr` `response`-like object (i.e. you can use `httr::content()` on it)
 
 Helpers:
 
