@@ -19,6 +19,7 @@ a DSL script chain as this will execute the script and return the PNG content
 \examples{
 \dontrun{
 splash_local \%>\%
+  splash_user_agent(ua_macos_chrome) \%>\%
   splash_go("https://rud.is/b") \%>\%
   splash_wait(2) \%>\%
   splash_png()

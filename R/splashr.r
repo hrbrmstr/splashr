@@ -33,12 +33,53 @@ splash_active <- function(splash_obj) {
 
   out$url <- splash_url(splash_obj)
 
-  message(sprintf("Status of splash instance on [%s]: %s. Max RSS: %s\n", out$url, out$status, out$maxrss))
+  message(sprintf("Status of splash instance on [%s]: %s. Max RSS: %s Mb\n",
+                  out$url, out$status, scales::comma(out$maxrss/1024/1024)))
 
   if ("status" %in% names(out)) return(out$status == "ok")
 
   return(FALSE)
 
+}
+
+#' Get Splash version information
+#'
+#' @param splash_obj A splash connection object
+#' @export
+splash_version <- function(splash_obj) {
+  execute_lua(splash_obj, '
+function main(splash)
+  return splash:get_version()
+end
+') -> res
+  jsonlite::fromJSON(rawToChar(res))
+}
+
+#' Get information about requests/responses for the pages loaded
+#'
+#' @param splash_obj A splash connection object
+#' @export
+splash_history <- function(splash_obj) {
+  execute_lua(splash_obj, '
+function main(splash)
+  return splash:history()
+end
+') -> res
+  jsonlite::fromJSON(rawToChar(res))
+}
+
+
+#' Get Splash performance-related statistics
+#'
+#' @param splash_obj A splash connection object
+#' @export
+splash_perf_stats <- function(splash_obj) {
+  execute_lua(splash_obj, '
+function main(splash)
+  return splash:get_perf_stats()
+end
+') -> res
+  jsonlite::fromJSON(rawToChar(res))
 }
 
 #' Retrieve debug-level info for a Splash server

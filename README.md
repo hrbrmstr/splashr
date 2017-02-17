@@ -56,6 +56,7 @@ Mini-DSL (domain-specific language). These can be used to create a "script" with
 -   `splash_har`:	Return information about Splash interaction with a website in HAR format.
 -   `splash_html`:	Return a HTML snapshot of a current page.
 -   `splash_png`:	Return a screenshot of a current page in PNG format.
+-   `splash_user_agent:	Overwrite the User-Agent header for all further requests. NOTE: There are many "helper" user agent strings to go with `splash_user_agent`. Look for objects in `splashr` starting with `ua_`.
 
 `httr` helpers. These help turn various bits of `splashr` objects into `httr`-ish things:
 

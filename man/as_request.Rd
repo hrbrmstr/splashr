@@ -14,10 +14,13 @@ Return a HAR entry response as an httr::response object
 }
 \examples{
 \dontrun{
+library(purrr)
+
 URL <- "http://www.svs.cl/portal/principal/605/w3-propertyvalue-18554.html"
 
 splash_local \%>\%
   splash_response_body(TRUE) \%>\%
+  splash_user_agent(ua_macos_chrome) \%>\%
   splash_go(URL) \%>\%
   splash_wait(2) \%>\%
   splash_har() -> har

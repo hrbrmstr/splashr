@@ -18,6 +18,7 @@ Plugins are disabled by default.
 \dontrun{
 splash_local \%>\%
   splash_plugins(TRUE) \%>\%
+  splash_user_agent(ua_macos_chrome) \%>\%
   splash_go("https://rud.is/b") \%>\%
   splash_wait(2) \%>\%
   splash_har() -> rud_har

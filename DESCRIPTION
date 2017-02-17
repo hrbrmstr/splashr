@@ -33,6 +33,7 @@ Imports:
     clipr,
     HARtools,
     openssl,
-    lubridate
+    lubridate,
+    scales
 RoxygenNote: 6.0.0
 Remotes: wch/harbor

@@ -17,6 +17,7 @@ a DSL script chain as this will execute the script and return the HAR content
 \dontrun{
 splash_local \%>\%
   splash_response_body(TRUE) \%>\%
+  splash_user_agent(ua_macos_chrome) \%>\%
   splash_go("https://rud.is/b") \%>\%
   splash_wait(2) \%>\%
   splash_har() -> rud_har

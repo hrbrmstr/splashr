@@ -21,6 +21,7 @@ positions of DOM elements, and scripts may read and use them.
 \dontrun{
 splash_local \%>\%
   splash_images(TRUE) \%>\%
+  splash_user_agent(ua_macos_chrome) \%>\%
   splash_go("https://rud.is/b") \%>\%
   splash_wait(2) \%>\%
   splash_har() -> rud_har

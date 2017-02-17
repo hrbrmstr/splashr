@@ -20,6 +20,7 @@ end
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_response_body(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_har() -> rud_har
@@ -40,6 +41,7 @@ splash_response_body <- function(splash_obj, enable=FALSE) {
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_plugins(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_har() -> rud_har
@@ -63,6 +65,7 @@ splash_plugins <- function(splash_obj, enable=FALSE) {
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_images(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_har() -> rud_har
@@ -84,6 +87,7 @@ splash_images <- function(splash_obj, enable=TRUE) {
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_response_body(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_har() -> rud_har
@@ -106,6 +110,7 @@ splash_go <- function(splash_obj, url) {
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_response_body(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_har() -> rud_har
@@ -126,6 +131,7 @@ splash_wait <- function(splash_obj, time=2) {
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_response_body(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_har() -> rud_har
@@ -153,6 +159,7 @@ splash_har <- function(splash_obj) {
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_response_body(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_html() -> rud_pg
@@ -182,6 +189,7 @@ splash_html <- function(splash_obj, raw_html=FALSE) {
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
 #'   splash_go("https://rud.is/b") %>%
 #'   splash_wait(2) %>%
 #'   splash_png()
@@ -198,3 +206,76 @@ splash_png <- function(splash_obj) {
 
 }
 
+#' Overwrite the User-Agent header for all further requests.
+#'
+#' There are a few built-in user agents, all beginning with `ua_`.
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @param user_agent 1 element character vector, defaults to `splashr/#.#.#`.
+#' @export
+#' @examples \dontrun{
+#' library(rvest)
+#'
+#' URL <- "https://httpbin.org/user-agent"
+#'
+#' splash_local %>%
+#'   splash_response_body(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
+#'   splash_go(URL) %>%
+#'   splash_html() %>%
+#'   html_text("body") %>%
+#'   jsonlite::fromJSON()
+#' }
+splash_user_agent <- function(splash_obj, user_agent=ua_splashr) {
+  splash_obj$calls <- c(splash_obj$calls, sprintf('splash:set_user_agent("%s")', user_agent))
+  splash_obj
+}
+
+#' @rdname splash_user_agent
+#' @export
+ua_splashr <- sprintf("splashr/%s", packageVersion("splashr"))
+
+#' @rdname splash_user_agent
+#' @export
+ua_win10_chrome <- "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
+
+#' @rdname splash_user_agent
+#' @export
+ua_win10_firefox <- "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0"
+
+#' @rdname splash_user_agent
+#' @export
+ua_win10_ie11 <- "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"
+
+#' @rdname splash_user_agent
+#' @export
+ua_win7_chrome <- "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
+
+#' @rdname splash_user_agent
+#' @export
+ua_win7_firefox <- "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0"
+
+#' @rdname splash_user_agent
+#' @export
+ua_win7_ie11 <- "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
+
+#' @rdname splash_user_agent
+#' @export
+ua_macos_chrome <- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36"
+
+#' @rdname splash_user_agent
+#' @export
+ua_macos_safari <- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/602.3.12 (KHTML, like Gecko) Version/10.0.2 Safari/602.3.12"
+
+#' @rdname splash_user_agent
+#' @export
+ua_linux_chrome <- "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"
+
+#' @rdname splash_user_agent
+#' @export
+ua_linux_firefox <- "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0"
+
+#' @rdname splash_user_agent
+#' @export
+ua_ios_safari <- "Mozilla/5.0 (iPad; CPU OS 10_2 like Mac OS X) AppleWebKit/602.3.12 (KHTML, like Gecko) Version/10.0 Mobile/14C92 Safari/602.1"

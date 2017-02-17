@@ -19,6 +19,7 @@ until page loads.
 \dontrun{
 splash_local \%>\%
   splash_response_body(TRUE) \%>\%
+  splash_user_agent(ua_macos_chrome) \%>\%
   splash_go("https://rud.is/b") \%>\%
   splash_wait(2) \%>\%
   splash_har() -> rud_har
