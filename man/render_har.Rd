@@ -58,7 +58,7 @@ a \code{HARtools} \code{har} object
 }
 \description{
 It includes information about requests made, responses received, timings, headers, etc and
-is incredibly detailed, full of information on every componenent loaded.
+is incredibly detailed, full of information on every component loaded.
 }
 \references{
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}

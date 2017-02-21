@@ -14,7 +14,7 @@ Stop a running a Splash server Docker container
 }
 \note{
 you need Docker running on your system and have pulled the container with
-      [install_spash] and started the Splash container with [start_splash] for this
+      [install_splash] and started the Splash container with [start_splash] for this
       to work. You will need the `container` object from [start_splash] for this to work.
 }
 \examples{

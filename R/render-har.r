@@ -1,7 +1,7 @@
 #' Return information about Splash interaction with a website in HAR format.
 #'
 #' It includes information about requests made, responses received, timings, headers, etc and
-#' is incredibly detailed, full of information on every componenent loaded.
+#' is incredibly detailed, full of information on every component loaded.
 #'
 #' @md
 #' @param response_body When `TRUE`, response content is included in the HAR records

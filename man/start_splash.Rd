@@ -7,7 +7,7 @@
 start_splash(host = harbor::localhost, add_tempdir = FALSE)
 }
 \arguments{
-\item{host}{Docker host; defauolts to `localhost`}
+\item{host}{Docker host; defaults to `localhost`}
 
 \item{add_tempdir}{This is `FALSE` initially since you could try to run
 the splash image on a remote system. It has to be a local one for this to work.
@@ -25,7 +25,7 @@ If using this in an automation context, you should consider adding a
 }
 \note{
 you need Docker running on your system and have pulled the container with
-      [install_spash] for this to work. You should save the resultant `host`
+      [install_splash] for this to work. You should save the resultant `host`
       object for use in [stop_splash].
 }
 \examples{
