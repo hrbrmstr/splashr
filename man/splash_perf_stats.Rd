@@ -4,7 +4,7 @@
 \alias{splash_perf_stats}
 \title{Get Splash performance-related statistics}
 \usage{
-splash_perf_stats(splash_obj)
+splash_perf_stats(splash_obj = splash_local)
 }
 \arguments{
 \item{splash_obj}{A splash connection object}

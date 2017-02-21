@@ -21,7 +21,7 @@ s_GET <- purrr::safely(GET)
 #' @param splash_obj A splash connection object
 #' @return `TRUE` if Slash server is running, otherwise `FALSE`
 #' @export
-splash_active <- function(splash_obj) {
+splash_active <- function(splash_obj = splash_local) {
 
   res <- s_GET(splash_url(splash_obj), path="_ping")
 
@@ -46,7 +46,7 @@ splash_active <- function(splash_obj) {
 #'
 #' @param splash_obj A splash connection object
 #' @export
-splash_version <- function(splash_obj) {
+splash_version <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
 function main(splash)
   return splash:get_version()
@@ -59,7 +59,7 @@ end
 #'
 #' @param splash_obj A splash connection object
 #' @export
-splash_history <- function(splash_obj) {
+splash_history <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
 function main(splash)
   return splash:history()
@@ -73,7 +73,7 @@ end
 #'
 #' @param splash_obj A splash connection object
 #' @export
-splash_perf_stats <- function(splash_obj) {
+splash_perf_stats <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
 function main(splash)
   return splash:get_perf_stats()
@@ -86,7 +86,7 @@ end
 #'
 #' @param splash_obj A splash connection object
 #' @export
-splash_debug <- function(splash_obj) {
+splash_debug <- function(splash_obj = splash_local) {
 
   httr::GET(splash_url(splash_obj), path="_debug") %>%
     httr::stop_for_status() %>%

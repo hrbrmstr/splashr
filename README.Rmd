@@ -15,7 +15,14 @@ You can also get it running with two commands:
     sudo docker pull hrbrmstr/splashttpd
     sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 hrbrmstr/splashttpd
     
-(Do whatever you Windows ppl do with Docker on your systems to make ^^ work.)
+Do whatever you Windows ppl do with Docker on your systems to make ^^ work. 
+
+Folks super-new to Docker on Unix-ish platforms should [make sure to do](https://github.com/hrbrmstr/splashr/issues/3#issuecomment-280686494):
+
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+
+(`$USER` is your username and shld be defined for you in the environment)
 
 If using the [`harbor`](https://github.com/wch/harbor) package you can use the convience wrappers in this pacakge:
 
@@ -26,7 +33,7 @@ and then run:
 
     stop_splash(splash_container)
     
-when done. All of that happens on your localhost so use `localhost` as the Splash server parameter.
+when done. All of that happens on your localhost and you will not need to specify `splash_obj` to many of the `splashr` functions if you're running Splash in this default configuration as long as you use named parameters. You can also use the pre-defined `splash_local` object if you want to use positional parameters.
 
 You can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
 
@@ -111,6 +118,8 @@ options(width=120)
 
 ### Usage
 
+NOTE: ALL of these examples assume Splash is running in the default configuraiton on `localhost` (i.e. started with `start_splash()` or the docker example commands) unless otherwise noted.
+
 ```{r message=FALSE, warning=FALSE, error=FALSE}
 library(splashr)
 library(magick)
@@ -124,27 +133,23 @@ library(tidyverse)
 # current verison
 packageVersion("splashr")
 
-splash("splash", 8050L) %>%
-  splash_active()
+splash_active()
 
-splash("splash", 8050L) %>%
-  splash_debug()
+splash_debug()
 ```
 
 Notice the difference between a rendered HTML scrape and a non-rendered one:
 
 ```{r}
-splash("splash", 8050L) %>%
-  render_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
+render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 
-read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
+xml2::read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 ```
 
 You can also profile pages:
 
 ```{r}
-splash("splash", 8050L) %>%
-  render_har("http://www.poynter.org/") -> har
+render_har(url = "http://www.poynter.org/") -> har
 
 print(har)
 ```
@@ -154,26 +159,22 @@ You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/bl
 Full web page snapshots are easy-peasy too:
 
 ```{r eval=FALSE}
-splash("splash", 8050L) %>%
-  render_png("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
+render_png(url = "http://www.marveldirectory.com/individuals/c/captainamerica.htm")
 ```
 
 ```{r eval=TRUE, include=FALSE}
-splash("splash", 8050L) %>%
-  render_png("http://marvel.com/universe/Captain_America_(Steve_Rogers)") %>% 
+render_png(url = "http://www.marveldirectory.com/individuals/c/captainamerica.htm") %>% 
   image_write("img/cap.png")
 ```
 
 ![](img/cap.png)
 
 ```{r eval=FALSE}
-splash("splash", 8050L) %>%
-  render_jpeg("http://marvel.com/universe/Captain_America_(Steve_Rogers)") 
+render_jpeg(url = "http://static2.comicvine.com/uploads/scale_small/3/31666/5052983-capasr2016001-eptingvar-18bdb.jpg") 
 ```
 
 ```{r eval=TRUE, include=FALSE}
-splash("splash", 8050L) %>%
-  render_jpeg("http://marvel.com/universe/Captain_America_(Steve_Rogers)") %>% 
+render_jpeg(url = "http://static2.comicvine.com/uploads/scale_small/3/31666/5052983-capasr2016001-eptingvar-18bdb.jpg") %>% 
   image_write("img/cap.jpg")
 ```
 
@@ -191,7 +192,7 @@ function main(splash)
 end
 '
 
-res <- splash("localhost") %>% execute_lua(lua_ex)
+splash_local %>% execute_lua(lua_ex) -> res
 
 rawToChar(res) %>% 
   jsonlite::fromJSON()
@@ -200,10 +201,10 @@ rawToChar(res) %>%
 ### Rendering Widgets
 
 ```{r eval=FALSE}
-splash_vm <- start_splash(add_tempdir=TRUE)
+splash_vm <- start_splash(add_tempdir = TRUE)
 ```
 
-```{r}
+```{r eval=FALSE}
 DiagrammeR("
   graph LR
     A-->B
@@ -216,13 +217,7 @@ DiagrammeR("
 ") %>% 
   saveWidget("/tmp/diag.html")
 
-splash("localhost") %>% 
-  render_file("/tmp/diag.html", output="html")
-```
-
-```{r eval=FALSE}
-splash("localhost") %>% 
-  render_file("/tmp/diag.html", output="png", wait=2)
+render_file(url = "/tmp/diag.html", output="html")
 ```
 
 ![](img/diag.png)

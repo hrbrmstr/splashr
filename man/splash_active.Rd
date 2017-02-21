@@ -4,7 +4,7 @@
 \alias{splash_active}
 \title{Test if a Splash server is up}
 \usage{
-splash_active(splash_obj)
+splash_active(splash_obj = splash_local)
 }
 \arguments{
 \item{splash_obj}{A splash connection object}

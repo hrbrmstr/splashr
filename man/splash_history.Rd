@@ -4,7 +4,7 @@
 \alias{splash_history}
 \title{Get information about requests/responses for the pages loaded}
 \usage{
-splash_history(splash_obj)
+splash_history(splash_obj = splash_local)
 }
 \arguments{
 \item{splash_obj}{A splash connection object}

@@ -4,7 +4,7 @@
 \alias{splash_version}
 \title{Get Splash version information}
 \usage{
-splash_version(splash_obj)
+splash_version(splash_obj = splash_local)
 }
 \arguments{
 \item{splash_obj}{A splash connection object}

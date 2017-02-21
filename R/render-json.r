@@ -27,7 +27,7 @@
 #'       overwhelmed with data. Use [str] to inspect various portions of the result.
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
-render_json <- function(splash_obj, url, base_url=NULL, quality=75, width=1024, height=768,
+render_json <- function(splash_obj = splash_local, url, base_url=NULL, quality=75, width=1024, height=768,
                         timeout=30, resource_timeout, wait=0, render_all=FALSE,
                         proxy, js, js_src, filters, allowed_domains, allowed_content_types,
                         forbidden_content_types, viewport="1024x768", images, headers, body,

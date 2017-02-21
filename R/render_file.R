@@ -13,7 +13,7 @@
 #' @param ... other params to [render_html]() or [render_png]()
 #' @return An XML document or `magick` object
 #' @export
-render_file <- function(splash_obj, file_path, output=c("html", "png"), wait=0, viewport="1024x768", ...) {
+render_file <- function(splash_obj = slpash_local, file_path, output=c("html", "png"), wait=0, viewport="1024x768", ...) {
 
   output <- match.arg(output, c("html", "png"))
 

@@ -4,8 +4,8 @@
 \alias{render_html}
 \title{Return the HTML of the javascript-rendered page.}
 \usage{
-render_html(splash_obj, url, base_url, timeout = 30, resource_timeout,
-  wait = 0, proxy, js, js_src, filters, allowed_domains,
+render_html(splash_obj = splash_local, url, base_url, timeout = 30,
+  resource_timeout, wait = 0, proxy, js, js_src, filters, allowed_domains,
   allowed_content_types, forbidden_content_types, viewport = "1024x768",
   images, headers, body, http_method, save_args, load_args, raw_html = FALSE)
 }

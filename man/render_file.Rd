@@ -4,8 +4,8 @@
 \alias{render_file}
 \title{Return the HTML or image (png) of the javascript-rendered page in a local file}
 \usage{
-render_file(splash_obj, file_path, output = c("html", "png"), wait = 0,
-  viewport = "1024x768", ...)
+render_file(splash_obj = slpash_local, file_path, output = c("html", "png"),
+  wait = 0, viewport = "1024x768", ...)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \url{splash}}

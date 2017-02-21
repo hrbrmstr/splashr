@@ -5,7 +5,7 @@
 \alias{print.splash_debug}
 \title{Retrieve debug-level info for a Splash server}
 \usage{
-splash_debug(splash_obj)
+splash_debug(splash_obj = splash_local)
 
 \method{print}{splash_debug}(x, ...)
 }
