@@ -1,6 +1,7 @@
 ---
 output: rmarkdown::github_document
 ---
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr)
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 

@@ -1,19 +1,33 @@
 language: r
+
 warnings_are_errors: true
+
+cache: packages
+
 sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker pull hrbrmstr/splashttpd
+  - docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 hrbrmstr/splashttpd
+  - docker ps -a
 
 r:
  - oldrel
  - release
  - devel
 
-apt_packages:
-  - libv8-dev
-  - xclip
+addons:
+  apt:
+    packages:
+      - xclip
+      - libv8-dev
 
 env:
- global:
-   - CRAN: http://cran.rstudio.com
+  - DISPLAY=""
+  - DISPLAY=:99.0
 
 notifications:
   email:
