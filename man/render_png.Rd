@@ -4,8 +4,8 @@
 \alias{render_png}
 \title{Return a image (in PNG format) of the javascript-rendered page.}
 \usage{
-render_png(splash_obj = splash_local, url, base_url = NULL, quality = 75,
-  width = 1024, height = 768, timeout = 30, resource_timeout, wait = 0,
+render_png(splash_obj = splash_local, url, base_url = NULL, width = 1024,
+  height = 768, timeout = 30, resource_timeout, wait = 0,
   render_all = FALSE, proxy, js, js_src, filters, allowed_domains,
   allowed_content_types, forbidden_content_types, viewport = "1024x768",
   images, headers, body, http_method, save_args, load_args)

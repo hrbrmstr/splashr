@@ -4,7 +4,7 @@
 \alias{render_file}
 \title{Return the HTML or image (png) of the javascript-rendered page in a local file}
 \usage{
-render_file(splash_obj = slpash_local, file_path, output = c("html", "png"),
+render_file(splash_obj = splash_local, file_path, output = c("html", "png"),
   wait = 0, viewport = "1024x768", ...)
 }
 \arguments{
@@ -13,6 +13,8 @@ render_file(splash_obj = slpash_local, file_path, output = c("html", "png"),
 \item{file_path}{Absolute path to a filename on the local host. \strong{This only works with a locally running Splash instance started with \url{start_splash}.}}
 
 \item{output}{either \code{html} or \code{png} to get the page content or an image capture}
+
+\item{wait}{seconds to wait}
 
 \item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is "\code{<width>x<height>}". e.g. 800x600. Default value is 1024x768.}
 

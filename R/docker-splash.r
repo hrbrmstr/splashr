@@ -55,7 +55,6 @@ start_splash <- function(host = harbor::localhost, add_tempdir=FALSE) {
 
 #' Stop a running a Splash server Docker container
 #'
-#' @param splash_container saved Splash container id from [start_splash]
 #' @param splash_container Docker `container` object created by [start_splash]
 #' @note you need Docker running on your system and have pulled the container with
 #'       [install_spash] and started the Splash container with [start_splash] for this

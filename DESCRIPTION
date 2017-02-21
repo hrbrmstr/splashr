@@ -34,6 +34,11 @@ Imports:
     HARtools,
     openssl,
     lubridate,
-    scales
+    formatR,
+    scales,
+    harbor,
+    stats,
+    utils,
+    curl
 RoxygenNote: 6.0.0
 Remotes: wch/harbor

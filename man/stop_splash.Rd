@@ -7,8 +7,6 @@
 stop_splash(splash_container)
 }
 \arguments{
-\item{splash_container}{saved Splash container id from [start_splash]}
-
 \item{splash_container}{Docker `container` object created by [start_splash]}
 }
 \description{

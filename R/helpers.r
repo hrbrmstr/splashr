@@ -12,7 +12,6 @@ get_response_body <- function(har_resp_obj) {
 
 #' Retrieve or test content type of a HAR request object
 #'
-#' @param har_resp_obj HAR response object
 #' @export
 get_content_type <- function(har_resp_obj) {
   ctype <- har_resp_obj$response$content$mimeType
@@ -30,6 +29,7 @@ is_content_type <- function(har_resp_obj, type="application/json") {
 }
 
 #' @rdname get_content_type
+#' @param har_resp_obj a reponse object from [render_har]() or [execute_lua]()
 #' @export
 is_json <- function(har_resp_obj) { is_content_type(har_resp_obj) }
 
@@ -78,13 +78,13 @@ is_gif <- function(har_resp_obj) { is_content_type(har_resp_obj, type="image/gif
 
 #' @rdname get_content_type
 #' @export
-is_xhr <- function(x) {
+is_xhr <- function(har_resp_obj) {
 
-  if (is.null(x$request$headers)) return(NA)
-  if (length(x$request$headers)==0) return(NA)
+  if (is.null(har_resp_obj$request$headers)) return(NA)
+  if (length(har_resp_obj$request$headers)==0) return(NA)
 
-  y <- map(x$request$headers, "value")
-  names(y) <- tolower(map_chr(x$request$headers, "name"))
+  y <- map(har_resp_obj$request$headers, "value")
+  names(y) <- tolower(map_chr(har_resp_obj$request$headers, "name"))
 
   if ("x-requested-with" %in% names(y)) {
     return(tolower("xmlhttprequest") == tolower(y[["x-requested-with"]]))
@@ -116,8 +116,8 @@ get_request_type <- function(har_resp_obj) {
 
 #' @rdname get_request_type
 #' @export
-is_get <- function(har_resp_obj) { get_requet_type(har_resp_obj) == "GET" }
+is_get <- function(har_resp_obj) { get_request_type(har_resp_obj) == "GET" }
 
 #' @rdname get_request_type
 #' @export
-is_post <- function(har_resp_obj) { get_requet_type(har_resp_obj) == "POST" }
+is_post <- function(har_resp_obj) { get_request_type(har_resp_obj) == "POST" }

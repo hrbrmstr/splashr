@@ -7,3 +7,4 @@
 ^NOTES\.*html$
 ^img$
 ^CONDUCT\.md$
+^README_files$

@@ -23,6 +23,10 @@
 #' @importFrom clipr read_clip
 #' @importFrom lubridate ymd_hms
 #' @importFrom scales comma
+#' @importFrom stats setNames
+#' @importFrom formatR tidy_source
+#' @importFrom utils capture.output str
+#' @importFrom curl curl_unescape
 
 NULL
 

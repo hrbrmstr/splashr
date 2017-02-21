@@ -8,7 +8,7 @@
 #' @inheritParams render_html
 #' @export
 render_png <- function(
-  splash_obj = splash_local, url, base_url=NULL, quality=75, width=1024, height=768,
+  splash_obj = splash_local, url, base_url=NULL, width=1024, height=768,
   timeout=30, resource_timeout, wait=0, render_all=FALSE,
   proxy, js, js_src, filters, allowed_domains, allowed_content_types,
   forbidden_content_types, viewport="1024x768", images, headers, body,
@@ -16,8 +16,8 @@ render_png <- function(
 
   params <- list(url=url, timeout=timeout,
                  wait=if (render_all & wait == 0) 0.5 else wait,
-                 viewport=viewport,
-                 quality=quality, width=width, height=height, render_all=as.numeric(render_all))
+                 viewport=viewport, width=width, height=height,
+                 render_all=as.numeric(render_all))
 
   if (!missing(base_url)) params$base_url <- base_url
   if (!missing(resource_timeout)) params$resource_timeout <- resource_timeout
