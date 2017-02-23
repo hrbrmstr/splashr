@@ -208,11 +208,13 @@ rawToChar(res) %>%
 ### Interacting With Flash sites
 
 ```{r eval=FALSE}
-splash_local %>% 
+splash_local %>%
   splash_plugins(TRUE) %>%
   splash_go("https://gis.cdc.gov/GRASP/Fluview/FluHospRates.html") %>%
   splash_wait(4) %>%
   splash_click(460, 550) %>%
+  splash_wait(2) %>%
+  splash_click(230, 85) %>%
   splash_wait(2) %>%
   splash_png()
 ```
