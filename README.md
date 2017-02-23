@@ -154,13 +154,13 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 19
+    ##  $ fds     : int 20
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 170252
+    ##  $ maxrss  : int 185612
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -205,21 +205,21 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 17 
+    ## Number of entries: 25 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 17 
+    ## Number of entries: 25 
     ##   -  http://www.poynter.org/ 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
     ##   -  http://www.poynter.org/wp-content/themes/poynter_timber/assets/scrollbar/jquery.mCustomScrollbar.min.css?ver=2016... 
     ##   -  http://www.poynter.org/wp-content/plugins/jetpack/css/jetpack.css?ver=4.0.4 
     ##   -  http://www.poynter.org/wp-content/themes/poynter_timber/style.css?ver=2016_06_24.1 
     ##      ........ 
-    ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.woff?v=4.4.0 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/7dac2f83-affe-4762-81f1-056f47b74dc7?ec_token=8f7c4c4997246fd7fa920171c994... 
+    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6369fc5-fc59-4a12-ac92-25afa6c567a0?ec_token=8f7c4c4997246fd7fa920171c994... 
+    ##   -  http://cloud.webtype.com/webtype/ff2/3/380e3672-840d-462a-83ee-2ea85a43504a?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/4ac7f809-9bdf-4acc-8bd5-a922f05f271b?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6608520-1978-45ac-9061-74ada664cae4?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://static.chartbeat.com/js/chartbeat.js
+    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6608520-1978-45ac-9061-74ada664cae4?ec_token=8f7c4c4997246fd7fa920171c994...
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -262,6 +262,7 @@ rawToChar(res) %>%
 
 ``` r
 splash_local %>% 
+  splash_plugins(TRUE) %>%
   splash_go("https://gis.cdc.gov/GRASP/Fluview/FluHospRates.html") %>%
   splash_wait(4) %>%
   splash_click(460, 550) %>%
@@ -308,7 +309,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Thu Feb 23 17:22:15 2017"
+    ## [1] "Thu Feb 23 17:25:10 2017"
 
 ``` r
 test_dir("tests/")

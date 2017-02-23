@@ -209,6 +209,7 @@ rawToChar(res) %>%
 
 ```{r eval=FALSE}
 splash_local %>% 
+  splash_plugins(TRUE) %>%
   splash_go("https://gis.cdc.gov/GRASP/Fluview/FluHospRates.html") %>%
   splash_wait(4) %>%
   splash_click(460, 550) %>%
