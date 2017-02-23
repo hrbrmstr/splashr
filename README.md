@@ -58,6 +58,8 @@ The following functions are implemented:
 Mini-DSL (domain-specific language). These can be used to create a "script" without actually scripting in Lua. They are a less-powerful/configurable set of calls than what you can make with a full Lua function but the idea is to have it take care of very common but simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG image of a site:
 
 -   `splash_plugins`: Enable or disable browser plugins (e.g. Flash).
+-   `splash_click`: Trigger mouse click event in web page.
+-   `splash_focus`: Focus on a document element provided by a CSS selector
 -   `splash_images`: Enable/disable images
 -   `splash_response_body`: Enable or disable response content tracking.
 -   `splash_go`: Go to an URL.
@@ -65,7 +67,11 @@ Mini-DSL (domain-specific language). These can be used to create a "script" with
 -   `splash_har`: Return information about Splash interaction with a website in HAR format.
 -   `splash_html`: Return a HTML snapshot of a current page.
 -   `splash_png`: Return a screenshot of a current page in PNG format.
--   `splash_user_agent:   Overwrite the User-Agent header for all further requests. NOTE: There are many "helper" user agent strings to go with`splash\_user\_agent`. Look for objects in`splashr`starting with`ua\_\`.
+-   `splash_press`: Trigger mouse press event in web page.
+-   `splash_release`: Trigger mouse release event in web page.
+-   `splash_send_keys`: Send keyboard events to page context.
+-   `splash_send_text`: Send text as input to page context, literally, character by character.
+-   `splash_user_agent`: Overwrite the User-Agent header for all further requests. NOTE: There are many "helper" user agent strings to go with `splash_user_agent`. Look for objects in `splashr` starting with `ua_`.
 
 `httr` helpers. These help turn various bits of `splashr` objects into `httr`-ish things:
 
@@ -148,13 +154,13 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 14
+    ##  $ fds     : int 19
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 68444
+    ##  $ maxrss  : int 170252
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -168,7 +174,7 @@ render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="async" src="http://uncanny.marvel.com/id?callback=s_c_il%5B1%5D._se ...
+    ## [1] <head>\n<script type="text/javascript" async="async" src="http://dpm.demdex.net/id?d_rtbd=json&amp;d_ver=2&amp;d_ ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
 ``` r
@@ -199,21 +205,21 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 41 
+    ## Number of entries: 17 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 41 
+    ## Number of entries: 17 
     ##   -  http://www.poynter.org/ 
-    ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
-    ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
-    ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
+    ##   -  http://www.poynter.org/wp-content/themes/poynter_timber/assets/scrollbar/jquery.mCustomScrollbar.min.css?ver=2016... 
+    ##   -  http://www.poynter.org/wp-content/plugins/jetpack/css/jetpack.css?ver=4.0.4 
+    ##   -  http://www.poynter.org/wp-content/themes/poynter_timber/style.css?ver=2016_06_24.1 
     ##      ........ 
+    ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.woff?v=4.4.0 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/7dac2f83-affe-4762-81f1-056f47b74dc7?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/4ac7f809-9bdf-4acc-8bd5-a922f05f271b?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/c6608520-1978-45ac-9061-74ada664cae4?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/380e3672-840d-462a-83ee-2ea85a43504a?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6369fc5-fc59-4a12-ac92-25afa6c567a0?ec_token=8f7c4c4997246fd7fa920171c994...
+    ##   -  http://static.chartbeat.com/js/chartbeat.js
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -252,6 +258,19 @@ rawToChar(res) %>%
     ## $title
     ## [1] "rud.is | \"In God we trust. All others must bring data\""
 
+### Interacting With Flash sites
+
+``` r
+splash_local %>% 
+  splash_go("https://gis.cdc.gov/GRASP/Fluview/FluHospRates.html") %>%
+  splash_wait(4) %>%
+  splash_click(460, 550) %>%
+  splash_wait(2) %>%
+  splash_png()
+```
+
+<img src="img/flash.png" width="50%"/>
+
 ### Rendering Widgets
 
 ``` r
@@ -289,7 +308,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Tue Feb 21 16:54:03 2017"
+    ## [1] "Thu Feb 23 17:22:15 2017"
 
 ``` r
 test_dir("tests/")

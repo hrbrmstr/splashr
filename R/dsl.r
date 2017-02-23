@@ -99,6 +99,88 @@ splash_go <- function(splash_obj, url) {
    splash_obj
 }
 
+#' Trigger mouse click event in web page.
+#'
+#' @param splash_obj splashr object
+#' @param x,y coordinates (distances from the left or top, relative to the current viewport)
+#' @export
+splash_click <- function(splash_obj, x, y) {
+   splash_obj$calls <- c(splash_obj$calls,
+                         sprintf("splash:mouse_click(%s, %s)", x, y))
+   splash_obj
+}
+
+#' Focus on a document element provided by a CSS selector
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @param selector valid CSS selector
+#' @references See [the docs](https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-text) for more info
+#' @export
+splash_focus <- function(splash_obj, selector) {
+   splash_obj$calls <- c(splash_obj$calls,
+                         sprintf('splash:select("%s").node:focus()', selector))
+   splash_obj
+}
+
+#' Send text as input to page context, literally, character by character.
+#'
+#' This is different from [splash_send_keys]
+#'
+#' @md
+#' @note This adds a call to `splash:wait` so you do not have to
+#' @param splash_obj splashr object
+#' @param text string to send
+#' @references See [the docs](https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-keys) for more info
+#' @export
+splash_send_text <- function(splash_obj, text) {
+   splash_obj$calls <- c(splash_obj$calls,
+                         sprintf('splash:send_text("%s")', text),
+                         "splash:wait(0.1)")
+   splash_obj
+}
+
+#' Send keyboard events to page context.
+#'
+#' - whitespace is ignored and only used to separate the different keys
+#' - characters are literally represented
+#'
+#' This is different from [splash_send_text]
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @param keys string to send
+#' @references See [the docs](https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-keys) for more info
+#' @export
+splash_send_keys <- function(splash_obj, keys) {
+   splash_obj$calls <- c(splash_obj$calls,
+                         sprintf('splash:send_keys("%s")', keys),
+                         "splash:wait(0.1)")
+   splash_obj
+}
+
+#' Trigger mouse release event in web page.
+#'
+#' @param splash_obj splashr object
+#' @param x,y coordinates (distances from the left or top, relative to the current viewport)
+#' @export
+splash_release <- function(splash_obj, x, y) {
+   splash_obj$calls <- c(splash_obj$calls,
+                         sprintf("splash:mouse_release(%s, %s)", x, y))
+   splash_obj
+}
+
+#' Trigger mouse press event in web page.
+#'
+#' @param splash_obj splashr object
+#' @param x,y coordinates (distances from the left or top, relative to the current viewport)
+#' @export
+splash_press <- function(splash_obj, x, y) {
+   splash_obj$calls <- c(splash_obj$calls,
+                         sprintf("splash:mouse_press(%s, %s)", x, y))
+   splash_obj
+}
+
 #' Wait for a period time
 #'
 #' When script is waiting WebKit continues processing the webpage
