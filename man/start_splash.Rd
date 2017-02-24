@@ -11,8 +11,8 @@ start_splash(host = harbor::localhost, add_tempdir = FALSE)
 
 \item{add_tempdir}{This is `FALSE` initially since you could try to run
 the splash image on a remote system. It has to be a local one for this to work.
-If `TRUE` then a local temporary directory (made with [tempdir]())
-will be added to the mount configuration for use with [render_file](). You will need to
+If `TRUE` then a local temporary directory (made with [tempdir()])
+will be added to the mount configuration for use with [render_file()]. You will need to
     ensure the necessary system temp dirs are accessible as a mounts. For
     macOS this means adding `/private` to said Docker config.}
 }

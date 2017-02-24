@@ -3,7 +3,7 @@
 #' Similar to `rvest::read_html`.
 #'
 #' @md
-#' @param splash_obj Object created by a call to [splash]
+#' @param splash_obj Object created by a call to [splash()]
 #' @param url The URL to render (required)
 #' @param base_url The base url to render the page with.
 #' @param timeout A timeout (in seconds) for the render (defaults to 30).
@@ -24,9 +24,9 @@
 #' @param save_args A list of argument names to put in cache.
 #' @param load_args Parameter values to load from cache
 #' @param raw_html if `TRUE` then return a character vector vs an XML document. Only valid for `render_html`
-#' @return An XML document. Note that this is processed by [xml2::read_html] so it will not be
+#' @return An XML document. Note that this is processed by [xml2::read_html()] so it will not be
 #'         the pristine, raw, rendered HTML from the site. Use `raw_html=TRUE` if you do not want it
-#'         to be processed first by `xml2`. If you choose `raw_html=TRUE` you'll get back a
+#'         to be processed first by [xml2]. If you choose `raw_html=TRUE` you'll get back a
 #'         character vector.
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export

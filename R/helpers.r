@@ -29,7 +29,7 @@ is_content_type <- function(har_resp_obj, type="application/json") {
 }
 
 #' @rdname get_content_type
-#' @param har_resp_obj a reponse object from [render_har]() or [execute_lua]()
+#' @param har_resp_obj a reponse object from [render_har()] or [execute_lua()]
 #' @export
 is_json <- function(har_resp_obj) { is_content_type(har_resp_obj) }
 

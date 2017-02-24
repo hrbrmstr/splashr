@@ -8,7 +8,7 @@ render_file(splash_obj = splash_local, file_path, output = c("html", "png"),
   wait = 0, viewport = "1024x768", ...)
 }
 \arguments{
-\item{splash_obj}{Object created by a call to \url{splash}}
+\item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{file_path}{Absolute path to a filename on the local host. \strong{This only works with a locally running Splash instance started with \url{start_splash}.}}
 
@@ -18,7 +18,7 @@ render_file(splash_obj = splash_local, file_path, output = c("html", "png"),
 
 \item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is "\code{<width>x<height>}". e.g. 800x600. Default value is 1024x768.}
 
-\item{...}{other params to \url{render_html} or \url{render_png}}
+\item{...}{other params to \code{\link[=render_html]{render_html()}} or \code{\link[=render_png]{render_png()}}}
 }
 \value{
 An XML document or \code{magick} object

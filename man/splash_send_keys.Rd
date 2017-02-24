@@ -18,7 +18,7 @@ splash_send_keys(splash_obj, keys)
 }
 }
 \details{
-This is different from \link{splash_send_text}
+This is different from \code{\link[=splash_send_text]{splash_send_text()}}
 }
 \references{
 See \href{https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-keys}{the docs} for more info

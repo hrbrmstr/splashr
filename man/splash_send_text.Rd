@@ -12,7 +12,7 @@ splash_send_text(splash_obj, text)
 \item{text}{string to send}
 }
 \description{
-This is different from \link{splash_send_keys}
+This is different from \code{\link[=splash_send_keys]{splash_send_keys()}}
 }
 \note{
 This adds a call to \code{splash:wait} so you do not have to

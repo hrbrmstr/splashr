@@ -8,9 +8,7 @@ execute_lua(splash_obj, lua_source, timeout = 30, allowed_domains, proxy,
   filters, save_args, load_args)
 }
 \arguments{
-\item{splash_obj}{Object created by a call to \link{splash}}
-
-\item{lua_source}{Browser automation script. See \href{http://splash.readthedocs.io/en/stable/scripting-tutorial.html#scripting-tutorial}{Splash Script} Tutorial for more info.}
+\item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
 
@@ -23,6 +21,8 @@ execute_lua(splash_obj, lua_source, timeout = 30, allowed_domains, proxy,
 \item{save_args}{A list of argument names to put in cache.}
 
 \item{load_args}{Parameter values to load from cache}
+
+\item{lua_sourc}{Browser automation script. See \href{http://splash.readthedocs.io/en/stable/scripting-tutorial.html#scripting-tutorial}{Splash Script} Tutorial for more info.}
 }
 \value{
 \code{raw} content from the \code{httr} call. Given the vast diversity of possible return values, it's up to the caller to handle the return value.

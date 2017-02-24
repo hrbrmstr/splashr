@@ -18,7 +18,7 @@
 #'   map(as_request) %>%
 #'   map(httr::content, as="parsed")
 #' }
-as_request <- function(har_entry) {
+as_response <- function(har_entry) {
 
   if (length(har_entry$response$content$text) > 0) {
     content_body <- openssl::base64_decode(har_entry$response$content$text)

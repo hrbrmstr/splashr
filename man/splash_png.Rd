@@ -13,7 +13,7 @@ splash_png(splash_obj)
 a \link{magick} image object
 }
 \description{
-Similar to \link{render_png} but used in a script context. Should be the LAST element in
+Similar to \code{\link[=render_png]{render_png()}} but used in a script context. Should be the LAST element in
 a DSL script chain as this will execute the script and return the PNG content
 }
 \examples{

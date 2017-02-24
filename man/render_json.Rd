@@ -13,7 +13,7 @@ render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
   console = TRUE, history = TRUE, har = TRUE, response_body = FALSE)
 }
 \arguments{
-\item{splash_obj}{Object created by a call to \link{splash}}
+\item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{url}{The URL to render (required)}
 
@@ -81,7 +81,7 @@ like images and AJAX queries is not returned). To get information about all
 requests and responses use \code{har} parameter.}
 
 \item{har}{Whether to include HAR in output. If \code{TRUE} the result will contain the same
-data as \link{render_har} provides under \code{har} list entry. By default, response
+data as \code{\link[=render_har]{render_har()}} provides under \code{har} list entry. By default, response
 content is not included. To enable it use \code{response_body} parameter.}
 
 \item{response_body}{Used with \code{har} parameter.}
@@ -95,7 +95,7 @@ It can include HTML, PNG and other information, based on arguments passed.
 \note{
 All "whether to include..." parameters are default \code{TRUE} except for \code{png} and
 \code{jpeg} and a custom \code{print} method is defined to stop your console from being
-overwhelmed with data. Use \link{str} to inspect various portions of the result.
+overwhelmed with data. Use \code{\link[=str]{str()}} to inspect various portions of the result.
 }
 \references{
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}

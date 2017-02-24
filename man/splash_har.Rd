@@ -10,7 +10,7 @@ splash_har(splash_obj)
 \item{splash_obj}{splashr object}
 }
 \description{
-Similar to \link{render_har} but used in a script context. Should be the LAST element in
+Similar to \code{\link[=render_har]{render_har()}} but used in a script context. Should be the LAST element in
 a DSL script chain as this will execute the script and return the HAR content
 }
 \examples{

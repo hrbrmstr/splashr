@@ -11,7 +11,7 @@ render_har(splash_obj = splash_local, url, base_url, response_body = FALSE,
   load_args)
 }
 \arguments{
-\item{splash_obj}{Object created by a call to \link{splash}}
+\item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{url}{The URL to render (required)}
 
@@ -54,7 +54,7 @@ render_har(splash_obj = splash_local, url, base_url, response_body = FALSE,
 \item{load_args}{Parameter values to load from cache}
 }
 \value{
-a \code{HARtools} \code{har} object
+a \link{HARtools} \code{har} object
 }
 \description{
 It includes information about requests made, responses received, timings, headers, etc and

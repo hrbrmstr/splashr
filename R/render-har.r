@@ -6,7 +6,7 @@
 #' @md
 #' @param response_body When `TRUE`, response content is included in the HAR records
 #' @inheritParams render_html
-#' @return a `HARtools` `har` object
+#' @return a [HARtools] `har` object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
 render_har <- function(splash_obj = splash_local, url, base_url, response_body=FALSE, timeout=30, resource_timeout, wait=0,
@@ -47,7 +47,7 @@ render_har <- function(splash_obj = splash_local, url, base_url, response_body=F
 
 #' Turn a generic Splash HAR response into a HAR object
 #'
-#' @param splash_resp splash response object as returned by `splash::har()` lua script
+#' @param splash_resp splash response object
 #' @export
 as_har <- function(splash_resp) {
 

@@ -7,15 +7,15 @@
 stop_splash(splash_container)
 }
 \arguments{
-\item{splash_container}{Docker `container` object created by [start_splash]}
+\item{splash_container}{Docker `container` object created by [start_splash()]}
 }
 \description{
 Stop a running a Splash server Docker container
 }
 \note{
 you need Docker running on your system and have pulled the container with
-      [install_splash] and started the Splash container with [start_splash] for this
-      to work. You will need the `container` object from [start_splash] for this to work.
+      [install_splash()] and started the Splash container with [start_splash()] for this
+      to work. You will need the `container` object from [start_splash()] for this to work.
 }
 \examples{
 \dontrun{

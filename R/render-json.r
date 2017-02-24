@@ -17,14 +17,14 @@
 #'                like images and AJAX queries is not returned). To get information about all
 #'                requests and responses use `har` parameter.
 #' @param har Whether to include HAR in output. If `TRUE` the result will contain the same
-#'            data as [render_har] provides under `har` list entry. By default, response
+#'            data as [render_har()] provides under `har` list entry. By default, response
 #'            content is not included. To enable it use `response_body` parameter.
 #' @param response_body Used with `har` parameter.
 #' @return a huge `list`
 #' @inheritParams render_jpeg
 #' @note All "whether to include..." parameters are default `TRUE` except for `png` and
 #'       `jpeg` and a custom `print` method is defined to stop your console from being
-#'       overwhelmed with data. Use [str] to inspect various portions of the result.
+#'       overwhelmed with data. Use [str()] to inspect various portions of the result.
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export
 render_json <- function(splash_obj = splash_local, url, base_url=NULL, quality=75, width=1024, height=768,

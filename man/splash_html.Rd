@@ -12,7 +12,7 @@ splash_html(splash_obj, raw_html = FALSE)
 \item{raw_html}{if \code{TRUE} then return a character vector vs an XML document.}
 }
 \description{
-Similar to \link{render_html} but used in a script context. Should be the LAST element in
+Similar to \code{\link[=render_html]{render_html()}} but used in a script context. Should be the LAST element in
 a DSL script chain as this will execute the script and return the HTML content
 }
 \examples{

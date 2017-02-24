@@ -11,7 +11,7 @@ render_png(splash_obj = splash_local, url, base_url = NULL, width = 1024,
   images, headers, body, http_method, save_args, load_args)
 }
 \arguments{
-\item{splash_obj}{Object created by a call to \link{splash}}
+\item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{url}{The URL to render (required)}
 

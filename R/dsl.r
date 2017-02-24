@@ -10,6 +10,33 @@ end
 
 }
 
+#' Add raw lua code into DSL call chain
+#'
+#' The `splashr` `lua` DSL (domain specific language) wrapper wraps what the package
+#' author believes to be the most common/useful `lua` functions. Users of the package
+#' may have need to insert some custom `lua` code within a DSL call chain they are
+#' building. You can insert any Splash `lua` code you like with this function call.
+#'
+#' The code is inserted at the position the `splash_add_lua`() is called in the chain
+#' which will be within the main "splash' function which is defined as:
+#'
+#' ```
+#' function main(splash)
+#'   ...
+#' end
+#' ```
+#'
+#' If you need more flexibility, use the [execute_lua()] function.
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @param lua_code length 1 character vector of raw `lua` code
+#' @export
+splash_add_lua <- function(splash_obj, lua_code) {
+   splash_obj$calls <- c(splash_obj$calls, lua_code, "\n")
+   splash_obj
+}
+
 #' Enable or disable response content tracking.
 #'
 #' By default Splash doesn’t keep bodies of each response in memory, for efficiency reasons.
@@ -125,7 +152,7 @@ splash_focus <- function(splash_obj, selector) {
 
 #' Send text as input to page context, literally, character by character.
 #'
-#' This is different from [splash_send_keys]
+#' This is different from [splash_send_keys()]
 #'
 #' @md
 #' @note This adds a call to `splash:wait` so you do not have to
@@ -145,7 +172,7 @@ splash_send_text <- function(splash_obj, text) {
 #' - whitespace is ignored and only used to separate the different keys
 #' - characters are literally represented
 #'
-#' This is different from [splash_send_text]
+#' This is different from [splash_send_text()]
 #'
 #' @md
 #' @param splash_obj splashr object
@@ -204,7 +231,7 @@ splash_wait <- function(splash_obj, time=2) {
 
 #' Return information about Splash interaction with a website in HAR format.
 #'
-#' Similar to [render_har] but used in a script context. Should be the LAST element in
+#' Similar to [render_har()] but used in a script context. Should be the LAST element in
 #' a DSL script chain as this will execute the script and return the HAR content
 #'
 #' @md
@@ -231,7 +258,7 @@ splash_har <- function(splash_obj) {
 
 #' Return a HTML snapshot of a current page.
 #'
-#' Similar to [render_html] but used in a script context. Should be the LAST element in
+#' Similar to [render_html()] but used in a script context. Should be the LAST element in
 #' a DSL script chain as this will execute the script and return the HTML content
 #'
 #' @md
@@ -262,7 +289,7 @@ splash_html <- function(splash_obj, raw_html=FALSE) {
 
 #' Return a screenshot of a current page in PNG format.
 #'
-#' Similar to [render_png] but used in a script context. Should be the LAST element in
+#' Similar to [render_png()] but used in a script context. Should be the LAST element in
 #' a DSL script chain as this will execute the script and return the PNG content
 #'
 #' @md

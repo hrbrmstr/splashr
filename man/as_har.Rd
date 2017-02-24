@@ -7,7 +7,7 @@
 as_har(splash_resp)
 }
 \arguments{
-\item{splash_resp}{splash response object as returned by `splash::har()` lua script}
+\item{splash_resp}{splash response object}
 }
 \description{
 Turn a generic Splash HAR response into a HAR object

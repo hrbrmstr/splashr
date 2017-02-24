@@ -10,7 +10,7 @@ render_html(splash_obj = splash_local, url, base_url, timeout = 30,
   images, headers, body, http_method, save_args, load_args, raw_html = FALSE)
 }
 \arguments{
-\item{splash_obj}{Object created by a call to \link{splash}}
+\item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{url}{The URL to render (required)}
 
@@ -53,9 +53,9 @@ render_html(splash_obj = splash_local, url, base_url, timeout = 30,
 \item{raw_html}{if \code{TRUE} then return a character vector vs an XML document. Only valid for \code{render_html}}
 }
 \value{
-An XML document. Note that this is processed by \link[xml2:read_html]{xml2::read_html} so it will not be
+An XML document. Note that this is processed by \code{\link[xml2:read_html]{xml2::read_html()}} so it will not be
 the pristine, raw, rendered HTML from the site. Use \code{raw_html=TRUE} if you do not want it
-to be processed first by \code{xml2}. If you choose \code{raw_html=TRUE} you'll get back a
+to be processed first by \link{xml2}. If you choose \code{raw_html=TRUE} you'll get back a
 character vector.
 }
 \description{

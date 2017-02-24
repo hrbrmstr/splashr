@@ -46,7 +46,7 @@ is_gif(har_resp_obj)
 is_xhr(har_resp_obj)
 }
 \arguments{
-\item{har_resp_obj}{a reponse object from [render_har]() or [execute_lua]()}
+\item{har_resp_obj}{a reponse object from [render_har()] or [execute_lua()]}
 
 \item{type}{content type to compare to (default: "\code{application/json}")}
 }
