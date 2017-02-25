@@ -18,7 +18,7 @@
 #' @importFrom stringi stri_split_regex stri_split_fixed stri_detect_regex
 #' @importFrom HARtools writeHAR HARviewer renderHARviewer HARviewerOutput
 #' @importFrom xml2 read_html url_parse
-#' @importFrom jsonlite fromJSON
+#' @importFrom jsonlite fromJSON unbox
 #' @importFrom openssl base64_decode
 #' @importFrom clipr read_clip
 #' @importFrom lubridate ymd_hms

@@ -39,7 +39,7 @@ render_har(splash_obj = splash_local, url, base_url, response_body = FALSE,
 
 \item{forbidden_content_types}{Comma-separated list of forbidden content types. If present, Splash will abort any request if the response’s content type matches any of the content types in this list. Wildcards are supported.}
 
-\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is 1024x768.}
+\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
 
 \item{images}{Whether to download images.}
 

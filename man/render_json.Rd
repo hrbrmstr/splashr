@@ -5,7 +5,7 @@
 \title{Return a json-encoded dictionary with information about javascript-rendered webpage.}
 \usage{
 render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
-  width = 1024, height = 768, timeout = 30, resource_timeout, wait = 0,
+  width, height, timeout = 30, resource_timeout, wait = 0,
   render_all = FALSE, proxy, js, js_src, filters, allowed_domains,
   allowed_content_types, forbidden_content_types, viewport = "1024x768",
   images, headers, body, http_method, save_args, load_args, html = TRUE,
@@ -21,9 +21,9 @@ render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
 
 \item{quality}{JPEG quality parameter in range from 0 to 100. Default is quality=75.}
 
-\item{width}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.}
+\item{width}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
 
-\item{height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.}
+\item{height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
 
@@ -47,7 +47,7 @@ render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
 
 \item{forbidden_content_types}{Comma-separated list of forbidden content types. If present, Splash will abort any request if the response’s content type matches any of the content types in this list. Wildcards are supported.}
 
-\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is 1024x768.}
+\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
 
 \item{images}{Whether to download images.}
 

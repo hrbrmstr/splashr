@@ -4,11 +4,11 @@
 \alias{render_png}
 \title{Return a image (in PNG format) of the javascript-rendered page.}
 \usage{
-render_png(splash_obj = splash_local, url, base_url = NULL, width = 1024,
-  height = 768, timeout = 30, resource_timeout, wait = 0,
-  render_all = FALSE, proxy, js, js_src, filters, allowed_domains,
-  allowed_content_types, forbidden_content_types, viewport = "1024x768",
-  images, headers, body, http_method, save_args, load_args)
+render_png(splash_obj = splash_local, url, base_url = NULL, width, height,
+  timeout = 30, resource_timeout, wait = 0, render_all = TRUE, proxy, js,
+  js_src, filters, allowed_domains, allowed_content_types,
+  forbidden_content_types, viewport = "full", images, headers, body,
+  http_method, save_args, load_args)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
@@ -17,7 +17,7 @@ render_png(splash_obj = splash_local, url, base_url = NULL, width = 1024,
 
 \item{base_url}{The base url to render the page with.}
 
-\item{width, height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio.}
+\item{width, height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
 
@@ -41,7 +41,7 @@ render_png(splash_obj = splash_local, url, base_url = NULL, width = 1024,
 
 \item{forbidden_content_types}{Comma-separated list of forbidden content types. If present, Splash will abort any request if the response’s content type matches any of the content types in this list. Wildcards are supported.}
 
-\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is 1024x768.}
+\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
 
 \item{images}{Whether to download images.}
 
