@@ -2,7 +2,7 @@
 #'
 #' @md
 #' @param splash_obj Object created by a call to [splash()]
-#' @param lua_sourc Browser automation script. See [Splash Script](http://splash.readthedocs.io/en/stable/scripting-tutorial.html#scripting-tutorial) Tutorial for more info.
+#' @param lua_source Browser automation script. See [Splash Script](http://splash.readthedocs.io/en/stable/scripting-tutorial.html#scripting-tutorial) Tutorial for more info.
 #' @param timeout A timeout (in seconds) for the render (defaults to 30).
 #' @param allowed_domains Comma-separated list of allowed domain names. If present, Splash won’t load anything neither from domains not in this list nor from subdomains of domains not in this list.
 #' @param proxy Proxy profile name or proxy URL.

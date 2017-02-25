@@ -165,7 +165,7 @@ har_entry_count <- function(x) {
   } else if (inherits(x, "harlog")) {
     length(x$entries)
   } else if (inherits(x, "harentries")) {
-    length(x[[i]])
+    length(x)
   } else {
     NULL
   }

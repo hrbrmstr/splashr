@@ -234,7 +234,7 @@ splash_wait <- function(splash_obj, time=2) {
 #' @md
 #' @param splash_obj splashr object
 #' @export
-splash_har_reset <- function(splash_obj, keys) {
+splash_har_reset <- function(splash_obj) {
    splash_obj$calls <- c(splash_obj$calls, 'splash:har_reset()')
    splash_obj
 }

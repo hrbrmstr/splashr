@@ -26,7 +26,7 @@
 #' @param raw_html if `TRUE` then return a character vector vs an XML document. Only valid for `render_html`
 #' @return An XML document. Note that this is processed by [xml2::read_html()] so it will not be
 #'         the pristine, raw, rendered HTML from the site. Use `raw_html=TRUE` if you do not want it
-#'         to be processed first by [xml2]. If you choose `raw_html=TRUE` you'll get back a
+#'         to be processed first by `xml2`. If you choose `raw_html=TRUE` you'll get back a
 #'         character vector.
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export

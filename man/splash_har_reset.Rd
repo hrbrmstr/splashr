@@ -4,7 +4,7 @@
 \alias{splash_har_reset}
 \title{Drops all internally stored HAR records.}
 \usage{
-splash_har_reset(splash_obj, keys)
+splash_har_reset(splash_obj)
 }
 \arguments{
 \item{splash_obj}{splashr object}
