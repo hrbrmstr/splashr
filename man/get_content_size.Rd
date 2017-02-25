@@ -4,7 +4,7 @@
 \alias{get_content_size}
 \alias{get_body_size}
 \alias{get_headers_size}
-\title{Retrieve size of content |  body | headers}
+\title{Retrieve size of content | body | headers}
 \usage{
 get_content_size(har_resp_obj)
 
@@ -16,5 +16,5 @@ get_headers_size(har_resp_obj)
 \item{har_resp_obj}{HAR response object}
 }
 \description{
-Retrieve size of content |  body | headers
+Retrieve size of content | body | headers
 }

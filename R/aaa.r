@@ -7,7 +7,6 @@ trunc_string <- function (x, maxlen = 20, justify = "left")  {
   return(formatC(chopx, width = maxlen, flag = ifelse(justify == "left", "-", " ")))
 }
 
-
 parse_query <- function(query) {
   params <- vapply(stri_split_regex(query, "&", omit_empty=TRUE)[[1]],
                    stri_split_fixed, "=", 2, simplify=TRUE,

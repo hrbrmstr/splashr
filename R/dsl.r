@@ -229,6 +229,16 @@ splash_wait <- function(splash_obj, time=2) {
    splash_obj
 }
 
+#' Drops all internally stored HAR records.
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @export
+splash_har_reset <- function(splash_obj, keys) {
+   splash_obj$calls <- c(splash_obj$calls, 'splash:har_reset()')
+   splash_obj
+}
+
 #' Return information about Splash interaction with a website in HAR format.
 #'
 #' Similar to [render_har()] but used in a script context. Should be the LAST element in

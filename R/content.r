@@ -1,4 +1,4 @@
-#' Retrieve size of content |  body | headers
+#' Retrieve size of content | body | headers
 #'
 #' @param har_resp_obj HAR response object
 #' @export

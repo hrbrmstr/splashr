@@ -1,11 +1,11 @@
-#' Create an httr function from an HAR request
+#' Create an httr verb request function from an HAR request
 #'
 #' @md
 #' @param entry HAR entry
 #' @param quiet quiet
 #' @param add_clip add clip
 #' @export
-as_req <- function(entry, quiet=TRUE, add_clip=TRUE) {
+as_httr_req <- function(entry, quiet=TRUE, add_clip=TRUE) {
 
   req <- entry$request
 

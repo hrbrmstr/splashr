@@ -121,3 +121,52 @@ is_get <- function(har_resp_obj) { get_request_type(har_resp_obj) == "GET" }
 #' @rdname get_request_type
 #' @export
 is_post <- function(har_resp_obj) { get_request_type(har_resp_obj) == "POST" }
+
+#' Retrieve just the HAR entries from a splashr request
+#'
+#' @param x can be a `har` object, `harlog` object or `harentries` object
+#' @export
+har_entries <- function(x) {
+  if (inherits(x, "har")) {
+    x$log$entries
+  } else if (inherits(x, "harlog")) {
+    x$entries
+  } else if (inherits(x, "harentries")) {
+    x
+  } else {
+    NULL
+  }
+}
+
+#' Retrieve an entry by index from a HAR object
+#'
+#' @param x can be a `har` object, `harlog` object or `harentries` object
+#' @param i index of the HAR entry to retrieve
+#' @export
+get_har_entry <- function(x, i=1) {
+  if (inherits(x, "har")) {
+    x$log$entries[[i]]
+  } else if (inherits(x, "harlog")) {
+    x$entries[[i]]
+  } else if (inherits(x, "harentries")) {
+    x[[i]]
+  } else {
+    NULL
+  }
+}
+
+#' Retrieves number of HAR entries in a response
+#'
+#' @param x can be a `har` object, `harlog` object or `harentries` object
+#' @export
+har_entry_count <- function(x) {
+  if (inherits(x, "har")) {
+    length(x$log$entries)
+  } else if (inherits(x, "harlog")) {
+    length(x$entries)
+  } else if (inherits(x, "harentries")) {
+    length(x[[i]])
+  } else {
+    NULL
+  }
+}
