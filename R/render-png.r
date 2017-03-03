@@ -14,6 +14,8 @@ render_png <- function(
   forbidden_content_types, viewport="full", images, headers, body,
   http_method, save_args, load_args) {
 
+  wait <- check_wait(wait)
+
   params <- list(url=url, timeout=timeout,
                  wait=if (render_all & wait == 0) 0.5 else wait,
                  viewport=jsonlite::unbox(viewport),

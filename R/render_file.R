@@ -16,6 +16,8 @@
 #' @export
 render_file <- function(splash_obj = splash_local, file_path, output=c("html", "png"), wait=0, viewport="1024x768", ...) {
 
+  wait <- check_wait(wait)
+
   output <- match.arg(output, c("html", "png"))
 
   file.copy(file_path, .pkgenv$temp_dir)

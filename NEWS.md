@@ -6,6 +6,7 @@
 * added HAR support
 * added `as_req()`
 * added `as_request()`
+* added `wait` value range check for `render_` functions (min 0, max 10)
 
 0.2.0
 

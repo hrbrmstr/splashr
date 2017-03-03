@@ -14,3 +14,15 @@ parse_query <- function(query) {
   purrr::set_names(as.list(curl::curl_unescape(params[2,])),
                    curl::curl_unescape(params[1,]))
 }
+
+check_wait <- function(wait) {
+  if (wait<0) {
+    message("The 'wait' parameter cannot be less than 0; auto-changing it to 0")
+    wait <- 0
+  } else if (wait>10) {
+    message("The 'wait' parameter cannot be greater than 10 in render_... calls; auto-changing it to 10")
+    message("Use the direct lua interface or lua DSL wrapper functions to set higher 'wait' vales.")
+    wait <- 10
+  }
+  wait
+}

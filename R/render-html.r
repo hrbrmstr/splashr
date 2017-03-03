@@ -35,6 +35,8 @@ render_html <- function(splash_obj = splash_local, url, base_url, timeout=30, re
                         forbidden_content_types, viewport="1024x768", images, headers, body,
                         http_method, save_args, load_args, raw_html=FALSE) {
 
+  wait <- check_wait(wait)
+
   params <- list(url=url, timeout=timeout, wait=wait, viewport=jsonlite::unbox(viewport))
 
   if (!missing(base_url)) params$base_url <- jsonlite::unbox(base_url)

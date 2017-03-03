@@ -35,6 +35,8 @@ render_json <- function(splash_obj = splash_local, url, base_url=NULL, quality=7
                         iframes=TRUE, script=TRUE, console=TRUE, history=TRUE, har=TRUE,
                         response_body=FALSE) {
 
+  wait <- check_wait(wait)
+
   params <- list(url=url, timeout=timeout, wait=wait, viewport=jsonlite::unbox(viewport),
                  quality=quality, render_all=as.numeric(render_all),
                  html=as.numeric(html), png=as.numeric(png), jpeg=as.numeric(jpeg),

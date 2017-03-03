@@ -14,6 +14,8 @@ render_har <- function(splash_obj = splash_local, url, base_url, response_body=F
                        forbidden_content_types, viewport="1024x768", images, headers, body,
                        http_method, save_args, load_args) {
 
+  wait <- check_wait(wait)
+
   params <- list(url=url, timeout=timeout, wait=wait, viewport=jsonlite::unbox(viewport),
                  response_body=as.numeric(response_body))
 
