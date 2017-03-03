@@ -29,6 +29,7 @@ end
 #' If you need more flexibility, use the [execute_lua()] function.
 #'
 #' @md
+#' @family splash_dsl_functions
 #' @param splash_obj splashr object
 #' @param lua_code length 1 character vector of raw `lua` code
 #' @export
@@ -44,6 +45,7 @@ splash_add_lua <- function(splash_obj, lua_code) {
 #' @param splash_obj splashr object
 #' @param enable logical
 #' @export
+#' @family splash_dsl_attributes
 #' @examples \dontrun{
 #' splash_local %>%
 #'   splash_response_body(TRUE) %>%
@@ -58,12 +60,64 @@ splash_response_body <- function(splash_obj, enable=FALSE) {
   splash_obj
 }
 
+#' Enable or disable execution of JavaSript code embedded in the page.
+#'
+#' Private mode is enabled by default unless you pass flag `--disable-private-mode`
+#' at Splash (server) startup. Note that if you disable private mode browsing data such
+#' as cookies or items kept in local storage may persist between requests.
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @param enable logical
+#' @family splash_dsl_attributes
+#' @export
+#' @examples \dontrun{
+#' splash_local %>%
+#'   splash_response_body(TRUE) %>%
+#'   splash_private_mode(TRUE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
+#'   splash_go("https://rud.is/b") %>%
+#'   splash_wait(2) %>%
+#'   splash_har() -> rud_har
+#' }
+splash_private_mode <- function(splash_obj, enable=FALSE) {
+  splash_obj$calls <- c(splash_obj$calls, sprintf('splash.private_mode_enabled = %s',
+                                                  if (enable) "true" else "false"))
+  splash_obj
+}
+
+#' Enable or disable execution of JavaSript code embedded in the page.
+#'
+#' JavaScript execution is enabled by default.
+#'
+#' @md
+#' @param splash_obj splashr object
+#' @param enable logical
+#' @export
+#' @family splash_dsl_attributes
+#' @examples \dontrun{
+#' splash_local %>%
+#'   splash_response_body(TRUE) %>%
+#'   splash_private_mode(TRUE) %>%
+#'   splash_enable_javascript(FALSE) %>%
+#'   splash_user_agent(ua_macos_chrome) %>%
+#'   splash_go("https://rud.is/b") %>%
+#'   splash_wait(2) %>%
+#'   splash_har() -> rud_har
+#' }
+splash_enable_javascript <- function(splash_obj, enable=TRUE) {
+  splash_obj$calls <- c(splash_obj$calls, sprintf('splash.js_enabled = %s',
+                                                  if (enable) "true" else "false"))
+  splash_obj
+}
+
 #' Enable or disable browser plugins (e.g. Flash).
 #'
 #' Plugins are disabled by default.
 #'
 #' @param splash_obj splashr object
 #' @param enable logical
+#' @family splash_dsl_attributes
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
@@ -88,6 +142,7 @@ splash_plugins <- function(splash_obj, enable=FALSE) {
 #'
 #' @param splash_obj splashr object
 #' @param enable logical
+#' @family splash_dsl_attributes
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
@@ -110,6 +165,7 @@ splash_images <- function(splash_obj, enable=TRUE) {
 #'
 #' @param splash_obj splashr object
 #' @param url - URL to load;
+#' @family splash_dsl_functions
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
@@ -128,6 +184,7 @@ splash_go <- function(splash_obj, url) {
 
 #' Trigger mouse click event in web page.
 #'
+#' @family splash_dsl_functions
 #' @param splash_obj splashr object
 #' @param x,y coordinates (distances from the left or top, relative to the current viewport)
 #' @export
@@ -140,6 +197,7 @@ splash_click <- function(splash_obj, x, y) {
 #' Focus on a document element provided by a CSS selector
 #'
 #' @md
+#' @family splash_dsl_functions
 #' @param splash_obj splashr object
 #' @param selector valid CSS selector
 #' @references See [the docs](https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-text) for more info
@@ -155,6 +213,7 @@ splash_focus <- function(splash_obj, selector) {
 #' This is different from [splash_send_keys()]
 #'
 #' @md
+#' @family splash_dsl_functions
 #' @note This adds a call to `splash:wait` so you do not have to
 #' @param splash_obj splashr object
 #' @param text string to send
@@ -175,6 +234,7 @@ splash_send_text <- function(splash_obj, text) {
 #' This is different from [splash_send_text()]
 #'
 #' @md
+#' @family splash_dsl_functions
 #' @param splash_obj splashr object
 #' @param keys string to send
 #' @references See [the docs](https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-keys) for more info
@@ -188,6 +248,7 @@ splash_send_keys <- function(splash_obj, keys) {
 
 #' Trigger mouse release event in web page.
 #'
+#' @family splash_dsl_functions
 #' @param splash_obj splashr object
 #' @param x,y coordinates (distances from the left or top, relative to the current viewport)
 #' @export
@@ -199,6 +260,7 @@ splash_release <- function(splash_obj, x, y) {
 
 #' Trigger mouse press event in web page.
 #'
+#' @family splash_dsl_functions
 #' @param splash_obj splashr object
 #' @param x,y coordinates (distances from the left or top, relative to the current viewport)
 #' @export
@@ -215,6 +277,7 @@ splash_press <- function(splash_obj, x, y) {
 #' @md
 #' @param splash_obj splashr object
 #' @param time number of seconds to wait
+#' @family splash_dsl_functions
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
@@ -233,6 +296,7 @@ splash_wait <- function(splash_obj, time=2) {
 #'
 #' @md
 #' @param splash_obj splashr object
+#' @family splash_dsl_functions
 #' @export
 splash_har_reset <- function(splash_obj) {
    splash_obj$calls <- c(splash_obj$calls, 'splash:har_reset()')
@@ -246,6 +310,7 @@ splash_har_reset <- function(splash_obj) {
 #'
 #' @md
 #' @param splash_obj splashr object
+#' @family splash_dsl_functions
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
@@ -274,6 +339,7 @@ splash_har <- function(splash_obj) {
 #' @md
 #' @param splash_obj splashr object
 #' @param raw_html if `TRUE` then return a character vector vs an XML document.
+#' @family splash_dsl_functions
 #' @export
 #' @examples \dontrun{
 #' splash_local %>%
@@ -304,6 +370,7 @@ splash_html <- function(splash_obj, raw_html=FALSE) {
 #'
 #' @md
 #' @param splash_obj splashr object
+#' @family splash_dsl_functions
 #' @return a [magick] image object
 #' @export
 #' @examples \dontrun{
@@ -332,6 +399,7 @@ splash_png <- function(splash_obj) {
 #' @md
 #' @param splash_obj splashr object
 #' @param user_agent 1 element character vector, defaults to `splashr/#.#.#`.
+#' @family splash_dsl_functions_functions
 #' @export
 #' @examples \dontrun{
 #' library(rvest)

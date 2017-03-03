@@ -1,6 +1,7 @@
 #' Retrieve size of content | body | headers
 #'
 #' @param har_resp_obj HAR response object
+#' @family splash_har_helpers
 #' @export
 get_content_size <- function(har_resp_obj) {
   csize <- har_resp_obj$response$content$size

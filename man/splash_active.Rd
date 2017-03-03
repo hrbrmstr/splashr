@@ -15,3 +15,9 @@ splash_active(splash_obj = splash_local)
 \description{
 Test if a Splash server is up
 }
+\seealso{
+Other splash_info_functions: \code{\link{splash_debug}},
+  \code{\link{splash_history}},
+  \code{\link{splash_perf_stats}},
+  \code{\link{splash_version}}
+}

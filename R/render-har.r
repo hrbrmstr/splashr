@@ -6,6 +6,7 @@
 #' @md
 #' @param response_body When `TRUE`, response content is included in the HAR records
 #' @inheritParams render_html
+#' @family splash_renderers
 #' @return a [HARtools] `har` object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export

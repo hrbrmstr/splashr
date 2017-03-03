@@ -24,3 +24,7 @@ splash_container <- start_splash()
 stop_splash(splash_container)
 }
 }
+\seealso{
+Other splash_docker_helpers: \code{\link{install_splash}},
+  \code{\link{start_splash}}
+}

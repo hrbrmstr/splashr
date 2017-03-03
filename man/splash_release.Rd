@@ -14,3 +14,12 @@ splash_release(splash_obj, x, y)
 \description{
 Trigger mouse release event in web page.
 }
+\seealso{
+Other splash_dsl_functions: \code{\link{splash_add_lua}},
+  \code{\link{splash_click}}, \code{\link{splash_focus}},
+  \code{\link{splash_go}}, \code{\link{splash_har_reset}},
+  \code{\link{splash_har}}, \code{\link{splash_html}},
+  \code{\link{splash_png}}, \code{\link{splash_press}},
+  \code{\link{splash_send_keys}},
+  \code{\link{splash_send_text}}, \code{\link{splash_wait}}
+}

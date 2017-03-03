@@ -25,7 +25,9 @@ render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
 
 \item{height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
 
-\item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
+\item{timeout}{A timeout (in seconds) for the render (defaults to 30). Without
+reconfiguring the startup parameters of the Splash server (not this package)
+the maximum allowed value for the timeout is 60 seconds.}
 
 \item{resource_timeout}{A timeout (in seconds) for individual network requests.}
 
@@ -41,13 +43,20 @@ render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
 
 \item{filters}{Comma-separated list of request filter names.}
 
-\item{allowed_domains}{Comma-separated list of allowed domain names. If present, Splash won’t load anything neither from domains not in this list nor from subdomains of domains not in this list.}
+\item{allowed_domains}{Comma-separated list of allowed domain names. If present, Splash
+won’t load anything neither from domains not in this list nor from subdomains of
+domains not in this list.}
 
-\item{allowed_content_types}{Comma-separated list of allowed content types. If present, Splash will abort any request if the response’s content type doesn’t match any of the content types in this list. Wildcards are supported.}
+\item{allowed_content_types}{Comma-separated list of allowed content types. If present,
+Splash will abort any request if the response’s content type doesn’t match any of
+the content types in this list. Wildcards are supported.}
 
-\item{forbidden_content_types}{Comma-separated list of forbidden content types. If present, Splash will abort any request if the response’s content type matches any of the content types in this list. Wildcards are supported.}
+\item{forbidden_content_types}{Comma-separated list of forbidden content types. If
+present, Splash will abort any request if the response’s content type matches
+any of the content types in this list. Wildcards are supported.}
 
-\item{viewport}{View width and height (in pixels) of the browser viewport to render the web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
+\item{viewport}{View width and height (in pixels) of the browser viewport to render the
+web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
 
 \item{images}{Whether to download images.}
 
@@ -99,4 +108,10 @@ overwhelmed with data. Use \code{\link[=str]{str()}} to inspect various portions
 }
 \references{
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}
+}
+\seealso{
+Other splash_renderers: \code{\link{execute_lua}},
+  \code{\link{render_file}}, \code{\link{render_har}},
+  \code{\link{render_html}}, \code{\link{render_jpeg}},
+  \code{\link{render_png}}
 }

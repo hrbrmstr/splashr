@@ -19,6 +19,7 @@ s_GET <- purrr::safely(GET)
 #'
 #' @md
 #' @param splash_obj A splash connection object
+#' @family splash_info_functions
 #' @return `TRUE` if Slash server is running, otherwise `FALSE`
 #' @export
 splash_active <- function(splash_obj = splash_local) {
@@ -45,6 +46,7 @@ splash_active <- function(splash_obj = splash_local) {
 #' Get Splash version information
 #'
 #' @param splash_obj A splash connection object
+#' @family splash_info_functions
 #' @export
 splash_version <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
@@ -58,6 +60,7 @@ end
 #' Get information about requests/responses for the pages loaded
 #'
 #' @param splash_obj A splash connection object
+#' @family splash_info_functions
 #' @export
 splash_history <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
@@ -72,6 +75,7 @@ end
 #' Get Splash performance-related statistics
 #'
 #' @param splash_obj A splash connection object
+#' @family splash_info_functions
 #' @export
 splash_perf_stats <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
@@ -85,6 +89,7 @@ end
 #' Retrieve debug-level info for a Splash server
 #'
 #' @param splash_obj A splash connection object
+#' @family splash_info_functions
 #' @export
 splash_debug <- function(splash_obj = splash_local) {
 

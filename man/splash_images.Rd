@@ -27,3 +27,9 @@ splash_local \%>\%
   splash_har() -> rud_har
 }
 }
+\seealso{
+Other splash_dsl_attributes: \code{\link{splash_enable_javascript}},
+  \code{\link{splash_plugins}},
+  \code{\link{splash_private_mode}},
+  \code{\link{splash_response_body}}
+}

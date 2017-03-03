@@ -15,4 +15,10 @@ splash_debug(splash_obj = splash_local)
 \description{
 Retrieve debug-level info for a Splash server
 }
+\seealso{
+Other splash_info_functions: \code{\link{splash_active}},
+  \code{\link{splash_history}},
+  \code{\link{splash_perf_stats}},
+  \code{\link{splash_version}}
+}
 \keyword{internal}

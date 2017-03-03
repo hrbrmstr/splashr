@@ -53,3 +53,11 @@ is_xhr(har_resp_obj)
 \description{
 Retrieve or test content type of a HAR request object
 }
+\seealso{
+Other splash_har_helpers: \code{\link{get_content_size}},
+  \code{\link{get_har_entry}},
+  \code{\link{get_request_type}},
+  \code{\link{get_request_url}},
+  \code{\link{get_response_body}},
+  \code{\link{har_entry_count}}
+}

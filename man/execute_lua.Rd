@@ -12,9 +12,13 @@ execute_lua(splash_obj, lua_source, timeout = 30, allowed_domains, proxy,
 
 \item{lua_source}{Browser automation script. See \href{http://splash.readthedocs.io/en/stable/scripting-tutorial.html#scripting-tutorial}{Splash Script} Tutorial for more info.}
 
-\item{timeout}{A timeout (in seconds) for the render (defaults to 30).}
+\item{timeout}{A timeout (in seconds) for the render (defaults to 30). Without
+reconfiguring the startup parameters of the Splash server (not this package)
+the maximum allowed value for the timeout is 60 seconds.}
 
-\item{allowed_domains}{Comma-separated list of allowed domain names. If present, Splash won’t load anything neither from domains not in this list nor from subdomains of domains not in this list.}
+\item{allowed_domains}{Comma-separated list of allowed domain names. If present, Splash
+won’t load anything neither from domains not in this list nor from subdomains of
+domains not in this list.}
 
 \item{proxy}{Proxy profile name or proxy URL.}
 
@@ -25,7 +29,8 @@ execute_lua(splash_obj, lua_source, timeout = 30, allowed_domains, proxy,
 \item{load_args}{Parameter values to load from cache}
 }
 \value{
-\code{raw} content from the \code{httr} call. Given the vast diversity of possible return values, it's up to the caller to handle the return value.
+\code{raw} content from the \code{httr} call. Given the vast diversity of possible return
+values, it's up to the caller to handle the return value.
 }
 \description{
 Execute a custom rendering script and return a result.
@@ -47,4 +52,10 @@ rawToChar(res) \%>\%
 
 member_scores
 }
+}
+\seealso{
+Other splash_renderers: \code{\link{render_file}},
+  \code{\link{render_har}}, \code{\link{render_html}},
+  \code{\link{render_jpeg}}, \code{\link{render_json}},
+  \code{\link{render_png}}
 }

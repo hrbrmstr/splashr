@@ -21,6 +21,7 @@
 #'            content is not included. To enable it use `response_body` parameter.
 #' @param response_body Used with `har` parameter.
 #' @return a huge `list`
+#' @family splash_renderers
 #' @inheritParams render_jpeg
 #' @note All "whether to include..." parameters are default `TRUE` except for `png` and
 #'       `jpeg` and a custom `print` method is defined to stop your console from being

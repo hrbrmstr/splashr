@@ -15,3 +15,11 @@ A \code{raw} vector of the content or \code{NULL}
 \description{
 Retrieve the body content of a HAR entry
 }
+\seealso{
+Other splash_har_helpers: \code{\link{get_content_size}},
+  \code{\link{get_content_type}},
+  \code{\link{get_har_entry}},
+  \code{\link{get_request_type}},
+  \code{\link{get_request_url}},
+  \code{\link{har_entry_count}}
+}

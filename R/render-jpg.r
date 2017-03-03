@@ -4,6 +4,7 @@
 #' @param quality JPEG quality parameter in range from 0 to 100. Default is quality=75.
 #' @inheritParams render_html
 #' @inheritParams render_png
+#' @family splash_renderers
 #' @return a [magick] image object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @export

@@ -2,6 +2,7 @@
 #'
 #' @md
 #' @param har_resp_obj HAR response object
+#' @family splash_har_helpers
 #' @return A `raw` vector of the content or `NULL`
 #' @export
 get_response_body <- function(har_resp_obj) {
@@ -12,6 +13,8 @@ get_response_body <- function(har_resp_obj) {
 
 #' Retrieve or test content type of a HAR request object
 #'
+#' @param har_resp_obj a reponse object from [render_har()] or [execute_lua()]
+#' @family splash_har_helpers
 #' @export
 get_content_type <- function(har_resp_obj) {
   ctype <- har_resp_obj$response$content$mimeType
@@ -29,7 +32,6 @@ is_content_type <- function(har_resp_obj, type="application/json") {
 }
 
 #' @rdname get_content_type
-#' @param har_resp_obj a reponse object from [render_har()] or [execute_lua()]
 #' @export
 is_json <- function(har_resp_obj) { is_content_type(har_resp_obj) }
 
@@ -97,6 +99,7 @@ is_xhr <- function(har_resp_obj) {
 #' Retrieve request URL
 #'
 #' @param har_resp_obj HAR response object
+#' @family splash_har_helpers
 #' @export
 get_request_url <- function(har_resp_obj) {
   utype <- har_resp_obj$request$url
@@ -107,6 +110,7 @@ get_request_url <- function(har_resp_obj) {
 #' Retrieve or test request type
 #'
 #' @param har_resp_obj HAR response object
+#' @family splash_har_helpers
 #' @export
 get_request_type <- function(har_resp_obj) {
   rtype <- har_resp_obj$request$method
@@ -142,6 +146,7 @@ har_entries <- function(x) {
 #'
 #' @param x can be a `har` object, `harlog` object or `harentries` object
 #' @param i index of the HAR entry to retrieve
+#' @family splash_har_helpers
 #' @export
 get_har_entry <- function(x, i=1) {
   if (inherits(x, "har")) {
@@ -158,6 +163,7 @@ get_har_entry <- function(x, i=1) {
 #' Retrieves number of HAR entries in a response
 #'
 #' @param x can be a `har` object, `harlog` object or `harentries` object
+#' @family splash_har_helpers
 #' @export
 har_entry_count <- function(x) {
   if (inherits(x, "har")) {

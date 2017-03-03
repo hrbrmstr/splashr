@@ -4,6 +4,7 @@
 #' @param host Docker host; defaults to `localhost`
 #' @return `harbor` `host` object
 #' @export
+#' @family splash_docker_helpers
 #' @examples \dontrun{
 #' install_splash()
 #' splash_container <- start_splash()
@@ -28,6 +29,7 @@ install_splash <- function(host = harbor::localhost) {
 #' @note you need Docker running on your system and have pulled the container with
 #'       [install_splash] for this to work. You should save the resultant `host`
 #'       object for use in [stop_splash].
+#' @family splash_docker_helpers
 #' @return `harbor` `container` object
 #' @export
 #' @examples \dontrun{
@@ -59,6 +61,7 @@ start_splash <- function(host = harbor::localhost, add_tempdir=FALSE) {
 #' @note you need Docker running on your system and have pulled the container with
 #'       [install_splash()] and started the Splash container with [start_splash()] for this
 #'       to work. You will need the `container` object from [start_splash()] for this to work.
+#' @family splash_docker_helpers
 #' @export
 #' @examples \dontrun{
 #' install_splash()

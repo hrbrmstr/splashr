@@ -12,6 +12,7 @@
 #' @param output either `html` or `png` to get the page content or an image capture
 #' @param viewport View width and height (in pixels) of the browser viewport to render the web page. Format is "`<width>x<height>`". e.g. 800x600. Default value is 1024x768.
 #' @param ... other params to [render_html()] or [render_png()]
+#' @family splash_renderers
 #' @return An XML document or `magick` object
 #' @export
 render_file <- function(splash_obj = splash_local, file_path, output=c("html", "png"), wait=0, viewport="1024x768", ...) {
