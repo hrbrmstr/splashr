@@ -20,8 +20,8 @@ check_wait <- function(wait) {
     message("The 'wait' parameter cannot be less than 0; auto-changing it to 0")
     wait <- 0
   } else if (wait>10) {
-    message("The 'wait' parameter cannot be greater than 10 in render_... calls; auto-changing it to 10")
-    message("Use the direct lua interface or lua DSL wrapper functions to set higher 'wait' vales.")
+    message("The 'wait' parameter cannot be greater than 10 in render_ calls; auto-changing it to 10")
+    message("Use the direct lua interface or lua DSL wrapper functions to set higher 'wait' values.")
     wait <- 10
   }
   wait
