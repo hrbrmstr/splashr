@@ -1,38 +1,27 @@
 language: r
-
-warnings_are_errors: true
-
 cache: packages
-
 sudo: required
+dist: trusty
 
 services:
   - docker
 
+env:
+  global:
+    - NOT_CRAN=true
+  matrix:
+    - PIP="pip" RETICULATE_PYTHON="/usr/bin/python"
+    - PYTHON=3 PIP="pip3" RETICULATE_PYTHON="/usr/bin/python3"
+
 before_install:
-  - docker pull hrbrmstr/splashttpd
-  - docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 -d hrbrmstr/splashttpd
+  - docker pull scrapinghub/splash:3.0
+  - docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 -d scrapinghub/splash:3.0
   - docker ps -a
+  - sudo apt-get -y install python${PYTHON}-pip python-dev python${PYTHON}-numpy
+  - sudo $PIP install -U setuptools
+  - sudo $PIP install -U docker
 
 r:
  - oldrel
  - release
  - devel
-
-addons:
-  apt:
-    packages:
-      - xclip
-      - libv8-dev
-
-env:
-  - DISPLAY=""
-  - DISPLAY=:99.0
-
-notifications:
-  email:
-    - bob@rud.is
-  irc:
-    channels:
-      - "104.236.112.222#builds"
-    nick: travisci

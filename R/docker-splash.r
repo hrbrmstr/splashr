@@ -1,8 +1,7 @@
 #' Retrieve the Docker image for Splash
 #'
 #' @md
-#' @param host Docker host; defaults to `localhost`
-#' @return `harbor` `host` object
+#' @param tag Splash Docker image tag to install
 #' @export
 #' @family splash_docker_helpers
 #' @examples \dontrun{
@@ -10,8 +9,11 @@
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-install_splash <- function(host = harbor::localhost) {
-  harbor::docker_pull(host, "hrbrmstr/splashttpd")
+install_splash <- function(tag="3.0") {
+  client <- docker::docker$from_env()
+  res <- client$api$pull("scrapinghub/splash", tag)
+  res <- jsonlite::stream_in(textConnection(res), verbose=FALSE)
+  invisible(lapply(res$status, function(x) { message(x) }))
 }
 
 #' Start a Splash server Docker container
@@ -19,40 +21,30 @@ install_splash <- function(host = harbor::localhost) {
 #' If using this in an automation context, you should consider adding a
 #' `Sys.sleep(3)` (or higher) after starting the docker container.
 #'
-#' @param host Docker host; defaults to `localhost`
-#' @param add_tempdir This is `FALSE` initially since you could try to run
-#'   the splash image on a remote system. It has to be a local one for this to work.
-#'   If `TRUE` then a local temporary directory (made with [tempdir()])
-#'   will be added to the mount configuration for use with [render_file()]. You will need to
-#'       ensure the necessary system temp dirs are accessible as a mounts. For
-#'       macOS this means adding `/private` to said Docker config.
+#' @param tag Splash Docker image tag to start
 #' @note you need Docker running on your system and have pulled the container with
-#'       [install_splash] for this to work. You should save the resultant `host`
-#'       object for use in [stop_splash].
+#'       [install_splash] for this to work. You should save the resultant
+#'       object for use in [stop_splash] otherwise you'll have to kill it from the
+#'       command line interface.
 #' @family splash_docker_helpers
-#' @return `harbor` `container` object
+#' @return `docker` `container` object
 #' @export
 #' @examples \dontrun{
 #' install_splash()
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-start_splash <- function(host = harbor::localhost, add_tempdir=FALSE) {
+start_splash <- function(tag="3.0") {
 
-  doc_opts <- c("-p", "5023:5023",
-                "-p", "8050:8050",
-                "-p", "8051:8051")
+  client <- docker::docker$from_env()
 
-  if (add_tempdir)
-    doc_opts <- c(doc_opts,
-                  sprintf("--volume=%s", sprintf("%s:/splashfiles", .pkgenv$temp_dir)))
+  splash_inst <- client$containers$run(
+    sprintf("scrapinghub/splash:%s", tag), name="splashr",
+    detach=TRUE, ports=list('8050/tcp'='8050', '5023/tcp'='5023', '8051/tcp'='8051')
+  )
 
-  # purrr::walk(doc_opts, message)
+  invisible(splash_inst)
 
-  harbor::docker_run(host,
-                     image = "hrbrmstr/splashttpd",
-                     detach = TRUE,
-                     docker_opts = doc_opts)
 }
 
 #' Stop a running a Splash server Docker container
@@ -69,5 +61,14 @@ start_splash <- function(host = harbor::localhost, add_tempdir=FALSE) {
 #' stop_splash(splash_container)
 #' }
 stop_splash <- function(splash_container) {
-  harbor::container_rm(splash_container, force=TRUE)
+  splash_container$stop()
+  splash_container$remove()
 }
+
+
+# @param add_tempdir This is `FALSE` initially since you could try to run
+#   the splash image on a remote system. It has to be a local one for this to work.
+#   If `TRUE` then a local temporary directory (made with [tempdir()])
+#   will be added to the mount configuration for use with [render_file()]. You will need to
+#       ensure the necessary system temp dirs are accessible as a mounts. For
+#       macOS this means adding `/private` to said Docker config.

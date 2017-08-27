@@ -14,11 +14,11 @@
 #' @name splashr
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)
-#' @import purrr httr magick harbor
-#' @importFrom stringi stri_split_regex stri_split_fixed stri_detect_regex
+#' @import purrr httr magick docker
+#' @importFrom stringi stri_split_regex stri_split_fixed stri_detect_regex stri_split_lines
 #' @importFrom HARtools writeHAR HARviewer renderHARviewer HARviewerOutput
 #' @importFrom xml2 read_html url_parse
-#' @importFrom jsonlite fromJSON unbox
+#' @importFrom jsonlite fromJSON unbox stream_in
 #' @importFrom openssl base64_decode
 #' @importFrom clipr read_clip
 #' @importFrom lubridate ymd_hms
@@ -27,7 +27,6 @@
 #' @importFrom formatR tidy_source
 #' @importFrom utils capture.output str
 #' @importFrom curl curl_unescape
-
 NULL
 
 #' splashr exported operators

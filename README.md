@@ -11,8 +11,8 @@ It's also an alternative to `phantomjs` (which you can use in R within or withou
 
 You can also get it running with two commands:
 
-    sudo docker pull hrbrmstr/splashttpd
-    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 hrbrmstr/splashttpd
+    sudo docker pull scrapinghub/splash:3.0
+    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash:3.0
 
 Do whatever you Windows ppl do with Docker on your systems to make ^^ work.
 
@@ -23,7 +23,7 @@ Folks super-new to Docker on Unix-ish platforms should [make sure to do](https:/
 
 (`$USER` is your username and shld be defined for you in the environment)
 
-If using the [`harbor`](https://github.com/wch/harbor) package you can use the convience wrappers in this pacakge:
+If using the [`docker`](https://github.com/bhaskarvk/docker) package you can use the convience wrappers in this pacakge:
 
     install_splash()
     splash_container <- start_splash()
@@ -34,7 +34,7 @@ and then run:
 
 when done. All of that happens on your localhost and you will not need to specify `splash_obj` to many of the `splashr` functions if you're running Splash in this default configuration as long as you use named parameters. You can also use the pre-defined `splash_local` object if you want to use positional parameters.
 
-You can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
+Now, you can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
 
 All you need for this package to work is a running Splash instance. You provide the host/port for it and it's scrape-tastic fun from there!
 
@@ -45,7 +45,6 @@ All you need for this package to work is a running Splash instance. You provide 
 The following functions are implemented:
 
 -   `render_html`: Return the HTML of the javascript-rendered page.
--   `render_file`: Return the HTML or image (png) of the javascript-rendered page in a local file
 -   `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 -   `render_jpeg`: Return a image (in JPEG format) of the javascript-rendered page.
 -   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
@@ -109,6 +108,7 @@ Suggest more in a feature req!
 -   <strike>Implement `execute` (you can script Splash!)</strike>
 -   <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 -   <strike>*Possibly* writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
+-   Re-implement `render_file()`
 -   Testing results with all combinations of parameters
 
 ### Installation
@@ -130,7 +130,6 @@ library(splashr)
 library(magick)
 library(rvest)
 library(anytime)
-library(hrbrmisc) # github
 library(htmlwidgets)
 library(DiagrammeR)
 library(tidyverse)
@@ -154,13 +153,13 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 22
+    ##  $ fds     : int 19
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 293520
+    ##  $ maxrss  : int 197264
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -174,7 +173,7 @@ render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="async" src="http://dpm.demdex.net/id?d_rtbd=json&amp;d_ver=2&amp;d_ ...
+    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=release%2F1.116.0_widgets_767" type="tex ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
 ``` r
@@ -198,27 +197,27 @@ print(har)
     ## HAR specification version: 1.2 
     ## --------HAR CREATOR-------- 
     ## Created by: Splash 
-    ## version: 2.3.1 
+    ## version: 3.0 
     ## --------HAR BROWSER-------- 
     ## Browser: QWebKit 
-    ## version: 538.1 
+    ## version: 602.1 
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 27 
+    ## Number of entries: 29 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 27 
+    ## Number of entries: 29 
     ##   -  http://www.poynter.org/ 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
+    ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
     ##   -  http://www.poynter.org/wp-content/themes/poynter_timber/assets/scrollbar/jquery.mCustomScrollbar.min.css?ver=2016... 
-    ##   -  http://www.poynter.org/wp-content/plugins/jetpack/css/jetpack.css?ver=4.0.4 
     ##      ........ 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6369fc5-fc59-4a12-ac92-25afa6c567a0?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/380e3672-840d-462a-83ee-2ea85a43504a?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/4ac7f809-9bdf-4acc-8bd5-a922f05f271b?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/c6608520-1978-45ac-9061-74ada664cae4?ec_token=8f7c4c4997246fd7fa920171c994... 
+    ##   -  http://cloud.webtype.com/webtype/ff2/3/380e3672-840d-462a-83ee-2ea85a43504a?ec_token=8f7c4c4997246fd7fa920171c994... 
+    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6369fc5-fc59-4a12-ac92-25afa6c567a0?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://static.chartbeat.com/js/chartbeat.js
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
@@ -274,30 +273,6 @@ splash_local %>%
 
 <img src="img/flash.png" width="50%"/>
 
-### Rendering Widgets
-
-``` r
-splash_vm <- start_splash(add_tempdir = TRUE)
-```
-
-``` r
-DiagrammeR("
-  graph LR
-    A-->B
-    A-->C
-    C-->E
-    B-->D
-    C-->D
-    D-->F
-    E-->F
-") %>% 
-  saveWidget("/tmp/diag.html")
-
-render_file(url = "/tmp/diag.html", output="html")
-```
-
-![](img/diag.png)
-
 ``` r
 stop_splash(splash_vm)
 ```
@@ -311,7 +286,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Thu Feb 23 17:30:57 2017"
+    ## [1] "Sun Aug 27 07:51:03 2017"
 
 ``` r
 test_dir("tests/")

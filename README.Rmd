@@ -13,8 +13,8 @@ It's also an alternative to `phantomjs` (which you can use in R within or withou
 
 You can also get it running with two commands:
 
-    sudo docker pull hrbrmstr/splashttpd
-    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 hrbrmstr/splashttpd
+    sudo docker pull scrapinghub/splash:3.0
+    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash:3.0
     
 Do whatever you Windows ppl do with Docker on your systems to make ^^ work. 
 
@@ -25,7 +25,7 @@ Folks super-new to Docker on Unix-ish platforms should [make sure to do](https:/
 
 (`$USER` is your username and shld be defined for you in the environment)
 
-If using the [`harbor`](https://github.com/wch/harbor) package you can use the convience wrappers in this pacakge:
+If using the [`docker`](https://github.com/bhaskarvk/docker) package you can use the convience wrappers in this pacakge:
 
     install_splash()
     splash_container <- start_splash()
@@ -36,7 +36,7 @@ and then run:
     
 when done. All of that happens on your localhost and you will not need to specify `splash_obj` to many of the `splashr` functions if you're running Splash in this default configuration as long as you use named parameters. You can also use the pre-defined `splash_local` object if you want to use positional parameters.
 
-You can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
+Now, you can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
 
 All you need for this package to work is a running Splash instance. You provide the host/port for it and it's scrape-tastic fun from there!
 
@@ -47,7 +47,6 @@ All you need for this package to work is a running Splash instance. You provide 
 The following functions are implemented:
 
 - `render_html`:	Return the HTML of the javascript-rendered page.
-- `render_file`: Return the HTML or image (png) of the javascript-rendered page in a local file
 - `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
 - `render_jpeg`:	Return a image (in JPEG format) of the javascript-rendered page.
 - `render_png`:	Return a image (in PNG format) of the javascript-rendered page.
@@ -111,6 +110,7 @@ Suggest more in a feature req!
 - <strike>Implement `execute` (you can script Splash!)</strike>
 - <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
 - <strike>_Possibly_ writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
+- Re-implement `render_file()`
 - Testing results with all combinations of parameters
 
 ### Installation
@@ -132,7 +132,6 @@ library(splashr)
 library(magick)
 library(rvest)
 library(anytime)
-library(hrbrmisc) # github
 library(htmlwidgets)
 library(DiagrammeR)
 library(tidyverse)
@@ -221,13 +220,11 @@ splash_local %>%
 
 <img src="img/flash.png" width="50%"/>
 
-### Rendering Widgets
-
-```{r eval=FALSE}
-splash_vm <- start_splash(add_tempdir = TRUE)
-```
-
-```{r eval=FALSE}
+```{r echo=FALSE, eval=FALSE}
+  ### Rendering Widgets
+  {r eval=FALSE}
+  splash_vm <- start_splash(add_tempdir = TRUE)
+  
 DiagrammeR("
   graph LR
     A-->B
@@ -241,9 +238,8 @@ DiagrammeR("
   saveWidget("/tmp/diag.html")
 
 render_file(url = "/tmp/diag.html", output="html")
-```
-
 ![](img/diag.png)
+```
 
 ```{r eval=FALSE}
 stop_splash(splash_vm)

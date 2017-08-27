@@ -4,13 +4,10 @@
 \alias{install_splash}
 \title{Retrieve the Docker image for Splash}
 \usage{
-install_splash(host = harbor::localhost)
+install_splash(tag = "3.0")
 }
 \arguments{
-\item{host}{Docker host; defaults to \code{localhost}}
-}
-\value{
-\code{harbor} \code{host} object
+\item{tag}{Splash Docker image tag to install}
 }
 \description{
 Retrieve the Docker image for Splash

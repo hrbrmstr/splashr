@@ -33,7 +33,7 @@ Imports:
     purrr,
     stats,
     utils,
-    harbor,
+    docker,
     magick,
     scales,
     formatR,
@@ -43,4 +43,3 @@ Imports:
     HARtools,
     lubridate
 RoxygenNote: 6.0.1
-Remotes: wch/harbor

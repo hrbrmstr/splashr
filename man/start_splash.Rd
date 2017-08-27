@@ -4,20 +4,13 @@
 \alias{start_splash}
 \title{Start a Splash server Docker container}
 \usage{
-start_splash(host = harbor::localhost, add_tempdir = FALSE)
+start_splash(tag = "3.0")
 }
 \arguments{
-\item{host}{Docker host; defaults to `localhost`}
-
-\item{add_tempdir}{This is `FALSE` initially since you could try to run
-the splash image on a remote system. It has to be a local one for this to work.
-If `TRUE` then a local temporary directory (made with [tempdir()])
-will be added to the mount configuration for use with [render_file()]. You will need to
-    ensure the necessary system temp dirs are accessible as a mounts. For
-    macOS this means adding `/private` to said Docker config.}
+\item{tag}{Splash Docker image tag to start}
 }
 \value{
-`harbor` `container` object
+`docker` `container` object
 }
 \description{
 If using this in an automation context, you should consider adding a
@@ -25,8 +18,9 @@ If using this in an automation context, you should consider adding a
 }
 \note{
 you need Docker running on your system and have pulled the container with
-      [install_splash] for this to work. You should save the resultant `host`
-      object for use in [stop_splash].
+      [install_splash] for this to work. You should save the resultant
+      object for use in [stop_splash] otherwise you'll have to kill it from the
+      command line interface.
 }
 \examples{
 \dontrun{
