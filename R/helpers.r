@@ -2,8 +2,10 @@
 #'
 #' @md
 #' @param har_resp_obj HAR response object
+#' @param type return type. If `raw` (default) then a raw vector of the content is returned.
+#'     If `text` then a character vector.
 #' @family splash_har_helpers
-#' @return A `raw` vector of the content or `NULL`
+#' @return A `raw` vector of the content or `NULL` or a `character` if `type` == `text`
 #' @export
 get_response_body <- function(har_resp_obj, type=c("raw", "text")) {
   type <- match.arg(type, c("raw", "text"))

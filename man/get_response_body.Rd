@@ -8,9 +8,12 @@ get_response_body(har_resp_obj, type = c("raw", "text"))
 }
 \arguments{
 \item{har_resp_obj}{HAR response object}
+
+\item{type}{return type. If \code{raw} (default) then a raw vector of the content is returned.
+If \code{text} then a character vector.}
 }
 \value{
-A \code{raw} vector of the content or \code{NULL}
+A \code{raw} vector of the content or \code{NULL} or a \code{character} if \code{type} == \code{text}
 }
 \description{
 Retrieve the body content of a HAR entry
