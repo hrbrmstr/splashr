@@ -12,6 +12,12 @@ splash_perf_stats(splash_obj = splash_local)
 \description{
 Get Splash performance-related statistics
 }
+\examples{
+\dontrun{
+sp <- splash()
+splash_perf_stats(sp)
+}
+}
 \seealso{
 Other splash_info_functions: \code{\link{splash_active}},
   \code{\link{splash_debug}}, \code{\link{splash_history}},

@@ -12,6 +12,12 @@ splash_version(splash_obj = splash_local)
 \description{
 Get Splash version information
 }
+\examples{
+\dontrun{
+sp <- splash()
+splash_version(sp)
+}
+}
 \seealso{
 Other splash_info_functions: \code{\link{splash_active}},
   \code{\link{splash_debug}}, \code{\link{splash_history}},

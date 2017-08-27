@@ -68,14 +68,13 @@ to be processed first by \code{xml2}. If you choose \code{raw_html=TRUE} you'll 
 character vector.
 }
 \description{
-Similar to \code{rvest::read_html}.
+Similar (i.e. a dynamic equivalent) to \code{rvest::read_html}.
 }
 \references{
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}
 }
 \seealso{
 Other splash_renderers: \code{\link{execute_lua}},
-  \code{\link{render_file}}, \code{\link{render_har}},
-  \code{\link{render_jpeg}}, \code{\link{render_json}},
-  \code{\link{render_png}}
+  \code{\link{render_har}}, \code{\link{render_jpeg}},
+  \code{\link{render_json}}, \code{\link{render_png}}
 }

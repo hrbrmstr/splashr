@@ -65,6 +65,29 @@ stop_splash <- function(splash_container) {
   splash_container$remove()
 }
 
+#' Prune all dead and running Splash Docker containers
+#'
+#' _This is a destructive function._ It will stop **any** Docker container that
+#' is based on an image matching "`scrapinghub/splashr`". It's best used when you
+#' had a session forcefully interuppted and had been using the R helper functions
+#' to start/stop the Splash Docker container. You may want to consider using the
+#' Docker command-line interface to perform this work manually.
+#'
+#' @export
+killall_splash <- function() {
+
+  client <- docker::docker$from_env()
+  x <- client$containers$list(all = TRUE)
+
+  for (cntnr in x) {
+    if (grepl("scrapinghub/splash", cntnr$image$tags[1])) {
+      message(sprintf("Pruning: %s...", cntnr$id))
+      if (cntnr$status == "running") cntnr$stop()
+      cntnr$remove()
+    }
+  }
+}
+
 
 # @param add_tempdir This is `FALSE` initially since you could try to run
 #   the splash image on a remote system. It has to be a local one for this to work.

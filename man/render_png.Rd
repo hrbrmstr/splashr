@@ -70,12 +70,16 @@ a \link{magick} image object
 \description{
 Return a image (in PNG format) of the javascript-rendered page.
 }
+\examples{
+\dontrun{
+render_png(url = "https://httpbin.org/")
+}
+}
 \references{
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}
 }
 \seealso{
 Other splash_renderers: \code{\link{execute_lua}},
-  \code{\link{render_file}}, \code{\link{render_har}},
-  \code{\link{render_html}}, \code{\link{render_jpeg}},
-  \code{\link{render_json}}
+  \code{\link{render_har}}, \code{\link{render_html}},
+  \code{\link{render_jpeg}}, \code{\link{render_json}}
 }

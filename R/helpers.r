@@ -5,10 +5,13 @@
 #' @family splash_har_helpers
 #' @return A `raw` vector of the content or `NULL`
 #' @export
-get_response_body <- function(har_resp_obj) {
+get_response_body <- function(har_resp_obj, type=c("raw", "text")) {
+  type <- match.arg(type, c("raw", "text"))
   resp <- har_resp_obj$response$content$text
   if (resp == "") return(NULL)
-  openssl::base64_decode(resp)
+  tmp <- openssl::base64_decode(resp)
+  if (type == "text") tmp <- readBin(tmp, "character")
+  tmp
 }
 
 #' Retrieve or test content type of a HAR request object

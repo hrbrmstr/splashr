@@ -8,6 +8,9 @@
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
 #' @inheritParams render_html
 #' @export
+#' @examples \dontrun{
+#' render_png(url = "https://httpbin.org/")
+#' }
 render_png <- function(
   splash_obj = splash_local, url, base_url=NULL, width, height,
   timeout=30, resource_timeout, wait=0, render_all=TRUE,

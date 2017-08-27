@@ -1,6 +1,6 @@
 #' Return the HTML of the javascript-rendered page.
 #'
-#' Similar to `rvest::read_html`.
+#' Similar (i.e. a dynamic equivalent) to `rvest::read_html`.
 #'
 #' @md
 #' @param splash_obj Object created by a call to [splash()]

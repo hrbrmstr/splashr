@@ -111,7 +111,6 @@ overwhelmed with data. Use \code{\link[=str]{str()}} to inspect various portions
 }
 \seealso{
 Other splash_renderers: \code{\link{execute_lua}},
-  \code{\link{render_file}}, \code{\link{render_har}},
-  \code{\link{render_html}}, \code{\link{render_jpeg}},
-  \code{\link{render_png}}
+  \code{\link{render_har}}, \code{\link{render_html}},
+  \code{\link{render_jpeg}}, \code{\link{render_png}}
 }

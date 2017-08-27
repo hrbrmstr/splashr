@@ -15,6 +15,12 @@ splash_active(splash_obj = splash_local)
 \description{
 Test if a Splash server is up
 }
+\examples{
+\dontrun{
+sp <- splash()
+splash_active(sp)
+}
+}
 \seealso{
 Other splash_info_functions: \code{\link{splash_debug}},
   \code{\link{splash_history}},

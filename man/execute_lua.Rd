@@ -54,8 +54,7 @@ member_scores
 }
 }
 \seealso{
-Other splash_renderers: \code{\link{render_file}},
-  \code{\link{render_har}}, \code{\link{render_html}},
-  \code{\link{render_jpeg}}, \code{\link{render_json}},
-  \code{\link{render_png}}
+Other splash_renderers: \code{\link{render_har}},
+  \code{\link{render_html}}, \code{\link{render_jpeg}},
+  \code{\link{render_json}}, \code{\link{render_png}}
 }

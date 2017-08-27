@@ -1,0 +1,304 @@
+---
+title: "Introduction to splashr"
+author: "Bob Rudis"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Introduction to splashr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Capturing information/conent from internet resources can be a tricky endeavour. Along with the many legal + ethical issues there are an increasing numbner of sites that render content dynamically, either through `XMLHttpRequests` (XHR) or on-page JavaScript (JS) rendering of
+in-page content. There are also many sites that make it difficult to fill-in form data programmatically.
+
+There are ways to capture these types of resources in R. One way is via the [`RSelenium`](https://CRAN.R-project.org/package=RSelenium) ecosystem of packages. Another is with packages such as [`webshot`](https://CRAN.R-project.org/package=webshot). One can also write custom [`phantomjs`](http://phantomjs.org/) scripts and post-process the HTML output.
+
+The `splashr` package provides tooling around another web-scraping ecosystem: [Splash](https://scrapinghub.com/splash). A Splash environment is fundamentally a headless web browser based on the QT WebKit library. Unlike the Selenium ecosystem, Splash is not based on the [WebDriver](https://www.w3.org/TR/webdriver/) protocol, but has a custom HTTP API that provides both similar and different idioms for accessing and maniuplating web content.
+
+## Getting Started
+
+Before you can use `splashr` you will need access to a Splash environment. You can either:
+
+- [pay for instances](https://app.scrapinghub.com/account/signup/);
+- [get a Splash server running locally by hand](https://github.com/scrapinghub/splash), or
+- use Splash in a [Docker](https://www.docker.com/) container.
+
+The package and this document are going to steer you into using Docker containers. Docker is free for macOS, Windows and Linux systems, plus most major cloud computing providers have support for Docker containers. If you don't have Docker installed, then your first step should be to get Docker going and [verifying your setup](https://docs.docker.com/get-started/).
+
+Once you have Docker working, you can follow the [Splash installation guidance](https://splash.readthedocs.io/en/stable/install.html) to manually obtain, start and stop Splash docker containers. _There must be a running, accessible Splash instance for `splashr` to work_.
+
+If you're comfortable trying to get a working Python environment working on your system, you can also use the Splash Docker helper functions that come with this package:
+
+- `install_splash()` will perform the same operation as `docker pull ...`
+- `start_splash()` will perform the same operation as `docker run ...`, and
+- `stop_splash()` will stop and remove the conainter object returned by `start_splash()`
+
+Follow the vignettes in the [`docker`](https://CRAN.R-project.org/package=docker) package to get the `docker` package up and running.
+
+The remainder of this document assumes that you have a Splash instance up and running on your localhost.
+
+## Scraping Bascis --- `render_` functions
+
+Splash (and, hence, `splashr`) has a feature-rich API that ranges from quick-and-easy to complex-detailed-and-powerful. We'll start with some easy basics. First make sure Splash is running:
+
+```
+library(splashr)
+
+splash_active()
+## Status of splash instance on [http://localhost:8050]: ok. Max RSS: 74.42578 Mb
+## 
+## [1] TRUE
+```
+
+THe first action we'll perform may surprise you. We're going to take a screenshot of the <https://analytics.usa.gov/> site. Why that site? First, the Terms of Service allow for scraping. Second, it has a great deal of dynamic content. And, third, we can validate our scraping findings with a direct data download (which will be an exercise left to the reader).
+
+Enough words. Let's see what this site looks like!
+
+```
+library(magick)
+
+render_png(url = "https://analytics.usa.gov/", wait = 5)
+##   format width height colorspace filesize
+## 1    PNG  1024   2761       sRGB   531597
+```
+
+<img style="max-widgh:100%" width="100%" src="figures/splashr01.png"/>
+
+Let's decompose what we just did:
+
+1. We called `render_png()` function. The job of this function is to --- by default -- take a "screenshot" of the fully rendered page content at a specified URL.
+1. We passed in the `url = ` parameter. The default first parameter is a `splashr` object created by the `splash()`. However, since it's highly likely most folks will be running a Splash server locally with the default configuration, most `splashr` functions will use an inherent, "`splash_local`" object if you're willing to use named parameters for all other parameter values. 
+1. We passed in a `wait = ` parameter, asking the Splash server to wait for a few seconds to give the content time to render. This is an important consideration which we'll go into later in this document.
+1. `splashr` passed on our command to the running Splash instance and the Splash server sent back a PNG file which the `splashr` package read in with the help of the `magick` package. If you're operating in RStudio you'll see the above image in the viewer. Alternatively, you can do:
+
+```
+image_browse(render_png(url = "https://analytics.usa.gov/", wait = 5))
+```
+
+to see the image if you're in another R environment. NOTE: web page screenshots can be captured in PNG or JPEG format by choosing the appropriate `render_` function.
+
+Now that we've validated that we're getting the content we want, we can do something a bit more useful, like retrieve the HTML content of the page:
+
+```
+pg <- render_html(url = "https://analytics.usa.gov/")
+pg
+## {xml_document}
+## <html lang="en">
+## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<!--\n\n    Hi! Welcome to our source code.\n\n    This d ...
+## [2] <body>\n    <!-- Google Tag Manager (noscript) -->\n<noscript>&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQSGZS"\ ...
+```
+
+The `render_html()` function behaves a great deal like `xml2::read_html()` function except that it's just retrieving the current web page [HTML DOM](https://www.w3schools.com/js/js_htmldom.asp). What do we mean by that? Well, unlike `httr::GET()` or `xml2::read_html()`, the Splash environment is a bona-fide browser environment, just like Chrome, Safari or Firefox. It's always running (until you shut down the Splash server). That means any active JS on the page can be modifying the content (like ticking a time counter or updating stock prices, etc). We didn't specify a `wait = ` delay this time, but it's generally a good idea to do that for very dynamic sites. This particular site seems update the various tables and charts every 10 seconds to show "live" stats.
+
+We can work with that `pg` content just like we would with `rvest` / `xml2`. Let's look at the visitor total from the past 90 days:
+
+```
+library(rvest)
+
+html_text(html_nodes(pg, "span#total_visitors"))
+## [1] "2.37 billion"
+```
+
+If we tried to read that value with plain, ol' `read_html` here's what we'd get:
+
+```
+pg2 <- read_html("https://analytics.usa.gov/")
+html_text(html_nodes(pg2, "span#total_visitors"))
+## [1] "..."
+```
+
+Not exactly helpful.
+
+So, with just a small example, we've seen that it's pretty simple to pull dyanmic content out of a web site with just a few more steps than `read_html()` requires.
+
+But, we can do even more with these `render_` functions.
+
+## Your Own Private 'Developer Tools'
+
+Anyone performing scraping operations likely knows about each browser's "developer tools" environment. If you're not familiar with them you can get a quick primer [on their secrets](http://devtoolsecrets.com/) before continuing with this vignette.
+
+The devtools inspector lets you see --- amongst other items -- network resources that were pulled down with the web page. So, while `read_html()` just gets the individual HTML file for a web site, its Splash devtools counterpart --- `render_har()` --- is pulling every image, JS file, CSS sheet, etc that can be rendered in QT WebKit. We can see what the USA.Gov Analytics site is making us load with it:
+
+```
+har <- render_har(url = "https://analytics.usa.gov/")
+har
+## --------HAR VERSION-------- 
+## HAR specification version: 1.2 
+## --------HAR CREATOR-------- 
+## Created by: Splash 
+## version: 3.0 
+## --------HAR BROWSER-------- 
+## Browser: QWebKit 
+## version: 602.1 
+## --------HAR PAGES-------- 
+## Page id: 1 , Page title: analytics.usa.gov | The US government's web traffic. 
+## --------HAR ENTRIES-------- 
+## Number of entries: 29 
+## REQUESTS: 
+## Page: 1 
+## Number of entries: 29 
+##   -  https://analytics.usa.gov/ 
+##   -  https://analytics.usa.gov/css/vendor/css/uswds.v0.9.1.css 
+##   -  https://analytics.usa.gov/css/public_analytics.css 
+##   -  https://analytics.usa.gov/js/vendor/d3.v3.min.js 
+##   -  https://analytics.usa.gov/js/vendor/q.min.js 
+##      ........ 
+##   -  https://analytics.usa.gov/data/live/top-downloads-yesterday.json 
+##   -  https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-bold-webfont.woff2 
+##   -  https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-regular-webfont.woff2 
+##   -  https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-light-webfont.woff2 
+##   -  https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-italic-webfont.woff2  
+```
+
+A "HAR" is an HTTP Archive and `splashr` works with the R [`hartools`](https://CRAN.R-project.org/package=HARtools) package to provide access to the elements loaded with a Splash QT WebKit page request. We can see all of them if we perform a manual inspection:
+
+```
+for (e in har$log$entries) cat(e$request$url, "\n")
+## https://analytics.usa.gov/ 
+## https://analytics.usa.gov/css/vendor/css/uswds.v0.9.1.css 
+## https://analytics.usa.gov/css/public_analytics.css 
+## https://analytics.usa.gov/js/vendor/d3.v3.min.js 
+## https://analytics.usa.gov/js/vendor/q.min.js 
+## https://analytics.usa.gov/css/google-fonts.css 
+## https://analytics.usa.gov/js/vendor/uswds.v0.9.1.js 
+## https://analytics.usa.gov/js/index.js 
+## https://www.googletagmanager.com/gtm.js?id=GTM-MQSGZS 
+## https://www.google-analytics.com/analytics.js 
+## https://analytics.usa.gov/css/img/arrow-down.svg 
+## https://analytics.usa.gov/data/live/realtime.json 
+## https://analytics.usa.gov/data/live/today.json 
+## https://analytics.usa.gov/data/live/devices.json 
+## https://analytics.usa.gov/data/live/browsers.json 
+## https://analytics.usa.gov/data/live/ie.json 
+## https://analytics.usa.gov/data/live/os.json 
+## https://analytics.usa.gov/data/live/windows.json 
+## https://analytics.usa.gov/data/live/top-cities-realtime.json 
+## https://analytics.usa.gov/data/live/top-countries-realtime.json 
+## https://analytics.usa.gov/data/live/top-countries-realtime.json 
+## https://analytics.usa.gov/data/live/top-pages-realtime.json 
+## https://analytics.usa.gov/data/live/top-domains-7-days.json 
+## https://analytics.usa.gov/data/live/top-domains-30-days.json 
+## https://analytics.usa.gov/data/live/top-downloads-yesterday.json 
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-bold-webfont.woff2 
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-regular-webfont.woff2 
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-light-webfont.woff2 
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-italic-webfont.woff2 
+```
+
+With just a visual inspection, we can see there are JSON files being loaded at some point that likely contain some of the data we're. The content for each of them can be available to us in the HAR object if we specify the `response_body = TRUE` parameter:
+
+```
+har <- render_har(url = "https://analytics.usa.gov/", wait = 5, response_body = TRUE)
+for (e in har$log$entries) {
+  cat(sprintf("%s => [%s] is %s bytes\n", 
+              e$request$url, e$response$content$mimeType, 
+              scales::comma(e$response$content$size)))
+}
+## https://analytics.usa.gov/ => [text/html] is 19,718 bytes
+## https://analytics.usa.gov/css/vendor/css/uswds.v0.9.1.css => [text/css] is 64,676 bytes
+## https://analytics.usa.gov/css/public_analytics.css => [text/css] is 13,932 bytes
+## https://analytics.usa.gov/js/vendor/d3.v3.min.js => [application/x-javascript] is 150,760 bytes
+## https://analytics.usa.gov/js/vendor/q.min.js => [application/x-javascript] is 41,625 bytes
+## https://analytics.usa.gov/css/google-fonts.css => [text/css] is 112,171 bytes
+## https://analytics.usa.gov/js/vendor/uswds.v0.9.1.js => [application/x-javascript] is 741,447 bytes
+## https://analytics.usa.gov/js/index.js => [application/x-javascript] is 29,868 bytes
+## https://www.googletagmanager.com/gtm.js?id=GTM-MQSGZS => [] is 0 bytes
+## https://www.google-analytics.com/analytics.js => [] is 0 bytes
+## https://analytics.usa.gov/css/img/arrow-down.svg => [image/svg+xml] is 780 bytes
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-bold-webfont.woff2 => [font/woff2] is 23,368 bytes
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-regular-webfont.woff2 => [font/woff2] is 23,684 bytes
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-light-webfont.woff2 => [font/woff2] is 23,608 bytes
+## https://analytics.usa.gov/css/vendor/fonts/sourcesanspro-italic-webfont.woff2 => [font/woff2] is 17,472 bytes
+## https://analytics.usa.gov/data/live/realtime.json => [application/json] is 357 bytes
+## https://analytics.usa.gov/data/live/today.json => [application/json] is 2,467 bytes
+## https://analytics.usa.gov/data/live/devices.json => [application/json] is 625 bytes
+## https://analytics.usa.gov/data/live/browsers.json => [application/json] is 4,697 bytes
+## https://analytics.usa.gov/data/live/ie.json => [application/json] is 944 bytes
+## https://analytics.usa.gov/data/live/os.json => [application/json] is 1,378 bytes
+## https://analytics.usa.gov/data/live/windows.json => [application/json] is 978 bytes
+## https://analytics.usa.gov/data/live/top-cities-realtime.json => [application/json] is 604,096 bytes
+## https://analytics.usa.gov/data/live/top-countries-realtime.json => [application/json] is 15,179 bytes
+## https://analytics.usa.gov/data/live/top-pages-realtime.json => [application/json] is 3,565 bytes
+## https://analytics.usa.gov/data/live/top-domains-7-days.json => [application/json] is 1,979 bytes
+## https://analytics.usa.gov/data/live/top-domains-30-days.json => [application/json] is 5,915 bytes
+## https://analytics.usa.gov/data/live/top-downloads-yesterday.json => [application/json] is 25,751 bytes
+```
+
+I happen to know that the `devices.json` file has the visitor counts and we can retrieve it from the HAR object directly with some helpers:
+
+```
+har_entries(har)[[18]] %>% 
+  get_response_body("text") %>% 
+  jsonlite::fromJSON() %>% 
+  str()
+## List of 5
+##  $ name    : chr "devices"
+##  $ query   :List of 8
+##   ..$ start-date   : chr "90daysAgo"
+##   ..$ end-date     : chr "yesterday"
+##   ..$ dimensions   : chr "ga:date,ga:deviceCategory"
+##   ..$ metrics      : chr "ga:sessions"
+##   ..$ sort         : chr "ga:date"
+##   ..$ start-index  : int 1
+##   ..$ max-results  : int 10000
+##   ..$ samplingLevel: chr "HIGHER_PRECISION"
+##  $ meta    :List of 2
+##   ..$ name       : chr "Devices"
+##   ..$ description: chr "90 days of desktop/mobile/tablet visits for all sites."
+##  $ totals  :List of 2
+##   ..$ visits : num 2.37e+09
+##   ..$ devices:List of 3
+##   .. ..$ desktop: int 1303660363
+##   .. ..$ mobile : int 924913139
+##   .. ..$ tablet : int 137183761
+##  $ taken_at: chr "2017-08-27T10:00:02.175Z"
+```
+
+Now, if we wanted to make that request on our own, we could fiddle with the various `list` element details to build our own `httr` function, or we could make use of another helper to automatigally build an `httr` function for us:
+
+```
+library(httr)
+
+req <- as_httr_req(har_entries(har)[[18]])
+req() %>% 
+  content(as="parsed") %>% 
+  str()
+## Output is the same as previous block
+```
+
+The text of the function is also put on the clipboard by default, so you can paste it right into a script or package for use later on:
+
+```
+httr::VERB(verb = "GET", url = "https://analytics.usa.gov/data/live/devices.json", 
+     httr::add_headers(`User-Agent` = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/602.1 (KHTML, like Gecko) splash Version/9.0 Safari/602.1", 
+         Accept = "application/json,*/*", 
+         Referer = "https://analytics.usa.gov/"))
+```
+
+## The Full Monty
+
+One final `render_` function is the `render_json()` function. Let's see what it does before explaining it:
+
+```
+json <- render_json(url = "https://analytics.usa.gov/", wait = 5, png = TRUE, response_body = TRUE)
+
+str(json, 1)
+## List of 10
+##  $ frameName   : chr ""
+##  $ requestedUrl: chr "https://analytics.usa.gov/"
+##  $ geometry    :List of 4
+##  $ png         : chr "iVBORw0KGgoAAAANSUhEUgAABAAAAAMACAYAAAC6uhUNAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAgAElEQVR4AeydBZxUVRvGX7pTEBURBCWkVEQ"| __truncated__
+##  $ html        : chr "<!DOCTYPE html><html lang=\"en\"><!-- Initalize title and data source variables --><head>\n  <!--\n\n    Hi! We"| __truncated__
+##  $ title       : chr "analytics.usa.gov | The US government's web traffic."
+##  $ history     :List of 1
+##  $ url         : chr "https://analytics.usa.gov/"
+##  $ childFrames : list()
+##  $ har         :List of 1
+##   ..- attr(*, "class")= chr [1:2] "har" "list"
+##  - attr(*, "class")= chr [1:2] "splash_json" "list"
+```
+
+The function name corresponds to the [Splash HTTP API call](https://splash.readthedocs.io/en/stable/api.html). It is actally returning JSON => a JSON object holding pretty much everything associated with the page. Think of it as a one-stop-shop function if you want a screen shot, page content and HAR resources with just one call.

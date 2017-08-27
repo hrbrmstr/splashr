@@ -19,4 +19,9 @@ splash_local
 \description{
 Configure parameters for connecting to a Splash server
 }
+\examples{
+\dontrun{
+sp <- splash()
+}
+}
 \keyword{datasets}

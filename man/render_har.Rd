@@ -74,7 +74,6 @@ is incredibly detailed, full of information on every component loaded.
 }
 \seealso{
 Other splash_renderers: \code{\link{execute_lua}},
-  \code{\link{render_file}}, \code{\link{render_html}},
-  \code{\link{render_jpeg}}, \code{\link{render_json}},
-  \code{\link{render_png}}
+  \code{\link{render_html}}, \code{\link{render_jpeg}},
+  \code{\link{render_json}}, \code{\link{render_png}}
 }

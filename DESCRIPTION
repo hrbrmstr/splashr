@@ -21,7 +21,9 @@ Suggests:
     tibble,
     jpeg,
     png,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Depends:
     R (>= 3.2.0)
 Imports:
@@ -42,3 +44,4 @@ Imports:
     HARtools,
     lubridate
 RoxygenNote: 6.0.1
+VignetteBuilder: knitr

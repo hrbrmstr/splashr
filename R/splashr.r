@@ -5,6 +5,9 @@ splash_url <- function(splash_obj) { sprintf("http://%s:%s", splash_obj$host, sp
 #' @param host host or IP address
 #' @param port port the server is running on (default is 8050)
 #' @export
+#' @examples \dontrun{
+#' sp <- splash()
+#' }
 splash <- function(host, port=8050L) {
   list(host=host, port=port)
 }
@@ -22,6 +25,10 @@ s_GET <- purrr::safely(GET)
 #' @family splash_info_functions
 #' @return `TRUE` if Slash server is running, otherwise `FALSE`
 #' @export
+#' @examples \dontrun{
+#' sp <- splash()
+#' splash_active(sp)
+#' }
 splash_active <- function(splash_obj = splash_local) {
 
   res <- s_GET(splash_url(splash_obj), path="_ping")
@@ -48,6 +55,10 @@ splash_active <- function(splash_obj = splash_local) {
 #' @param splash_obj A splash connection object
 #' @family splash_info_functions
 #' @export
+#' @examples \dontrun{
+#' sp <- splash()
+#' splash_version(sp)
+#' }
 splash_version <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
 function main(splash)
@@ -62,6 +73,10 @@ end
 #' @param splash_obj A splash connection object
 #' @family splash_info_functions
 #' @export
+#' @examples \dontrun{
+#' sp <- splash()
+#' splash_history(sp)
+#' }
 splash_history <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
 function main(splash)
@@ -77,6 +92,10 @@ end
 #' @param splash_obj A splash connection object
 #' @family splash_info_functions
 #' @export
+#' @examples \dontrun{
+#' sp <- splash()
+#' splash_perf_stats(sp)
+#' }
 splash_perf_stats <- function(splash_obj = splash_local) {
   execute_lua(splash_obj, '
 function main(splash)
@@ -91,6 +110,10 @@ end
 #' @param splash_obj A splash connection object
 #' @family splash_info_functions
 #' @export
+#' @examples \dontrun{
+#' sp <- splash()
+#' splash_debug(sp)
+#' }
 splash_debug <- function(splash_obj = splash_local) {
 
   httr::GET(splash_url(splash_obj), path="_debug") %>%

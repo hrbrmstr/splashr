@@ -1,9 +1,15 @@
 #' Create an httr verb request function from an HAR request
 #'
+#' This function is very useful if you used `splashr` to find XHR requests in a dynamic
+#' page and want to be able to make a call directly to that XHR resource. Once you
+#' identify the proper HAR entry, pass it to this function and fully working function
+#' that makes an `httr::VERB()` request will be created and returned. The text of the function
+#' will also be put onto the clipboad if `add_clip` is `TRUE``
+#'
 #' @md
 #' @param entry HAR entry
-#' @param quiet quiet
-#' @param add_clip add clip
+#' @param quiet quiet (no messages)
+#' @param add_clip add clip (paste the function text to the clipboard)
 #' @export
 as_httr_req <- function(entry, quiet=TRUE, add_clip=TRUE) {
 

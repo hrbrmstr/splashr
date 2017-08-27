@@ -12,6 +12,12 @@ splash_history(splash_obj = splash_local)
 \description{
 Get information about requests/responses for the pages loaded
 }
+\examples{
+\dontrun{
+sp <- splash()
+splash_history(sp)
+}
+}
 \seealso{
 Other splash_info_functions: \code{\link{splash_active}},
   \code{\link{splash_debug}},
