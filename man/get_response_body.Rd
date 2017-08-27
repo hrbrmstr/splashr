@@ -4,7 +4,7 @@
 \alias{get_response_body}
 \title{Retrieve the body content of a HAR entry}
 \usage{
-get_response_body(har_resp_obj)
+get_response_body(har_resp_obj, type = c("raw", "text"))
 }
 \arguments{
 \item{har_resp_obj}{HAR response object}

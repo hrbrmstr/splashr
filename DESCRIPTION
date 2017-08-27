@@ -4,7 +4,9 @@ Title: Tools to Work with the 'Splash' 'JavaScript' Rendering Service
 Version: 0.4.0
 Date: 2017-08-26
 Encoding: UTF-8
-Author: Bob Rudis (bob@rud.is)
+Authors@R: c(
+      person("Bob", "Rudis", email = "bob@rud.is", role = c("aut", "cre"))
+    )
 Maintainer: Bob Rudis <bob@rud.is>
 Description: 'Splash' <https://github.com/scrapinghub/splash> is a 'JavaScript' rendering service.
     It’s a lightweight web browser with an 'HTTP' API, implemented in 'Python' using 'Twisted' 

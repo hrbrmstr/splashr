@@ -10,3 +10,4 @@
 ^README_files$
 ^appveyor\.yml$
 ^codecov\.yml$
+^docs$

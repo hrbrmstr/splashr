@@ -151,13 +151,13 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 14
+    ##  $ fds     : int 21
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 76308
+    ##  $ maxrss  : int 228260
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -171,7 +171,7 @@ render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="async" src="http://dpm.demdex.net/id?d_rtbd=json&amp;d_ver=2&amp;d_ ...
+    ## [1] <head>\n<script type="text/javascript" async="" charset="utf-8" src="http://ds.serving-sys.com/SemiCachedScripts/ ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
 ``` r
@@ -202,21 +202,16 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 42 
+    ## Number of entries: 6 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 42 
+    ## Number of entries: 6 
     ##   -  http://www.poynter.org/ 
-    ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
-    ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
-    ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
-    ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
-    ##      ........ 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/4ac7f809-9bdf-4acc-8bd5-a922f05f271b?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6608520-1978-45ac-9061-74ada664cae4?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/380e3672-840d-462a-83ee-2ea85a43504a?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://cloud.webtype.com/webtype/ff2/3/c6369fc5-fc59-4a12-ac92-25afa6c567a0?ec_token=8f7c4c4997246fd7fa920171c994... 
-    ##   -  http://static.chartbeat.com/js/chartbeat.js
+    ##   -  http://www.googletagservices.com/tag/js/gpt.js 
+    ##   -  http://s.ntv.io/serve/load.js?ver=4.6.1 
+    ##   -  http://www.googletagservices.com/tag/js/gpt.js 
+    ##   -  http://www.google-analytics.com/analytics.js 
+    ##   -  http://static.parsely.com/p.js
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 
@@ -274,26 +269,6 @@ splash_local %>%
 ``` r
 stop_splash(splash_vm)
 ```
-
-### Test Results
-
-``` r
-library(splashr)
-library(testthat)
-
-date()
-```
-
-    ## [1] "Sun Aug 27 09:01:57 2017"
-
-``` r
-test_dir("tests/")
-```
-
-    ## testthat results ========================================================================================================
-    ## OK: 8 SKIPPED: 0 FAILED: 0
-    ## 
-    ## DONE ===================================================================================================================
 
 ### Code of Conduct
 

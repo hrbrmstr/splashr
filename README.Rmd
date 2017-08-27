@@ -247,17 +247,6 @@ render_file(url = "/tmp/diag.html", output="html")
 stop_splash(splash_vm)
 ```
 
-### Test Results
-
-```{r message=FALSE, warning=FALSE, error=FALSE}
-library(splashr)
-library(testthat)
-
-date()
-
-test_dir("tests/")
-```
-
 ### Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

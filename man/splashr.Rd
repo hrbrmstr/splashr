@@ -9,7 +9,10 @@
 'Splash' \url{https://github.com/scrapinghub/splash} is a 'JavaScript' rendering service.
 It’s a lightweight web browser with an 'HTTP' API, implemented in 'Python' using 'Twisted'
 and 'QT' and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes'
-R pacakges in a lightweight footprint. Some of 'Splash' features include the ability to process
+R pacakges in a lightweight footprint.
+}
+\details{
+Some of 'Splash' features include the ability to process
 multiple webpages in parallel; retrieving 'HTML' results and/or take screenshots; disabling
 images or use 'Adblock Plus' rules to make rendering faster; executing custom 'JavaScript' in
 page context; getting detailed rendering info in 'HAR' format.
