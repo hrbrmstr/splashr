@@ -22,7 +22,8 @@ Suggests:
     testthat,
     tibble,
     jpeg,
-    png
+    png,
+    covr
 Depends:
     R (>= 3.2.0)
 Imports:

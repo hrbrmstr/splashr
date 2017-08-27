@@ -76,12 +76,12 @@ render_json <- function(splash_obj = splash_local, url, base_url=NULL, quality=7
   if ("har" %in% names(out)) {
 
     sphar <- list(
-      log=list(
-        version=out$har$log$version,
-        creator=out$har$log$creator,
-        browser=out$har$log$browser,
-        pages=out$har$log$pages,
-        entries=out$har$log$entries
+      log = list(
+        version = out$har$log$version,
+        creator = out$har$log$creator,
+        browser = out$har$log$browser,
+        pages = out$har$log$pages,
+        entries = out$har$log$entries
       )
     )
 

@@ -8,3 +8,5 @@
 ^img$
 ^CONDUCT\.md$
 ^README_files$
+^appveyor\.yml$
+^codecov\.yml$

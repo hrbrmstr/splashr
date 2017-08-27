@@ -1,6 +1,8 @@
 context("basic functionality")
 test_that("we can do something", {
 
+  testthat::skip_on_cran()
+
   test_url <- "http://localhost:8050/"
 
   xpct <- function(x) {

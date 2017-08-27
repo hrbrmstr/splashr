@@ -2,12 +2,14 @@
 output: rmarkdown::github_document
 ---
 [![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hrbrmstr/splashr?branch=master&svg=true)](https://ci.appveyor.com/project/hrbrmstr/splashr)
+<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master) -->
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation. 
 
-Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do _everything_ Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative.
+Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do _everything_ Selenium can in pure R (the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
 
 It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 

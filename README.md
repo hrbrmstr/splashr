@@ -1,11 +1,11 @@
 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr)
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hrbrmstr/splashr?branch=master&svg=true)](https://ci.appveyor.com/project/hrbrmstr/splashr) <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master) -->
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation.
 
-Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do *everything* Selenium can, but if you're just trying to get a page back that needs javascript rendering, this is a nice alternative.
+Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do *everything* Selenium can in pure R (the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
 
 It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 
@@ -153,13 +153,13 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 19
+    ##  $ fds     : int 14
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 197264
+    ##  $ maxrss  : int 75912
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -204,15 +204,15 @@ print(har)
     ## --------HAR PAGES-------- 
     ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 29 
+    ## Number of entries: 42 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 29 
+    ## Number of entries: 42 
     ##   -  http://www.poynter.org/ 
+    ##   -  http://www.poynter.org/wp-content/plugins/easy-author-image/css/easy-author-image.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css?ver=2016_06_24.1 
     ##   -  http://cloud.webtype.com/css/162ac332-3b31-4b73-ad44-da375b7f2fe3.css?ver=2016_06_24.1 
     ##   -  http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?ver=2016_06_24.1 
-    ##   -  http://www.poynter.org/wp-content/themes/poynter_timber/assets/scrollbar/jquery.mCustomScrollbar.min.css?ver=2016... 
     ##      ........ 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/4ac7f809-9bdf-4acc-8bd5-a922f05f271b?ec_token=8f7c4c4997246fd7fa920171c994... 
     ##   -  http://cloud.webtype.com/webtype/ff2/3/c6608520-1978-45ac-9061-74ada664cae4?ec_token=8f7c4c4997246fd7fa920171c994... 
@@ -286,7 +286,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Aug 27 07:51:03 2017"
+    ## [1] "Sun Aug 27 08:16:01 2017"
 
 ``` r
 test_dir("tests/")

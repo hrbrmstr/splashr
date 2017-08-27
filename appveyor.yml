@@ -1,0 +1,84 @@
+# DO NOT CHANGE the "init" and "install" sections below
+
+image: Visual Studio 2017
+
+environment:
+  NOT_CRAN: true
+  USE_RTOOLS: true
+  matrix:
+    - PYTHON: "C:\\Python27"
+      RETICULATE_PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python34"
+      RETICULATE_PYTHON: "C:\\Python34"
+    - PYTHON: "C:\\Python35"
+      RETICULATE_PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python36"
+      RETICULATE_PYTHON: "C:\\Python36"
+
+matrix:
+  fast_finish: true
+
+# Download script file from GitHub
+init:
+  ps: |
+        $ErrorActionPreference = "Stop"
+        Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
+        Import-Module '..\appveyor-tool.ps1'
+
+install:
+  ps: Bootstrap
+
+cache:
+  - C:\RLibrary
+
+# Adapt as necessary starting from here
+
+build_script:
+  - docker pull microsoft/nanoserver
+  - docker pull scrapinghub/splash:3.0
+  - "%PYTHON%\\python.exe -m pip install setuptools numpy pypiwin32 docker"
+  - travis-tool.sh install_github rstudio/reticulate
+  - travis-tool.sh install_deps
+
+before_test:
+  - echo %RETICULATE_PYTHON%
+  - echo %PATH%
+  - R -q -e "reticulate::py_discover_config('docker')"
+  - docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 -d scrapinghub/splash:3.0
+  - docker ps -a
+
+test_script:
+  - travis-tool.sh run_tests
+
+on_failure:
+  - 7z a failure.zip *.Rcheck\*
+  - appveyor PushArtifact failure.zip
+
+artifacts:
+  - path: '*.Rcheck\**\*.log'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.out'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.fail'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.Rout'
+    name: Logs
+
+  - path: '\*_*.tar.gz'
+    name: Bits
+
+  - path: '\*_*.zip'
+    name: Bits
+
+notifications:
+  - provider: Email
+    to:
+      - bob@rud.is
+    subject: 'r-appveyor build {{status}}'
+    message: "https://ci.appveyor.com/project/hrbrmstr/splashr"
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
