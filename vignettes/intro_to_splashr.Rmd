@@ -302,3 +302,5 @@ str(json, 1)
 ```
 
 The function name corresponds to the [Splash HTTP API call](https://splash.readthedocs.io/en/stable/api.html). It is actally returning JSON => a JSON object holding pretty much everything associated with the page. Think of it as a one-stop-shop function if you want a screen shot, page content and HAR resources with just one call.
+
+You've now got plenty of scraping toys to play with to get a feel for how `splashr` works. Other vignettes cover the special domain-specific language (DSL) contained within `splashr` (giving you access to more powerful features of the Splash platform) and other helper functions that make it easier to work with `splashr` returned objects.
