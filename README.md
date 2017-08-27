@@ -1,5 +1,5 @@
 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hrbrmstr/splashr?branch=master&svg=true)](https://ci.appveyor.com/project/hrbrmstr/splashr) <!-- [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master) -->
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master)
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
@@ -159,7 +159,7 @@ splash_debug()
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 75912
+    ##  $ maxrss  : int 75556
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -286,7 +286,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Aug 27 08:16:01 2017"
+    ## [1] "Sun Aug 27 08:27:02 2017"
 
 ``` r
 test_dir("tests/")
