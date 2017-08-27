@@ -5,7 +5,7 @@
 
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation.
 
-Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do *everything* Selenium can in pure R (the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
+Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over meticulously crafted HTML tags. So, this package does not do *everything* Selenium can in pure R (though, the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
 
 It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 
@@ -130,15 +130,13 @@ library(splashr)
 library(magick)
 library(rvest)
 library(anytime)
-library(htmlwidgets)
-library(DiagrammeR)
 library(tidyverse)
 
 # current verison
 packageVersion("splashr")
 ```
 
-    ## [1] '0.3.0'
+    ## [1] '0.4.0'
 
 ``` r
 splash_active()
@@ -159,7 +157,7 @@ splash_debug()
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 75556
+    ##  $ maxrss  : int 76308
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -173,7 +171,7 @@ render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=release%2F1.116.0_widgets_767" type="tex ...
+    ## [1] <head>\n<script type="text/javascript" async="async" src="http://dpm.demdex.net/id?d_rtbd=json&amp;d_ver=2&amp;d_ ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
 ``` r
@@ -286,7 +284,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Aug 27 08:27:02 2017"
+    ## [1] "Sun Aug 27 09:01:57 2017"
 
 ``` r
 test_dir("tests/")

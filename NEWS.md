@@ -1,3 +1,9 @@
+0.4.0
+
+* moved to 'docker' pacakge since it's on CRAN
+* temporarily removed `render_file()` support
+* added code coverage
+
 0.3.0
 
 * added basic pkg tests

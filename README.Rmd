@@ -8,7 +8,7 @@ output: rmarkdown::github_document
 
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation. 
 
-Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over your meticulously crafted HTML tags. So, this package does not do _everything_ Selenium can in pure R (the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
+Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over meticulously crafted HTML tags. So, this package does not do _everything_ Selenium can in pure R (though, the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
 
 It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 
@@ -133,8 +133,6 @@ library(splashr)
 library(magick)
 library(rvest)
 library(anytime)
-library(htmlwidgets)
-library(DiagrammeR)
 library(tidyverse)
 
 # current verison
@@ -222,6 +220,9 @@ splash_local %>%
 <img src="img/flash.png" width="50%"/>
 
 ```{r echo=FALSE, eval=FALSE}
+library(htmlwidgets)
+library(DiagrammeR)
+
   ### Rendering Widgets
   {r eval=FALSE}
   splash_vm <- start_splash(add_tempdir = TRUE)
