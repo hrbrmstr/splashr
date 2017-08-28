@@ -3,6 +3,7 @@
 ^\.travis\.yml$
 ^README\.*Rmd$
 ^README\.*html$
+^README\.*md$
 ^NOTES\.*Rmd$
 ^NOTES\.*html$
 ^img$

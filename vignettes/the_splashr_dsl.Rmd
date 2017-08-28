@@ -73,11 +73,13 @@ wiki_png
 
 <img width="100%" style="max-width:100%" src="figures/splashr03.png"/>
 
-(I chopped off that page result as it scroll for 8MB worth of PNG content and the CRAN folks would not appreciate us taking up that much space for this vignette).
+(I chopped off that page result as it scrolls for 8MB worth of PNG content and the CRAN folks would not appreciate us taking up that much space for this vignette).
 
 ## With Great Power...
 
-If you're willing to learn some Lua, you can use `splashr` to return actual data from a site vs HTML you have to parse. Let's pull three specific pieces of data from one of the sub-pages of the analytics site we've been scraping:
+...comes time and effort to learn yet-another Shiny New Thing.
+
+However, if you're willing to spend some time to learn some Lua (it's not that bad, really), you can use `splashr` to return actual data from a site vs HTML you have to parse. Let's pull three specific pieces of data from one of the sub-pages of the analytics site we've been scraping:
 
 ```
 splash_local %>% 
@@ -104,6 +106,7 @@ end
 ##  $ curr_visits: chr "14,750"
 ```
 
-We don't have to do any DOM parsing on the R end to get specific bits of data from the page itself. That's pretty handy and once you start making some simple Lua scripts, it gets easier. 
+We don't have to do any DOM parsing on the R end to get specific bits of data from the page itself. That's pretty handy and once you start making some simple Lua scripts, it gets easier. Note, too, thqat you can use (hopefully) familiar JS constructs to yank info from the DOM as well
+as Lua-specific methods.
 
-Don't hesitate to file an issue if you'd like more of the lower-level Lua interface brought up to the `splashr` DSL-level.
+Don't hesitate to [file an issue](https://github.com/hrbrmstr/splashr/issues) if you'd like more of the lower-level Lua interface brought up to the `splashr` DSL-level.
