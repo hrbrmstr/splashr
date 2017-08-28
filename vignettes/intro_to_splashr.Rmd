@@ -2,7 +2,7 @@
 title: "Introduction to splashr"
 author: "Bob Rudis"
 date: "`r Sys.Date()`"
-output: 
+output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >

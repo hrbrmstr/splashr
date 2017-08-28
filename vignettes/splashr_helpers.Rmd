@@ -1,8 +1,10 @@
 ---
 title: "splashr Helper Functions and Data"
-author: "Vignette Author"
+author: "Bob Rudis"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{splashr Helper Functions and Data}
   %\VignetteEngine{knitr::rmarkdown}
