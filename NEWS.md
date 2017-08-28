@@ -3,6 +3,7 @@
 * moved to 'docker' pacakge since it's on CRAN
 * temporarily removed `render_file()` support
 * added code coverage
+* CRAN release 
 
 0.3.0
 
