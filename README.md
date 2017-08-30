@@ -1,5 +1,5 @@
 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/splashr)](https://cran.r-project.org/package=splashr) [![](http://cranlogs.r-pkg.org/badges/splashr)](http://cran.rstudio.com/web/packages/splashr/index.html)
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
@@ -151,13 +151,13 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 21
+    ##  $ fds     : int 19
     ##  $ leaks   :List of 4
     ##   ..$ Deferred  : int 50
     ##   ..$ LuaRuntime: int 1
     ##   ..$ QTimer    : int 1
     ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 228260
+    ##  $ maxrss  : int 191004
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
@@ -171,7 +171,7 @@ render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 
     ## {xml_document}
     ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script type="text/javascript" async="" charset="utf-8" src="http://ds.serving-sys.com/SemiCachedScripts/ ...
+    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=release%2F1.116.0_widgets_767" type="tex ...
     ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
 
 ``` r
@@ -200,18 +200,23 @@ print(har)
     ## Browser: QWebKit 
     ## version: 602.1 
     ## --------HAR PAGES-------- 
-    ## Page id: 1 , Page title: Poynter – A global leader in journalism. Strengthening democracy. 
+    ## Page id: 1 , Page title: Poynter - A global leader in journalism. 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 6 
+    ## Number of entries: 81 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 6 
+    ## Number of entries: 81 
     ##   -  http://www.poynter.org/ 
-    ##   -  http://www.googletagservices.com/tag/js/gpt.js 
-    ##   -  http://s.ntv.io/serve/load.js?ver=4.6.1 
-    ##   -  http://www.googletagservices.com/tag/js/gpt.js 
-    ##   -  http://www.google-analytics.com/analytics.js 
-    ##   -  http://static.parsely.com/p.js
+    ##   -  https://www.poynter.org/ 
+    ##   -  https://www.google-analytics.com/analytics.js 
+    ##   -  https://www.googletagservices.com/tag/js/gpt.js 
+    ##   -  https://www.poynter.org/core/themes/stable/css/system/components/ajax-progress.module.css?ovintj 
+    ##      ........ 
+    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterGothicTextCond/PoynterGothicTextCond-Bold.woff2 
+    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterOSDisplay/PoynterOSDisplay-Bold.woff2 
+    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterOSDisplay/PoynterOSDisplay-Semibold.woff2 
+    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterSerifRE/PoynterSerifRE-Italic.woff2 
+    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterSerifRE/PoynterSerifRE-BoldItalic.woff2
 
 You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
 

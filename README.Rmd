@@ -3,6 +3,8 @@ output: rmarkdown::github_document
 ---
 [![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr)
 [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/splashr)](https://cran.r-project.org/package=splashr)
+[![](http://cranlogs.r-pkg.org/badges/splashr)](http://cran.rstudio.com/web/packages/splashr/index.html)
 
 `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
