@@ -20,3 +20,4 @@ Other splash_har_helpers: \code{\link{get_content_size}},
   \code{\link{get_request_url}},
   \code{\link{get_response_body}}
 }
+\concept{splash_har_helpers}

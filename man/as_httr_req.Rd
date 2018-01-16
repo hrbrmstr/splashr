@@ -4,19 +4,16 @@
 \alias{as_httr_req}
 \title{Create an httr verb request function from an HAR request}
 \usage{
-as_httr_req(entry, quiet = TRUE, add_clip = TRUE)
+as_httr_req(entry, quiet = TRUE)
 }
 \arguments{
 \item{entry}{HAR entry}
 
 \item{quiet}{quiet (no messages)}
-
-\item{add_clip}{add clip (paste the function text to the clipboard)}
 }
 \description{
 This function is very useful if you used \code{splashr} to find XHR requests in a dynamic
 page and want to be able to make a call directly to that XHR resource. Once you
 identify the proper HAR entry, pass it to this function and fully working function
-that makes an \code{httr::VERB()} request will be created and returned. The text of the function
-will also be put onto the clipboad if \code{add_clip} is `TRUE``
+that makes an \code{httr::VERB()} request will be created and returned.
 }

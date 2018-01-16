@@ -26,3 +26,4 @@ Other splash_har_helpers: \code{\link{get_content_type}},
   \code{\link{get_response_body}},
   \code{\link{har_entry_count}}
 }
+\concept{splash_har_helpers}

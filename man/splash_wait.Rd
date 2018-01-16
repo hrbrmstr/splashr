@@ -34,3 +34,4 @@ Other splash_dsl_functions: \code{\link{splash_add_lua}},
   \code{\link{splash_send_keys}},
   \code{\link{splash_send_text}}
 }
+\concept{splash_dsl_functions}

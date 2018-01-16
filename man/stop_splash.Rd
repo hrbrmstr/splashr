@@ -28,3 +28,4 @@ stop_splash(splash_container)
 Other splash_docker_helpers: \code{\link{install_splash}},
   \code{\link{start_splash}}
 }
+\concept{splash_docker_helpers}

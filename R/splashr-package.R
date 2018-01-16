@@ -20,7 +20,6 @@
 #' @importFrom xml2 read_html url_parse
 #' @importFrom jsonlite fromJSON unbox stream_in
 #' @importFrom openssl base64_decode
-#' @importFrom clipr read_clip
 #' @importFrom lubridate ymd_hms
 #' @importFrom scales comma
 #' @importFrom stats setNames

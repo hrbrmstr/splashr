@@ -30,3 +30,4 @@ Other splash_dsl_attributes: \code{\link{splash_enable_javascript}},
   \code{\link{splash_plugins}},
   \code{\link{splash_private_mode}}
 }
+\concept{splash_dsl_attributes}

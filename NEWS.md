@@ -1,3 +1,7 @@
+0.4.1
+
+* removed clipr usage due to CRAN
+
 0.4.0
 
 * moved to 'docker' pacakge since it's on CRAN

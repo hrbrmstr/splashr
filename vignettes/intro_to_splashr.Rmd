@@ -269,7 +269,7 @@ req() %>%
 ## Output is the same as previous block
 ```
 
-The text of the function is also put on the clipboard by default, so you can paste it right into a script or package for use later on:
+This is an example of the built `httr` function:
 
 ```
 httr::VERB(verb = "GET", url = "https://analytics.usa.gov/data/live/devices.json", 

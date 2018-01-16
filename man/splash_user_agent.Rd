@@ -67,4 +67,5 @@ splash_local \%>\%
   jsonlite::fromJSON()
 }
 }
+\concept{splash_dsl_functions_functions}
 \keyword{datasets}

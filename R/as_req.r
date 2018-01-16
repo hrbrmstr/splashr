@@ -3,15 +3,13 @@
 #' This function is very useful if you used `splashr` to find XHR requests in a dynamic
 #' page and want to be able to make a call directly to that XHR resource. Once you
 #' identify the proper HAR entry, pass it to this function and fully working function
-#' that makes an `httr::VERB()` request will be created and returned. The text of the function
-#' will also be put onto the clipboad if `add_clip` is `TRUE``
+#' that makes an `httr::VERB()` request will be created and returned.
 #'
 #' @md
 #' @param entry HAR entry
 #' @param quiet quiet (no messages)
-#' @param add_clip add clip (paste the function text to the clipboard)
 #' @export
-as_httr_req <- function(entry, quiet=TRUE, add_clip=TRUE) {
+as_httr_req <- function(entry, quiet=TRUE) {
 
   req <- entry$request
 
@@ -81,8 +79,6 @@ as_httr_req <- function(entry, quiet=TRUE, add_clip=TRUE) {
   on.exit(unlink(fil))
   formatR::tidy_source(text=out, width.cutoff=30, indent=4, file=fil)
   tmp <- paste0(readLines(fil), collapse="\n")
-
-  if (add_clip) clipr::write_clip(tmp)
 
   if (!quiet) cat(tmp, "\n")
 

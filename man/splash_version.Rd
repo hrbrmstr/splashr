@@ -23,3 +23,4 @@ Other splash_info_functions: \code{\link{splash_active}},
   \code{\link{splash_debug}}, \code{\link{splash_history}},
   \code{\link{splash_perf_stats}}
 }
+\concept{splash_info_functions}

@@ -27,4 +27,5 @@ Other splash_info_functions: \code{\link{splash_active}},
   \code{\link{splash_perf_stats}},
   \code{\link{splash_version}}
 }
+\concept{splash_info_functions}
 \keyword{internal}

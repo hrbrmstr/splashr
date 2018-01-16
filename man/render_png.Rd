@@ -83,3 +83,4 @@ Other splash_renderers: \code{\link{execute_lua}},
   \code{\link{render_har}}, \code{\link{render_html}},
   \code{\link{render_jpeg}}, \code{\link{render_json}}
 }
+\concept{splash_renderers}

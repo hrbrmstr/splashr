@@ -1,12 +1,13 @@
 Package: splashr
 Type: Package
 Title: Tools to Work with the 'Splash' 'JavaScript' Rendering and Scraping Service
-Version: 0.4.0
-Date: 2017-08-26
+Version: 0.4.1
+Date: 2018-01-16
 Encoding: UTF-8
 Authors@R: c(
-      person("Bob", "Rudis", email = "bob@rud.is", role = c("aut", "cre"))
-    )
+    person("Bob", "Rudis", email = "bob@rud.is", role = c("aut", "cre"), 
+           comment = c(ORCID = "0000-0001-5670-2640"))
+  )
 Maintainer: Bob Rudis <bob@rud.is>
 Description: 'Splash' <https://github.com/scrapinghub/splash> is a 'JavaScript' rendering service.
     It is a lightweight web browser with an 'HTTP' API, implemented in 'Python' using 'Twisted' 
@@ -32,7 +33,6 @@ Imports:
     xml2,
     curl,
     httr,
-    clipr,
     purrr,
     stats,
     utils,
@@ -45,5 +45,5 @@ Imports:
     jsonlite,
     HARtools,
     lubridate
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 VignetteBuilder: knitr
