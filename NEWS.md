@@ -1,3 +1,7 @@
+0.5.0
+
+* support Splash API basic auth
+
 0.4.1
 
 * removed clipr usage due to CRAN

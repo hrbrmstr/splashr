@@ -1,8 +1,10 @@
-#' Return a image (in PNG format) of the javascript-rendered page.
+#' Return an image (in PNG format) of the javascript-rendered page.
 #'
 #' @md
-#' @param width,height Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional
-#' @param render_all If `TRUE` extend the viewport to include the whole webpage (possibly very tall) before rendering.
+#' @param width,height Resize the rendered image to the given width/height (in
+#'         pixels) keeping the aspect ratio. These are optional
+#' @param render_all If `TRUE` extend the viewport to include the whole webpage
+#'         (possibly very tall) before rendering.
 #' @family splash_renderers
 #' @return a [magick] image object
 #' @references [Splash docs](http://splash.readthedocs.io/en/stable/index.html)
@@ -12,18 +14,19 @@
 #' render_png(url = "https://httpbin.org/")
 #' }
 render_png <- function(
-  splash_obj = splash_local, url, base_url=NULL, width, height,
-  timeout=30, resource_timeout, wait=0, render_all=TRUE,
-  proxy, js, js_src, filters, allowed_domains, allowed_content_types,
-  forbidden_content_types, viewport="full", images, headers, body,
-  http_method, save_args, load_args) {
-
+                       splash_obj = splash_local, url, base_url=NULL, width, height,
+                       timeout=30, resource_timeout, wait=0, render_all=TRUE,
+                       proxy, js, js_src, filters, allowed_domains, allowed_content_types,
+                       forbidden_content_types, viewport="full", images, headers, body,
+                       http_method, save_args, load_args) {
   wait <- check_wait(wait)
 
-  params <- list(url=url, timeout=timeout,
-                 wait=if (render_all & wait == 0) 0.5 else wait,
-                 viewport=jsonlite::unbox(viewport),
-                 render_all=as.numeric(render_all))
+  params <- list(
+    url = url, timeout = timeout,
+    wait = if (render_all & wait == 0) 0.5 else wait,
+    viewport = jsonlite::unbox(viewport),
+    render_all = as.numeric(render_all)
+  )
 
   if (!missing(width)) params$width <- width
   if (!missing(height)) params$height <- height
@@ -44,11 +47,16 @@ render_png <- function(
   if (!missing(save_args)) params$save_args <- jsonlite::unbox(save_args)
   if (!missing(load_args)) params$load_args <- jsonlite::unbox(load_args)
 
-  res <- httr::GET(splash_url(splash_obj), path="render.png", encode="json", query=params)
+  if (is.null(splash_obj$user)) {
+    res <- httr::GET(splash_url(splash_obj), path="render.png", encode="json", query=params)
+  } else {
+    res <- httr::GET(
+      splash_url(splash_obj), path="render.html", encode="json", query=params,
+      httr::authenticate(splash_obj$user, splash_obj$pass)
+    )
+  }
 
   httr::stop_for_status(res)
 
-  magick::image_read(httr::content(res, as="raw"))
-
+  magick::image_read(httr::content(res, as = "raw"))
 }
-

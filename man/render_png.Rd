@@ -2,7 +2,7 @@
 % Please edit documentation in R/render-png.r
 \name{render_png}
 \alias{render_png}
-\title{Return a image (in PNG format) of the javascript-rendered page.}
+\title{Return an image (in PNG format) of the javascript-rendered page.}
 \usage{
 render_png(splash_obj = splash_local, url, base_url = NULL, width, height,
   timeout = 30, resource_timeout, wait = 0, render_all = TRUE, proxy, js,
@@ -17,7 +17,8 @@ render_png(splash_obj = splash_local, url, base_url = NULL, width, height,
 
 \item{base_url}{The base url to render the page with.}
 
-\item{width, height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
+\item{width, height}{Resize the rendered image to the given width/height (in
+pixels) keeping the aspect ratio. These are optional}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30). Without
 reconfiguring the startup parameters of the Splash server (not this package)
@@ -27,7 +28,8 @@ the maximum allowed value for the timeout is 60 seconds.}
 
 \item{wait}{Time (in seconds) to wait for updates after page is loaded (defaults to 0).}
 
-\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering.}
+\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage
+(possibly very tall) before rendering.}
 
 \item{proxy}{Proxy profile name or proxy URL.}
 
@@ -68,7 +70,7 @@ web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full
 a \link{magick} image object
 }
 \description{
-Return a image (in PNG format) of the javascript-rendered page.
+Return an image (in PNG format) of the javascript-rendered page.
 }
 \examples{
 \dontrun{

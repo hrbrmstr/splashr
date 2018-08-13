@@ -44,7 +44,14 @@ execute_lua <- function(splash_obj, lua_source, timeout=30, allowed_domains,
   if (!missing(save_args)) params$save_args <- save_args
   if (!missing(load_args)) params$load_args <- load_args
 
-  res <- httr::GET(splash_url(splash_obj), path="execute", encode="json", query=params)
+  if (is.null(splash_obj$user)) {
+    res <- httr::GET(splash_url(splash_obj), path="execute", encode="json", query=params)
+  } else {
+    res <- httr::GET(
+      splash_url(splash_obj), path="execute", encode="json", query=params,
+      httr::authenticate(splash_obj$user, splash_obj$pass)
+    )
+  }
 
   httr::stop_for_status(res)
 

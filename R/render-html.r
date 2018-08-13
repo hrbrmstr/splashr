@@ -65,7 +65,14 @@ render_html <- function(splash_obj = splash_local, url, base_url, timeout=30, re
   if (!missing(save_args)) params$save_args <- jsonlite::unbox(save_args)
   if (!missing(load_args)) params$load_args <- jsonlite::unbox(load_args)
 
-  res <- httr::GET(splash_url(splash_obj), path="render.html", encode="json", query=params)
+  if (is.null(splash_obj$user)) {
+    res <- httr::GET(splash_url(splash_obj), path="render.html", encode="json", query=params)
+  } else {
+    res <- httr::GET(
+      splash_url(splash_obj), path="render.html", encode="json", query=params,
+      httr::authenticate(splash_obj$user, splash_obj$pass)
+    )
+  }
 
   httr::stop_for_status(res)
 

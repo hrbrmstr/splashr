@@ -21,9 +21,11 @@ render_json(splash_obj = splash_local, url, base_url = NULL, quality = 75,
 
 \item{quality}{JPEG quality parameter in range from 0 to 100. Default is quality=75.}
 
-\item{width}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
+\item{width}{Resize the rendered image to the given width/height (in
+pixels) keeping the aspect ratio. These are optional}
 
-\item{height}{Resize the rendered image to the given width/height (in pixels) keeping the aspect ratio. These are optional}
+\item{height}{Resize the rendered image to the given width/height (in
+pixels) keeping the aspect ratio. These are optional}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30). Without
 reconfiguring the startup parameters of the Splash server (not this package)
@@ -33,7 +35,8 @@ the maximum allowed value for the timeout is 60 seconds.}
 
 \item{wait}{Time (in seconds) to wait for updates after page is loaded (defaults to 0).}
 
-\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage (possibly very tall) before rendering.}
+\item{render_all}{If \code{TRUE} extend the viewport to include the whole webpage
+(possibly very tall) before rendering.}
 
 \item{proxy}{Proxy profile name or proxy URL.}
 
