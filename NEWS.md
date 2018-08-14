@@ -1,6 +1,7 @@
 0.5.0
 
 * support Splash API basic auth
+* `as_data_frame`/`as.data.frame` methods for HAR objects
 
 0.4.1
 

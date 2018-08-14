@@ -26,6 +26,7 @@
 #' @importFrom formatR tidy_source
 #' @importFrom utils capture.output str
 #' @importFrom curl curl_unescape
+#' @importFrom dplyr data_frame as_data_frame
 NULL
 
 #' splashr exported operators

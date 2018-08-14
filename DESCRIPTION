@@ -33,6 +33,7 @@ Imports:
     xml2,
     curl,
     httr,
+    dplyr,
     purrr,
     stats,
     utils,
@@ -42,8 +43,8 @@ Imports:
     formatR,
     openssl,
     stringi,
-    jsonlite,
     HARtools,
+    jsonlite,
     lubridate
 RoxygenNote: 6.0.1.9000
 VignetteBuilder: knitr
