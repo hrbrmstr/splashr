@@ -51,7 +51,7 @@ render_png <- function(
     res <- httr::GET(splash_url(splash_obj), path="render.png", encode="json", query=params)
   } else {
     res <- httr::GET(
-      splash_url(splash_obj), path="render.html", encode="json", query=params,
+      splash_url(splash_obj), path="render.png", encode="json", query=params,
       httr::authenticate(splash_obj$user, splash_obj$pass)
     )
   }

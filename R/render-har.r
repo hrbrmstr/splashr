@@ -40,7 +40,7 @@ render_har <- function(splash_obj = splash_local, url, base_url, response_body=F
     res <- httr::GET(splash_url(splash_obj), path="render.har", encode="json", query=params)
   } else {
     res <- httr::GET(
-      splash_url(splash_obj), path="render.html", encode="json", query=params,
+      splash_url(splash_obj), path="render.har", encode="json", query=params,
       httr::authenticate(splash_obj$user, splash_obj$pass)
     )
   }
