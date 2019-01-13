@@ -9,24 +9,22 @@
 \alias{as.data.frame.harentry}
 \title{Turns a "HAR"-like object into a data frame(tibble)}
 \usage{
-\method{as_data_frame}{harentry}(harentry_obj)
+as_data_frame.harentry(x, ...)
 
-\method{as_data_frame}{harentries}(harentries_obj)
+as_data_frame.harentries(x, ...)
 
-\method{as_data_frame}{har}(har_obj)
+as_data_frame.har(x, ...)
 
-\method{as.data.frame}{har}(har_obj)
+\method{as.data.frame}{har}(x, ...)
 
-\method{as.data.frame}{harentries}(harentries_obj)
+\method{as.data.frame}{harentries}(x, ...)
 
-\method{as.data.frame}{harentry}(harentry_obj)
+\method{as.data.frame}{harentry}(x, ...)
 }
 \arguments{
-\item{harentry_obj}{A \code{harentry} object}
+\item{x}{A \code{harentry} object}
 
-\item{harentries_obj}{A \code{harentry} object}
-
-\item{har_obj}{A \code{har} object}
+\item{...}{ignored}
 }
 \value{
 data frame (tibble)

@@ -1,3 +1,8 @@
+0.6.0
+
+* Switch Docker orchestration to the `stevedore` package
+* Fixed minor check on as.data.frame functions
+
 0.5.0
 
 * support Splash API basic auth

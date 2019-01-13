@@ -6,15 +6,15 @@ output: rmarkdown::github_document
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/splashr)](https://cran.r-project.org/package=splashr)
 [![](http://cranlogs.r-pkg.org/badges/splashr)](http://cran.rstudio.com/web/packages/splashr/index.html)
 
-`splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
+# `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation. 
 
 Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over meticulously crafted HTML tags. So, this package does not do _everything_ Selenium can in pure R (though, the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
 
-It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
+It's also an alternative to the somewhat abandoned `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 
-You can also get it running with two commands:
+The package uses the [`stevedore`](https://github.com/richfitz/stevedore) package to orchestrate Docker on your system (if you have Docker and more on how to use the `stevedore` integration below) but you can also do get it running in Docker on the command-line with two commands:
 
     sudo docker pull scrapinghub/splash:3.0
     sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash:3.0
@@ -28,7 +28,7 @@ Folks super-new to Docker on Unix-ish platforms should [make sure to do](https:/
 
 (`$USER` is your username and shld be defined for you in the environment)
 
-If using the [`docker`](https://github.com/bhaskarvk/docker) package you can use the convience wrappers in this pacakge:
+If using the [`stevedore`](https://github.com/richfitz/stevedore) package you can use the convience wrappers in this pacakge:
 
     install_splash()
     splash_container <- start_splash()
@@ -119,12 +119,14 @@ Suggest more in a feature req!
 ### Installation
 
 ```{r eval=FALSE}
+devtools::install_git("https://sr.ht/~hrbrmstr/splashr.git")
+# or
 devtools::install_git("https://gitlab.com/hrbrmstr/splashr.git")
 # or
 devtools::install_github("hrbrmstr/splashr")
 ```
 
-```{r message=FALSE, warning=FALSE, error=FALSE}
+```{r message=FALSE, warning=FALSE, error=FALSE, include=FALSE}
 options(width=120)
 ```
 
@@ -222,30 +224,6 @@ splash_local %>%
 ```
 
 <img src="img/flash.png" width="50%"/>
-
-```{r echo=FALSE, eval=FALSE}
-library(htmlwidgets)
-library(DiagrammeR)
-
-  ### Rendering Widgets
-  {r eval=FALSE}
-  splash_vm <- start_splash(add_tempdir = TRUE)
-  
-DiagrammeR("
-  graph LR
-    A-->B
-    A-->C
-    C-->E
-    B-->D
-    C-->D
-    D-->F
-    E-->F
-") %>% 
-  saveWidget("/tmp/diag.html")
-
-render_file(url = "/tmp/diag.html", output="html")
-![](img/diag.png)
-```
 
 ```{r eval=FALSE}
 stop_splash(splash_vm)

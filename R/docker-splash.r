@@ -9,11 +9,9 @@
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-install_splash <- function(tag="3.0") {
-  client <- docker::docker$from_env()
-  res <- client$api$pull("scrapinghub/splash", tag)
-  res <- jsonlite::stream_in(textConnection(res), verbose=FALSE)
-  invisible(lapply(res$status, function(x) { message(x) }))
+install_splash <- function(tag="3.2") {
+  docker <- stevedore::docker_client()
+  res <- docker$image$pull("scrapinghub/splash", tag=tag, stream=stdout())
 }
 
 #' Start a Splash server Docker container
@@ -26,22 +24,29 @@ install_splash <- function(tag="3.0") {
 #'       [install_splash] for this to work. You should save the resultant
 #'       object for use in [stop_splash] otherwise you'll have to kill it from the
 #'       command line interface.
+#' @param container_name naem for the container. Defaults to "`splashr`".
+#' @param remove remove the Splash container instance after it's stopped?
+#'        Defaults to `FALSE`.
 #' @family splash_docker_helpers
-#' @return `docker` `container` object
+#' @return `stevedor` container object
 #' @export
 #' @examples \dontrun{
 #' install_splash()
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-start_splash <- function(tag="3.0") {
+start_splash <- function(tag="3.2", container_name = "splashr", remove=FALSE) {
 
-  client <- docker::docker$from_env()
+  docker <- stevedore::docker_client()
 
-  splash_inst <- client$containers$run(
-    sprintf("scrapinghub/splash:%s", tag), name="splashr",
-    detach=TRUE, ports=list('8050/tcp'='8050', '5023/tcp'='5023', '8051/tcp'='8051')
-  )
+  docker$container$run(
+    image = sprintf("scrapinghub/splash:%s", tag),
+    name = container_name,
+    ports = c("5023:5023", "8051:8051"),
+    detach = TRUE,
+    rm = remove,
+    tty = TRUE
+  ) -> splash_inst
 
   invisible(splash_inst)
 
@@ -63,6 +68,7 @@ start_splash <- function(tag="3.0") {
 stop_splash <- function(splash_container) {
   splash_container$stop()
   splash_container$remove()
+  invisible(NULL)
 }
 
 #' Prune all dead and running Splash Docker containers
@@ -76,14 +82,16 @@ stop_splash <- function(splash_container) {
 #' @export
 killall_splash <- function() {
 
-  client <- docker::docker$from_env()
-  x <- client$containers$list(all = TRUE)
-
-  for (cntnr in x) {
-    if (grepl("scrapinghub/splash", cntnr$image$tags[1])) {
-      message(sprintf("Pruning: %s...", cntnr$id))
-      if (cntnr$status == "running") cntnr$stop()
-      cntnr$remove()
+  docker <- stevedore::docker_client()
+  x <- docker$container$list(all=TRUE)
+  for (i in 1:nrow(x)) {
+    if (grepl("bin/splash", x$command[i])) {
+      message(sprintf("Pruning: %s...", x$id[i]))
+      if (x$state[i] == "running") {
+        cntnr <- docker$container$get(x$id[i])
+        cntnr$stop()
+        cntnr$remove()
+      }
     }
   }
 }

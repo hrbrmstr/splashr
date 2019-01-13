@@ -1,20 +1,20 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/splashr)](https://cran.r-project.org/package=splashr) [![](http://cranlogs.r-pkg.org/badges/splashr)](http://cran.rstudio.com/web/packages/splashr/index.html)
 
-`splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
+# `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
 
 TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation.
 
 Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over meticulously crafted HTML tags. So, this package does not do *everything* Selenium can in pure R (though, the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
 
-It's also an alternative to `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
+It's also an alternative to the somewhat abandoned `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
 
-You can also get it running with two commands:
+The package uses the [`stevedore`](https://github.com/richfitz/stevedore) package to orchestrate Docker on your system (if you have Docker and more on how to use the `stevedore` integration below) but you can also do get it running in Docker on the command-line with two commands:
 
     sudo docker pull scrapinghub/splash:3.0
     sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash:3.0
-
-Do whatever you Windows ppl do with Docker on your systems to make ^^ work.
+    
+Do whatever you Windows ppl do with Docker on your systems to make ^^ work. 
 
 Folks super-new to Docker on Unix-ish platforms should [make sure to do](https://github.com/hrbrmstr/splashr/issues/3#issuecomment-280686494):
 
@@ -23,7 +23,7 @@ Folks super-new to Docker on Unix-ish platforms should [make sure to do](https:/
 
 (`$USER` is your username and shld be defined for you in the environment)
 
-If using the [`docker`](https://github.com/bhaskarvk/docker) package you can use the convience wrappers in this pacakge:
+If using the [`stevedore`](https://github.com/richfitz/stevedore) package you can use the convience wrappers in this pacakge:
 
     install_splash()
     splash_container <- start_splash()
@@ -31,7 +31,7 @@ If using the [`docker`](https://github.com/bhaskarvk/docker) package you can use
 and then run:
 
     stop_splash(splash_container)
-
+    
 when done. All of that happens on your localhost and you will not need to specify `splash_obj` to many of the `splashr` functions if you're running Splash in this default configuration as long as you use named parameters. You can also use the pre-defined `splash_local` object if you want to use positional parameters.
 
 Now, you can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
@@ -114,12 +114,11 @@ Suggest more in a feature req!
 ### Installation
 
 ``` r
-devtools::install_github("hrbrmstr/splashr")
-```
-
-``` r
-options(width=120)
-```
+devtools::install_git("https://sr.ht/~hrbrmstr/splashr.git")
+# or
+devtools::install_git("https://gitlab.com/hrbrmstr/splashr.git")
+# or
+devtools::install_github("hrbrmstr/splashr")```
 
 ### Usage
 
@@ -136,7 +135,7 @@ library(tidyverse)
 packageVersion("splashr")
 ```
 
-    ## [1] '0.4.0'
+    ## [1] '0.6.0'
 
 ``` r
 splash_active()

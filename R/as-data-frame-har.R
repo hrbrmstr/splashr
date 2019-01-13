@@ -1,13 +1,14 @@
 #' Turns a "HAR"-like object into a data frame(tibble)
 #'
 #' @md
-#' @param harentry_obj A `harentry` object
+#' @param x A `harentry` object
+#' @param ... ignored
 #' @return data frame (tibble)
 #' @export
-as_data_frame.harentry <- function(harentry_obj) {
+as_data_frame.harentry <- function(x, ...) {
 
-  req <- harentry_obj$request
-  resp <- harentry_obj$response
+  req <- x$request
+  resp <- x$response
 
   data_frame(
     request_url = req$url,
@@ -35,20 +36,16 @@ as_data_frame.harentry <- function(harentry_obj) {
 
 }
 
-#' @md
-#' @param harentries_obj A `harentry` object
 #' @rdname as_data_frame.harentry
 #' @export
-as_data_frame.harentries <- function(harentries_obj) {
-  map_df(harentries_obj, as_data_frame)
+as_data_frame.harentries <- function(x, ...) {
+  map_df(x, as_data_frame)
 }
 
-#' @md
-#' @param har_obj A `har` object
 #' @rdname as_data_frame.harentry
 #' @export
-as_data_frame.har <- function(har_obj) {
-  as_data_frame(har_obj$log$entries)
+as_data_frame.har <- function(x, ...) {
+  as_data_frame(x$log$entries)
 }
 
 #' @export
