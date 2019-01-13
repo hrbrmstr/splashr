@@ -2,6 +2,10 @@ splash_url <- function(splash_obj) { sprintf("http://%s:%s", splash_obj$host, sp
 
 #' Configure parameters for connecting to a Splash server
 #'
+#'
+#' @md
+#' @note There is a quick "helper" object named `splash_local` which is preconfigured
+#'       with `localhost` as the host name.
 #' @param host host or IP address
 #' @param port port the server is running on (default is 8050)
 #' @param user,pass leave `NULL` if basic auth is not configured. Otherwise,
@@ -11,7 +15,29 @@ splash_url <- function(splash_obj) { sprintf("http://%s:%s", splash_obj$host, sp
 #' sp <- splash()
 #' }
 splash <- function(host, port=8050L, user=NULL, pass=NULL) {
-  list(host=host, port=port, user=user, pass=pass)
+  obj <- list(host=host, port=port, user=user, pass=pass)
+  class(obj) <- c("splashr", "list")
+  obj
+}
+
+#' Print for splashr
+#'
+#' @md
+#' @param x a splashr object
+#' @param ... unused
+#' @keywords internal
+#' @return x
+#' @export
+print.splashr <- function(x, ...) {
+
+  cat(
+    "<splashr instance connection; ",
+    if (length(x$user)) sprintf("%s@", x$user) else "",
+    x$host, ":", x$port, ">\n", sep=""
+  )
+
+  invisible(x)
+
 }
 
 #' @rdname splash
