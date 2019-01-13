@@ -119,7 +119,7 @@ Suggest more in a feature req!
 ### Installation
 
 ```{r eval=FALSE}
-devtools::install_git("https://sr.ht/~hrbrmstr/splashr.git")
+devtools::install_git("https://git.sr.ht/~hrbrmstr/splashr")
 # or
 devtools::install_git("https://gitlab.com/hrbrmstr/splashr.git")
 # or
