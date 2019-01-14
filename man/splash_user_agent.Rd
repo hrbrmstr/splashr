@@ -15,6 +15,11 @@
 \alias{ua_linux_chrome}
 \alias{ua_linux_firefox}
 \alias{ua_ios_safari}
+\alias{ua_android_samsung}
+\alias{ua_kindle}
+\alias{ua_ps4}
+\alias{ua_apple_tv}
+\alias{ua_chromecast}
 \title{Overwrite the User-Agent header for all further requests.}
 \format{An object of class \code{character} of length 1.}
 \usage{
@@ -43,6 +48,16 @@ ua_linux_chrome
 ua_linux_firefox
 
 ua_ios_safari
+
+ua_android_samsung
+
+ua_kindle
+
+ua_ps4
+
+ua_apple_tv
+
+ua_chromecast
 }
 \arguments{
 \item{splash_obj}{splashr object}

@@ -5,7 +5,7 @@
 \alias{splash}
 \alias{splash_local}
 \title{Configure parameters for connecting to a Splash server}
-\format{An object of class \code{list} of length 4.}
+\format{An object of class \code{splashr} (inherits from \code{list}) of length 4.}
 \usage{
 splash(host, port = 8050L, user = NULL, pass = NULL)
 
@@ -16,11 +16,15 @@ splash_local
 
 \item{port}{port the server is running on (default is 8050)}
 
-\item{user, pass}{leave `NULL` if basic auth is not configured. Otherwise,
+\item{user, pass}{leave \code{NULL} if basic auth is not configured. Otherwise,
 fill in what you need for basic authentication.}
 }
 \description{
 Configure parameters for connecting to a Splash server
+}
+\note{
+There is a quick "helper" object named \code{splash_local} which is preconfigured
+with \code{localhost} as the host name.
 }
 \examples{
 \dontrun{

@@ -42,7 +42,7 @@ start_splash <- function(tag="3.2", container_name = "splashr", remove=FALSE) {
   docker$container$run(
     image = sprintf("scrapinghub/splash:%s", tag),
     name = container_name,
-    ports = c("5023:5023", "8051:8051"),
+    ports = c("5023:5023", "8051:8051", "8050:8050"),
     detach = TRUE,
     rm = remove,
     tty = TRUE
