@@ -18,7 +18,7 @@ Description: 'Splash' <https://github.com/scrapinghub/splash> is a 'JavaScript' 
     page context; getting detailed rendering info in 'HAR' format.
 URL: http://gitlab.com/hrbrmstr/splashr
 BugReports: https://gitlab.com/hrbrmstr/splashr/issues
-License: AGPL
+License: MIT + file LICENSE
 Suggests:
     testthat,
     tibble,
