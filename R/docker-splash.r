@@ -9,7 +9,7 @@
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-install_splash <- function(tag="3.2") {
+install_splash <- function(tag="latest") {
   docker <- stevedore::docker_client()
   res <- docker$image$pull("scrapinghub/splash", tag=tag, stream=stdout())
 }
@@ -19,6 +19,10 @@ install_splash <- function(tag="3.2") {
 #' If using this in an automation context, you should consider adding a
 #' `Sys.sleep(3)` (or higher) after starting the docker container.
 #'
+#' This uses the `latest` image and passed the `--disable-browser-caches`
+#' parameter. If you do not want to use the 3.2.x+ versions of `Splash`
+#' you should use your own startup scripts vs this helper function.
+#'
 #' @param tag Splash Docker image tag to start
 #' @note you need Docker running on your system and have pulled the container with
 #'       [install_splash] for this to work. You should save the resultant
@@ -27,6 +31,7 @@ install_splash <- function(tag="3.2") {
 #' @param container_name naem for the container. Defaults to "`splashr`".
 #' @param remove remove the Splash container instance after it's stopped?
 #'        Defaults to `FALSE`.
+#' @param ... passed on to Splash instance launch parameters
 #' @family splash_docker_helpers
 #' @return `stevedor` container object
 #' @export
@@ -35,7 +40,7 @@ install_splash <- function(tag="3.2") {
 #' splash_container <- start_splash()
 #' stop_splash(splash_container)
 #' }
-start_splash <- function(tag="3.2", container_name = "splashr", remove=FALSE) {
+start_splash <- function(tag="latest", container_name = "splashr", remove=FALSE, ...) {
 
   docker <- stevedore::docker_client()
 
@@ -45,7 +50,9 @@ start_splash <- function(tag="3.2", container_name = "splashr", remove=FALSE) {
     ports = c("5023:5023", "8051:8051", "8050:8050"),
     detach = TRUE,
     rm = remove,
-    tty = TRUE
+    tty = TRUE,
+    "--disable-browser-caches",
+    ...
   ) -> splash_inst
 
   invisible(splash_inst)
