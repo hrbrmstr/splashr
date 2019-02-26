@@ -2,6 +2,10 @@
 
 * Switch Docker orchestration to the `stevedore` package
 * Fixed minor check on as.data.frame functions
+* Cleaned up splashr object printing
+* Added Android, Kindle, Apple TV & Chromecast user agents and updated 
+  other user agents
+* Updated Travis config to not use old docker pkg components
 
 0.5.0
 

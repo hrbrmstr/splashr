@@ -6,7 +6,7 @@ test_that("we can do something", {
   test_url <- "http://localhost:8050/"
 
   xpct <- function(x) {
-    spact <- splash_active()
+    spact <- splash_active(splash_local)
     expect_that(spact, equals(TRUE))
     expect_that(length(splash_debug()), equals(7))
     expect_that(length(splash_version()), equals(9))
@@ -17,7 +17,7 @@ test_that("we can do something", {
     expect_that(render_har(url = test_url), is_a("har"))
   }
 
-  spact <- splash_active()
+  spact <- splash_active(splash_local)
 
   if (spact) {
     xpct()

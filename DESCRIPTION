@@ -2,7 +2,7 @@ Package: splashr
 Type: Package
 Title: Tools to Work with the 'Splash' 'JavaScript' Rendering and Scraping Service
 Version: 0.6.0
-Date: 2019-01-13
+Date: 2019-02-24
 Encoding: UTF-8
 Authors@R: c(
     person("Bob", "Rudis", email = "bob@rud.is", role = c("aut", "cre"), 
@@ -18,7 +18,7 @@ Description: 'Splash' <https://github.com/scrapinghub/splash> is a 'JavaScript' 
     page context; getting detailed rendering info in 'HAR' format.
 URL: http://gitlab.com/hrbrmstr/splashr
 BugReports: https://gitlab.com/hrbrmstr/splashr/issues
-License: AGPL
+License: MIT + file LICENSE
 Suggests:
     testthat,
     tibble,
