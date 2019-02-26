@@ -2,6 +2,7 @@
 #'
 #' @md
 #' @param tag Splash Docker image tag to install
+#' @return a `docker_image` object or `NULL` if an error occurred.
 #' @export
 #' @family splash_docker_helpers
 #' @examples \dontrun{
@@ -10,8 +11,22 @@
 #' stop_splash(splash_container)
 #' }
 install_splash <- function(tag="latest") {
+
   docker <- stevedore::docker_client()
-  res <- docker$image$pull("scrapinghub/splash", tag=tag, stream=stdout())
+
+  tryCatch(
+    docker$image$pull("scrapinghub/splash", tag=tag, stream=stdout()),
+    error = function(e) {
+      message("Error pulling image from DockerHub.\n", e)
+      return(NULL)
+    },
+    interrupt = function(e) {
+      stop("Terminated by user", call. = FALSE)
+    }
+  ) -> res
+
+  invisible(res)
+
 }
 
 #' Start a Splash server Docker container
@@ -33,7 +48,7 @@ install_splash <- function(tag="latest") {
 #'        Defaults to `FALSE`.
 #' @param ... passed on to Splash instance launch parameters
 #' @family splash_docker_helpers
-#' @return `stevedor` container object
+#' @return `stevedore` container object
 #' @export
 #' @examples \dontrun{
 #' install_splash()
@@ -44,15 +59,24 @@ start_splash <- function(tag="latest", container_name = "splashr", remove=FALSE,
 
   docker <- stevedore::docker_client()
 
-  docker$container$run(
-    image = sprintf("scrapinghub/splash:%s", tag),
-    name = container_name,
-    ports = c("5023:5023", "8051:8051", "8050:8050"),
-    detach = TRUE,
-    rm = remove,
-    tty = TRUE,
-    "--disable-browser-caches",
-    ...
+  tryCatch(
+    docker$container$run(
+      image = sprintf("scrapinghub/splash:%s", tag),
+      name = container_name,
+      ports = c("5023:5023", "8051:8051", "8050:8050"),
+      detach = TRUE,
+      rm = remove,
+      tty = TRUE,
+      "--disable-browser-caches",
+      ...
+    ),
+    error = function(e) {
+      message("Error pulling image from DockerHub.")
+      return(NULL)
+    },
+    interrupt = function(e) {
+      stop("Terminated by user", call. = FALSE)
+    }
   ) -> splash_inst
 
   invisible(splash_inst)
@@ -73,8 +97,10 @@ start_splash <- function(tag="latest", container_name = "splashr", remove=FALSE,
 #' stop_splash(splash_container)
 #' }
 stop_splash <- function(splash_container) {
-  splash_container$stop()
-  splash_container$remove()
+  if (inherits(splash_container, "stevedore_object")) {
+    splash_container$stop()
+    splash_container$remove()
+  }
   invisible(NULL)
 }
 
@@ -90,7 +116,9 @@ stop_splash <- function(splash_container) {
 killall_splash <- function() {
 
   docker <- stevedore::docker_client()
+
   x <- docker$container$list(all=TRUE)
+
   for (i in 1:nrow(x)) {
     if (grepl("bin/splash", x$command[i])) {
       message(sprintf("Pruning: %s...", x$id[i]))
@@ -101,6 +129,7 @@ killall_splash <- function() {
       }
     }
   }
+
 }
 
 

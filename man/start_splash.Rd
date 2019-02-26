@@ -18,7 +18,7 @@ Defaults to `FALSE`.}
 \item{...}{passed on to Splash instance launch parameters}
 }
 \value{
-`stevedor` container object
+`stevedore` container object
 }
 \description{
 If using this in an automation context, you should consider adding a

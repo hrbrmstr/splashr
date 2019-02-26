@@ -9,6 +9,9 @@ install_splash(tag = "latest")
 \arguments{
 \item{tag}{Splash Docker image tag to install}
 }
+\value{
+a \code{docker_image} object or \code{NULL} if an error occurred.
+}
 \description{
 Retrieve the Docker image for Splash
 }
