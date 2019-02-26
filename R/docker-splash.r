@@ -120,12 +120,14 @@ killall_splash <- function() {
   x <- docker$container$list(all=TRUE)
 
   for (i in 1:nrow(x)) {
-    if (grepl("bin/splash", x$command[i])) {
-      message(sprintf("Pruning: %s...", x$id[i]))
-      if (x$state[i] == "running") {
-        cntnr <- docker$container$get(x$id[i])
-        cntnr$stop()
-        cntnr$remove()
+    if (length(x$command[i])) {
+      if (grepl("bin/splash", x$command[i])) {
+        message(sprintf("Pruning: %s...", x$id[i]))
+        if (x$state[i] == "running") {
+          cntnr <- docker$container$get(x$id[i])
+          cntnr$stop()
+          cntnr$remove()
+        }
       }
     }
   }

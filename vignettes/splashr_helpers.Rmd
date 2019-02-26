@@ -22,109 +22,106 @@ Let's see what extra goodies `splashr` provides to make our lives easier.
 ## Handling `splashr` Objects
 
 One of the most powerful functions in `splashr` is `render_har()`. You get every component loaded by dynamic web page, and some sites have upwards of 100 elements for any given page. How can you get to the bits that you want?
+We'll use `render_har()` to demonstrate how to find resources a site loads and use the data we gather to assess how "safe" these sites are &mdash; i.e. how many third-party javascript components they load and how safely they are loaded. Note that code in this vignette assumes a Splash instance is running locally on your system.
 
-Let's use a different example that's a bit gnarly (i.e. you may need to work through it a couple times).
+We'll check <https://apple.com/> first since Apple claims to care about our privacy. If that's true, then they'll will load few or no third-party content.
 
-The U.K. government has an open data portal and one of the sections contains map tiles for various grid quadrants. It's a really nice site, but it's designed for interactive use and we want to be able to get to all the tile files programmatically. For our example, we'll be grabbing data from <http://environment.data.gov.uk/ds/survey/index.jsp#/survey?grid=TQ38>.
-
-<img width="100%" style="max-width:100%" src="figures/splashr04.png"/>
-
-Since we don't know what we need, let's use `render_har()` to get everything back into R:
-
-```
-library(splashr)
-library(httr)
-library(tidyverse)
-
-pg_har <- render_har(url = "http://environment.data.gov.uk/ds/survey/index.jsp#/survey?grid=TQ38", response_body = TRUE, wait = 10)
-
-entries <- har_entries(pg_har)
-
-map_chr(entries, get_content_type) %>%
-  table()
-## .
-## application/json        image/gif        image/png         text/css        text/html
-##               33                1               24                1                1
-##  text/javascript
-##                1
-
-map_chr(entries, get_request_url)
-##  [1] "http://environment.data.gov.uk/ds/survey/index.jsp#/survey?grid=TQ38"
-##  [2] "http://www.geostore.com/environment-agency/survey.full.min.170718.css"
-##  [3] "http://www.geostore.com/environment-agency/survey.full.min.170718.js"
-##  [4] "http://environment.data.gov.uk/ds/survey/images/busy.gif"
-##  [5] "http://environment.data.gov.uk/ds/survey/rest/config/download?_=1503933543160"
-##  [6] "http://www.geostore.com/environment-agency/rest/grid/EA_SUPPLIED_OS_10KM/TQ38"
-##  [7] "http://www.geostore.com/environment-agency/rest/gazetteer/search/postcode/TQ38"
-##  [8] "http://environment.data.gov.uk/ds/survey/images/download.png"
-##  [9] "http://www.geostore.com/environment-agency/images/dgu-header-white.png"
-## [10] "http://www.geostore.com/environment-agency/images/airbus-footer-logo.png"
-## [11] "http://www.geostore.com/environment-agency/images/ogl-symbol-41px-retina-black.png"
-## [12] "http://environment.data.gov.uk/ds/survey/fonts/glyphicons-halflings-regular.woff2"
-## [13] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=390919.47990708053%2C234551.68794424832%2C469103.375888497%2C312735.5839256648"
-## [14] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=469103.37588850036%2C234551.68794424832%2C547287.2718699168%2C312735.5839256648"
-## [15] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=390919.47990708053%2C312735.5839256644%2C469103.375888497%2C390919.4799070809"
-## [16] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=390919.47990708053%2C156367.7919628322%2C469103.375888497%2C234551.68794424867"
-## [17] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=312735.5839256644%2C234551.68794424832%2C390919.4799070809%2C312735.5839256648"
-## [18] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=469103.37588850036%2C312735.5839256644%2C547287.2718699168%2C390919.4799070809"
-## [19] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=469103.37588850036%2C156367.7919628322%2C547287.2718699168%2C234551.68794424867"
-## [20] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=312735.5839256644%2C312735.5839256644%2C390919.4799070809%2C390919.4799070809"
-## [21] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=312735.5839256644%2C156367.7919628322%2C390919.4799070809%2C234551.68794424867"
-## [22] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=547287.2718699165%2C234551.68794424832%2C625471.1678513329%2C312735.5839256648"
-## [23] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=547287.2718699165%2C312735.5839256644%2C625471.1678513329%2C390919.4799070809"
-## [24] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=547287.2718699165%2C156367.7919628322%2C625471.1678513329%2C234551.68794424867"
-## [25] "http://www.geostore.com/environment-agency/rest/grid/EA_SUPPLIED_OS_10KM/535000/185000"
-## [26] "http://www.geostore.com/environment-agency/rest/gazetteer/search/postcode/TQ38 - OS"
-## [27] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=527741.2978745624%2C175913.76595818624%2C537514.2848722395%2C185686.7529558633"
-## [28] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=527741.2978745624%2C185686.75295586511%2C537514.2848722395%2C195459.7399535422"
-## [29] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=537514.2848722376%2C175913.76595818624%2C547287.2718699146%2C185686.7529558633"
-## [30] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=537514.2848722376%2C185686.75295586511%2C547287.2718699146%2C195459.7399535422"
-## [31] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=517968.31087688357%2C175913.76595818624%2C527741.2978745606%2C185686.7529558633"
-## [32] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=517968.31087688357%2C185686.75295586511%2C527741.2978745606%2C195459.7399535422"
-## [33] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=547287.2718699165%2C175913.76595818624%2C557060.2588675935%2C185686.7529558633"
-## [34] "http://www.geostore.com/environment-agency/WMSExpeditedAdapter?SESSIONID=UEADOWNLOAD&CID=CDEFAULTEAGEOSTORE&UID=UEADOWNLOAD&PASSWORD=A1r5us2015DLD&INTERFACE=EAPUBLICDOWNLOAD&MAP=%2Fvar%2Fmapserver%2Fmapfiles%2FEAPUBLIC.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=EA-DLD-OSRASTERS&TILED=false&SRS=EPSG%3A27700&WIDTH=256&HEIGHT=256&CRS=EPSG%3A27700&STYLES=&BBOX=547287.2718699165%2C185686.75295586511%2C557060.2588675935%2C195459.7399535422"
-## [35] "http://www.geostore.com/environment-agency/rest/product/EA_SUPPLIED_OS_10KM/TQ38?catalogName=Survey"
-## [36] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2003-EA"
-## [37] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2005-EA"
-## [38] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2009-EA"
-## [39] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2015-EA"
-## [40] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-GROUP-ENGLAND-EA"
-## [41] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-1999-EA"
-## [42] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2002-EA"
-## [43] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2007-EA"
-## [44] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2011-EA"
-## [45] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-2012-EA"
-## [46] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2003-EA"
-## [47] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2005-EA"
-## [48] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2009-EA"
-## [49] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2015-EA"
-## [50] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-GROUP-ENGLAND-EA"
-## [51] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2002-EA"
-## [52] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2007-EA"
-## [53] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2011-EA"
-## [54] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-2012-EA"
-## [55] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-LAZ-ENGLAND-EA"
-## [56] "http://www.geostore.com/environment-agency/rest/product/group/OAP-INCIDENTRESPONSE-ENGLAND-EA"
-## [57] "http://www.geostore.com/environment-agency/rest/product/group/VAP-NIGHTTIME-ENGLAND-2012-EA"
-## [58] "http://www.geostore.com/environment-agency/rest/product/group/VAP-RGB-ENGLAND-2008-EA"
-## [59] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DSM-TIMESTAMPED-ENGLAND-EA"
-## [60] "http://www.geostore.com/environment-agency/rest/product/group/LIDAR-DTM-TIMESTAMPED-ENGLAND-EA"
-## [61] "http://www.geostore.com/environment-agency/rest/product/group/VAP-NIGHTTIME-ENGLAND-EA"
-## [62] "http://www.geostore.com/environment-agency/rest/product/group/VAP-RGB-ENGLAND-EA"
+```{r eval=FALSE}
+(apple <- render_har(url = "https://apple.com/", response_body = TRUE))
+## --------HAR VERSION-------- 
+## HAR specification version: 1.2 
+## --------HAR CREATOR-------- 
+## Created by: Splash 
+## version: 3.3.1 
+## --------HAR BROWSER-------- 
+## Browser: QWebKit 
+## version: 602.1 
+## --------HAR PAGES-------- 
+## Page id: 1 , Page title: Apple 
+## --------HAR ENTRIES-------- 
+## Number of entries: 84 
+## REQUESTS: 
+## Page: 1 
+## Number of entries: 84 
+##   -  https://apple.com/ 
+##   -  https://www.apple.com/ 
+##   -  https://www.apple.com/ac/globalnav/4/en_US/styles/ac-globalnav.built.css 
+##   -  https://www.apple.com/ac/localnav/4/styles/ac-localnav.built.css 
+##   -  https://www.apple.com/ac/globalfooter/4/en_US/styles/ac-globalfooter.built.css 
+##      ........ 
+##   -  https://www.apple.com/v/home/ea/images/heroes/iphone-xs/iphone_xs_0afef_mediumtall.jpg 
+##   -  https://www.apple.com/v/home/ea/images/heroes/iphone-xr/iphone_xr_5e40f_mediumtall.jpg 
+##   -  https://www.apple.com/v/home/ea/images/heroes/iphone-xs/iphone_xs_0afef_mediumtall.jpg 
+##   -  https://www.apple.com/v/home/ea/images/heroes/macbook-air/macbook_air_mediumtall.jpg 
+##   -  https://www.apple.com/v/home/ea/images/heroes/macbook-air/macbook_air_mediumtall.jpg 
 ```
 
-Many of those resources are just image tiles for the map you see in the screenshot. Let's try to find data files:
+The HAR output shows that when you visit `apple.com` your browser makes at least 84 requests for resources. We can see what types of content is loaded:
 
-```
-map_lgl(entries, is_json)
-##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE    NA FALSE
-## [14] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE
-## [27] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
-## [40]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
-## [53]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+```{r eval=FALSE}
+har_entries(apple) %>% 
+  purrr::map_chr(get_content_type) %>% 
+  table(dnn = "content_type") %>% 
+  broom::tidy() %>% 
+  dplyr::arrange(desc(n))
+## # A tibble: 9 x 2
+##   content_type                 n
+##   <chr>                    <int>
+## 1 font/woff2                  27
+## 2 application/x-javascript    15
+## 3 image/svg+xml               10
+## 4 text/css                     9
+## 5 image/jpeg                   7
+## 6 image/png                    6
+## 7 application/font-woff        4
+## 8 text/html                    3
+## 9 application/json             2
 ```
 
-Now, we're getting somewhere. The `har_entries()` function makes it easy to get to the individual elements and we can use the `is_json()` helper with `purrr` functions to slice and dice at will. Here are all the `is_` functions you can use with HAR objects:
+Lots of calls to fonts, 15 javascript files and even 2 JSON files. Let's see what the domains are for these resources:
+
+```{r eval=FALSE}
+har_entries(apple) %>% 
+  purrr::map_chr(get_response_url) %>% 
+  purrr::map_chr(urltools::domain) %>% 
+  unique()
+## [1] "apple.com"               "www.apple.com"           "securemetrics.apple.com"
+```
+
+Wow! Only calls to Apple-controlled resources. 
+
+I wonder what's in those JSON files, though:
+
+```{r eval=FALSE}
+har_entries(apple) %>% 
+  purrr::keep(is_json) %>% 
+  purrr::map(get_response_body, "text") %>% 
+  purrr::map(jsonlite::fromJSON) %>% 
+  str(3)
+## List of 2
+##  $ :List of 2
+##   ..$ locale        :List of 3
+##   .. ..$ country      : chr "us"
+##   .. ..$ attr         : chr "en-US"
+##   .. ..$ textDirection: chr "ltr"
+##   ..$ localeswitcher:List of 7
+##   .. ..$ name        : chr "localeswitcher"
+##   .. ..$ metadata    : Named list()
+##   .. ..$ displayIndex: int 1
+##   .. ..$ copy        :List of 5
+##   .. ..$ continue    :List of 5
+##   .. ..$ exit        :List of 5
+##   .. ..$ select      :List of 5
+##  $ :List of 2
+##   ..$ id     : chr "ad6ca319-1ef1-20da-c4e0-5185088996cb"
+##   ..$ results:'data.frame': 2 obs. of  2 variables:
+##   .. ..$ sectionName   : chr [1:2] "quickLinks" "suggestions"
+##   .. ..$ sectionResults:List of 2
+```
+
+So, locale metadata and something to do with on-page links/suggestions.
+
+As demonstrated, the `har_entries()` function makes it easy to get to the individual elements and we used the `is_json()` helper with `purrr` functions to slice and dice the structure at will. Here are all the `is_` functions you can use with HAR objects:
 
 - `is_binary()`
 - `is_content_type()`
@@ -145,60 +142,141 @@ You can also use various `get_` helpers to avoid gnarly `$` or `[[]]` constructs
 - `get_body_size()` ---	Retrieve size of content | body | headers
 - `get_content_size()` ---	Retrieve size of content | body | headers
 - `get_content_type()` ---	Retrieve or test content type of a HAR request object
+- `get_headers` --- Retrieve response headers as a data frame
 - `get_headers_size()` ---	Retrieve size of content | body | headers
 - `get_request_type()` ---	Retrieve or test request type
 - `get_request_url()` ---	Retrieve request URL
+- `get_response_url()` ---	Retrieve response URL
 - `get_response_body()` ---	Retrieve the body content of a HAR entry
 
 We've seen one example of them already, here's another:
 
-```
-map_dbl(entries, get_body_size)
-##  [1]    1180  132571 1211097     701      -1     466   20342     579    4489
-## [10]   13332    1774   18028   59782   48008   55270   48323   42879   36116
-## [19]   69560   59602   58135   37443   17266   49840     464   20342   14579
-## [28]   14626   16265   14473   14565   13639   15106   12383   41887     186
-## [37]     186     186     186     185     186     186     186     186     186
-## [46]     186     186     186     186     185     186     186     186     186
-## [55]     223     286     170     158     272     272     280     267
-```
-
-You can bop around the data and you'll find that the one we want is a "catalog" file). We can look for it with these tools:
-
-```
-idx <- which(map_lgl(entries, is_json))
-
-map_chr(entries[idx], get_request_url) %>%
-  grepl("catalog", .) %>%
-  which()
-## [1] 6
+```{r eval=FALSE}
+har_entries(apple) %>% 
+  purrr::map_dbl(get_body_size)
+##  [1]      0  54521  95644  98069  43183   8689  19035 794210  66487 133730 311054  13850 199928 161859  90322 343189  19035
+## [18] 794210  66487 133730    554    802   1002   1160   1694    264   1082   1661    390    416 108468 108828 100064 109728
+## [35] 109412  99196 108856 109360 108048   8868  10648  10380  10476    137 311054  13850   3192   3253   4130   2027   1247
+## [52]   1748    582 199928 109628 107832 109068 100632 108928  97812 108312 108716 107028  65220  73628  72188  72600  70400
+## [69]  73928  72164  73012  71080   1185 161859  90322 343189      0    491  60166  58509  60166  58509  53281  53281
 ```
 
-and, then use another helper `as_response()` which makes the HAR entry behave like an `httr` `response` object so we can use familiar idioms to get the data.
+So, a visit to Apple's page transfers nearly 8MB of content down to your browser.
 
-```
-as_response(entries[idx][[6]]) %>%
-  content(as = "text", encoding = "UTF-8") %>%
-  jsonlite::fromJSON(flatten=TRUE) %>%
-  tbl_df() %>%
-  glimpse()
-## Observations: 99
-## Variables: 12
-## $ id              <int> 170653, 170659, 170560, 170565, 178189, 178307, 201556, 238312, 238307, 2383...
-## $ guid            <chr> "54595a8c-b267-11e6-93d3-9457a5578ca0", "63176082-b267-11e6-93d3-9457a5578ca...
-## $ pyramid         <chr> "LIDAR-DSM-1M-ENGLAND-2003-EA", "LIDAR-DSM-1M-ENGLAND-2003-EA", "LIDAR-DSM-1...
-## $ tileReference   <chr> "TQ38", "TQ38", "TQ38", "TQ38", "TQ38", "TQ38", "TQ38", "TQ38", "TQ38", "TQ3...
-## $ fileName        <chr> "LIDAR-DSM-1M-2003-TQ38se.zip", "LIDAR-DSM-1M-2003-TQ38ne.zip", "LIDAR-DSM-1...
-## $ coverageLayer   <chr> "LIDAR-DSM-1M-ENGLAND-2003-EA-MD-YY", "LIDAR-DSM-1M-ENGLAND-2003-EA-MD-YY", ...
-## $ fileSize        <int> 76177943, 52109669, 59326278, 18048623, 11919071, 13204420, 511124, 11736980...
-## $ descriptiveName <chr> "LIDAR Tiles DSM at 1m spatial resolution 2003", "LIDAR Tiles DSM at 1m spat...
-## $ description     <chr> "1m", "1m", "1m", "1m", "1m", "1m", "1m", "1m", "1m", "1m", "1m", "DSM at 1m...
-## $ groupName       <chr> "LIDAR-DSM-TIMESTAMPED-ENGLAND-2003-EA", "LIDAR-DSM-TIMESTAMPED-ENGLAND-2003...
-## $ displayOrder    <int> -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100...
-## $ metaDataUrl     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "https://data.gov.uk/dataset/lid...
+California also claims to care about your privacy, but is it _really_ true?
+
+```{r eval=FALSE}
+ca <- render_har(url = "https://www.ca.gov/", response_body = TRUE)
+
+har_entries(ca) %>% 
+  purrr::map_chr(~.x$response$url %>% urltools::domain()) %>% 
+  unique()
+##  [1] "www.ca.gov"                      "fonts.googleapis.com"            "california.azureedge.net"       
+##  [4] "portal-california.azureedge.net" "az416426.vo.msecnd.net"          "fonts.gstatic.com"              
+##  [7] "ssl.google-analytics.com"        "cse.google.com"                  "translate.google.com"           
+## [10] "api.stateentityprofile.ca.gov"   "translate.googleapis.com"        "www.google.com"                 
+## [13] "clients1.google.com"             "www.gstatic.com"                 "platform.twitter.com"           
+## [16] "dc.services.visualstudio.com"   
 ```
 
-Nowm, we have the data file download and metadata info.
+Yikes! It _sure_ doesn't look that way given all the folks they let track you when you visit their main page. Are they executing javascript from those sites?
+
+```{r eval=FALSE}
+## # A tibble: 8 x 2
+##   dom                      type                    
+##   <chr>                    <chr>                   
+## 1 california.azureedge.net application/javascript  
+## 2 california.azureedge.net application/x-javascript
+## 3 az416426.vo.msecnd.net   application/x-javascript
+## 4 cse.google.com           text/javascript         
+## 5 translate.google.com     text/javascript         
+## 6 translate.googleapis.com text/javascript         
+## 7 www.google.com           text/javascript         
+## 8 platform.twitter.com     application/javascript  
+```
+
+We can also examine the response headers to check for signs of safety as well (i.e. are there content security policy headers or other types of security-oriented headers):
+
+```{r eval=FALSE}
+har_entries(ca) %>% 
+  purrr::map_df(get_headers) %>% 
+  dplyr::count(name, sort=TRUE) %>% 
+  print(n=50)
+## # A tibble: 42 x 2
+##    name                              n
+##    <chr>                         <int>
+##  1 date                            149
+##  2 server                          148
+##  3 content-type                    142
+##  4 last-modified                   126
+##  5 etag                            104
+##  6 content-encoding                 83
+##  7 access-control-allow-origin      78
+##  8 accept-ranges                    74
+##  9 vary                             69
+## 10 content-length                   66
+## 11 x-ms-ref                         57
+## 12 x-ms-ref-originshield            57
+## 13 access-control-expose-headers    56
+## 14 content-md5                      51
+## 15 x-ms-blob-type                   51
+## 16 x-ms-lease-status                51
+## 17 x-ms-request-id                  51
+## 18 x-ms-version                     51
+## 19 cache-control                    37
+## 20 expires                          34
+## 21 alt-svc                          30
+## 22 x-xss-protection                 29
+## 23 x-content-type-options           27
+## 24 age                              22
+## 25 transfer-encoding                20
+## 26 timing-allow-origin              14
+## 27 x-powered-by                     14
+## 28 access-control-allow-headers      7
+## 29 pragma                            6
+## 30 request-context                   5
+## 31 x-aspnet-version                  5
+## 32 x-frame-options                   4
+## 33 content-disposition               3
+## 34 access-control-max-age            2
+## 35 content-language                  2
+## 36 p3p                               2
+## 37 x-cache                           2
+## 38 access-control-allow-methods      1
+## 39 location                          1
+## 40 set-cookie                        1
+## 41 strict-transport-security         1
+## 42 x-ms-session-id                   1
+```
+
+Unfortunately, they do let Google and Twitter execute javascript.
+
+They seem to use quite a bit of Microsoft tech. Let's look at the HTTP servers they directly and indirectly rely on:
+
+```{r eval=FALSE}
+har_entries(ca) %>% 
+  purrr::map_chr(get_header_val, "server") %>% 
+  table(dnn = "server") %>% 
+  broom::tidy() %>% 
+  dplyr::arrange(desc(n))
+## # A tibble: 14 x 2
+##    server                                           n
+##    <chr>                                        <int>
+##  1 Apache                                          55
+##  2 Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0    50
+##  3 sffe                                            23
+##  4 Microsoft-IIS/10.0                               7
+##  5 ESF                                              3
+##  6 HTTP server (unknown)                            2
+##  7 ECAcc (bsa/EAD2)                                 1
+##  8 ECD (sjc/16E0)                                   1
+##  9 ECD (sjc/16EA)                                   1
+## 10 ECD (sjc/16F4)                                   1
+## 11 ECD (sjc/4E95)                                   1
+## 12 ECD (sjc/4E9F)                                   1
+## 13 ECS (bsa/EB1F)                                   1
+## 14 gws                                              1
+```
 
 ## Impersonating Other Browsers
 
@@ -216,12 +294,17 @@ The various `render_` functions present themselves as modern WebKit Linux browse
 - `ua_linux_chrome`
 - `ua_linux_firefox`
 - `ua_ios_safari`
+- `ua_android_samsung`
+- `ua_kindle`
+- `ua_ps4`
+- `ua_apple_tv`
+- `ua_chromecast`
 
 NOTE: These can be used with `curl`, `httr`, `rvest` and `RCurl` calls as well.
 
 We can wee it in action:
 
-```
+```{r eval=FALSE}
 URL <- "https://httpbin.org/user-agent"
 
 splash_local %>%
@@ -251,7 +334,7 @@ The `install_splash()` will pull the image locally for you. It takes a bit (the 
 
 The best way to use start/stop is to:
 
-```
+```{r eval=FALSE}
 spi <- start_splash()
 
 # ... scraping tasks ...

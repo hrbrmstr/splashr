@@ -33,7 +33,9 @@ get_content_type <- function(har_resp_obj) {
 #' @param type content type to compare to (default: "`application/json`")
 #' @export
 is_content_type <- function(har_resp_obj, type="application/json") {
-  get_content_type(har_resp_obj) == type
+  res <- get_content_type(har_resp_obj) == type
+  if (is.na(res)) res <- FALSE
+  res
 }
 
 #' @rdname get_content_type
@@ -101,6 +103,51 @@ is_xhr <- function(har_resp_obj) {
 
 }
 
+#' Retrieve response headers as a data frame
+#'
+#' @md
+#' @param har_resp_obj HAR response object
+#' @note the `name` column that contains the header key is normalized to lower case
+#' @family splash_har_helpers
+#' @export
+get_headers <- function(har_resp_obj) {
+  if (length(har_resp_obj$response$headers)) {
+    do.call(
+      rbind.data.frame,
+      lapply(har_resp_obj$response$headers, as.data.frame, stringsAsFactors=FALSE)
+    ) -> ret
+    ret[["name"]] <- tolower(ret[["name"]])
+    class(ret) <- c("tbl_df", "tbl", "data.frame")
+    ret
+  }
+}
+
+#' Retrieve the value of a specific response header
+#'
+#' @md
+#' @param har_resp_obj HAR response object
+#' @param header the header you want the value for
+#' @note the `name` column that contains the header key is normalized to lower case
+#'        as is the passed-in requested header. Also, if there is more than one only
+#'        the first is returned.
+#' @family splash_har_helpers
+#' @export
+get_header_val <- function(har_resp_obj, header) {
+  if (length(har_resp_obj$response$headers)) {
+    header <- tolower(header)
+    do.call(
+      rbind.data.frame,
+      lapply(har_resp_obj$response$headers, as.data.frame, stringsAsFactors=FALSE)
+    ) -> ret
+    ret[["name"]] <- tolower(ret[["name"]])
+    ret <- unlist(ret[ret$name == header, "value"], use.names = FALSE)
+    if (length(ret)) ret <- ret[1] else ret <- NA_character_
+    ret
+  } else {
+    NA_character_
+  }
+}
+
 #' Retrieve request URL
 #'
 #' @param har_resp_obj HAR response object
@@ -108,7 +155,18 @@ is_xhr <- function(har_resp_obj) {
 #' @export
 get_request_url <- function(har_resp_obj) {
   utype <- har_resp_obj$request$url
-  if (utype == "") return(NA_character_)
+  if (utype == "") utype <- NA_character_
+  utype
+}
+
+#' Retrieve response URL
+#'
+#' @param har_resp_obj HAR response object
+#' @family splash_har_helpers
+#' @export
+get_response_url <- function(har_resp_obj) {
+  utype <- har_resp_obj$response$url
+  if (utype == "") utype <- NA_character_
   utype
 }
 
