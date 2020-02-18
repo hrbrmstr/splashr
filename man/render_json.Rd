@@ -4,21 +4,48 @@
 \alias{render_json}
 \title{Return a json-encoded dictionary with information about javascript-rendered webpage.}
 \usage{
-render_json(splash_obj = splash_local, url, base_url = NULL,
-  quality = 75, width, height, timeout = 30, resource_timeout,
-  wait = 0, render_all = FALSE, proxy, js, js_src, filters,
-  allowed_domains, allowed_content_types, forbidden_content_types,
-  viewport = "1024x768", images, headers, body, http_method, save_args,
-  load_args, html = TRUE, png = FALSE, jpeg = FALSE,
-  iframes = TRUE, script = TRUE, console = TRUE, history = TRUE,
-  har = TRUE, response_body = FALSE)
+render_json(
+  splash_obj = splash_local,
+  url,
+  base_url = NULL,
+  quality = 75,
+  width,
+  height,
+  timeout = 30,
+  resource_timeout,
+  wait = 0,
+  render_all = FALSE,
+  proxy,
+  js,
+  js_src,
+  filters,
+  allowed_domains,
+  allowed_content_types,
+  forbidden_content_types,
+  viewport = "1024x768",
+  images,
+  headers,
+  body,
+  http_method,
+  save_args,
+  load_args,
+  html = TRUE,
+  png = FALSE,
+  jpeg = FALSE,
+  iframes = TRUE,
+  script = TRUE,
+  console = TRUE,
+  history = TRUE,
+  har = TRUE,
+  response_body = FALSE
+)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{url}{The URL to render (required)}
 
-\item{base_url}{The base url to render the page with.}
+\item{base_url}{The base URL to render the page with.}
 
 \item{quality}{JPEG quality parameter in range from 0 to 100. Default is quality=75.}
 
@@ -29,7 +56,7 @@ pixels) keeping the aspect ratio. These are optional}
 pixels) keeping the aspect ratio. These are optional}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30). Without
-reconfiguring the startup parameters of the Splash server (not this package)
+re-configuring the start-up parameters of the Splash server (not this package)
 the maximum allowed value for the timeout is 60 seconds.}
 
 \item{resource_timeout}{A timeout (in seconds) for individual network requests.}
@@ -60,7 +87,7 @@ present, Splash will abort any request if the response’s content type matches
 any of the content types in this list. Wildcards are supported.}
 
 \item{viewport}{View width and height (in pixels) of the browser viewport to render the
-web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
+web page. Format is “width>xheight”, e.g. 800x600. Default value is "full".}
 
 \item{images}{Whether to download images.}
 
@@ -114,8 +141,11 @@ overwhelmed with data. Use \code{\link[=str]{str()}} to inspect various portions
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}
 }
 \seealso{
-Other splash_renderers: \code{\link{execute_lua}},
-  \code{\link{render_har}}, \code{\link{render_html}},
-  \code{\link{render_jpeg}}, \code{\link{render_png}}
+Other splash_renderers: 
+\code{\link{execute_lua}()},
+\code{\link{render_har}()},
+\code{\link{render_html}()},
+\code{\link{render_jpeg}()},
+\code{\link{render_png}()}
 }
 \concept{splash_renderers}

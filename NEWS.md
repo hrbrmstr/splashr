@@ -1,3 +1,10 @@
+0.7.0
+* Changed `as[._]data[._]frame()` function to `tidy_har()`
+* Improved API error messages
+* Added support for `http2` (<https://splash.readthedocs.io/en/stable/changes.html#id1>)
+* Added support for the alpha/experimental Splash chromium engine
+  (<https://splash.readthedocs.io/en/stable/changes.html#id2>)
+
 0.6.0
 
 * Switch Docker orchestration to the `stevedore` package

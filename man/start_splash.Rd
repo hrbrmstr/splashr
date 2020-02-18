@@ -4,8 +4,7 @@
 \alias{start_splash}
 \title{Start a Splash server Docker container}
 \usage{
-start_splash(tag = "latest", container_name = "splashr",
-  remove = FALSE, ...)
+start_splash(tag = "latest", container_name = "splashr", remove = FALSE, ...)
 }
 \arguments{
 \item{tag}{Splash Docker image tag to start}
@@ -43,7 +42,8 @@ stop_splash(splash_container)
 }
 }
 \seealso{
-Other splash_docker_helpers: \code{\link{install_splash}},
-  \code{\link{stop_splash}}
+Other splash_docker_helpers: 
+\code{\link{install_splash}()},
+\code{\link{stop_splash}()}
 }
 \concept{splash_docker_helpers}

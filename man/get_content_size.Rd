@@ -19,13 +19,15 @@ get_headers_size(har_resp_obj)
 Retrieve size of content | body | headers
 }
 \seealso{
-Other splash_har_helpers: \code{\link{get_content_type}},
-  \code{\link{get_har_entry}},
-  \code{\link{get_header_val}}, \code{\link{get_headers}},
-  \code{\link{get_request_type}},
-  \code{\link{get_request_url}},
-  \code{\link{get_response_body}},
-  \code{\link{get_response_url}},
-  \code{\link{har_entry_count}}
+Other splash_har_helpers: 
+\code{\link{get_content_type}()},
+\code{\link{get_har_entry}()},
+\code{\link{get_header_val}()},
+\code{\link{get_headers}()},
+\code{\link{get_request_type}()},
+\code{\link{get_request_url}()},
+\code{\link{get_response_body}()},
+\code{\link{get_response_url}()},
+\code{\link{har_entry_count}()}
 }
 \concept{splash_har_helpers}

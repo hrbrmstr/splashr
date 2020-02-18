@@ -5,9 +5,9 @@
 #' @md
 #' @param splash_obj Object created by a call to [splash()]
 #' @param url The URL to render (required)
-#' @param base_url The base url to render the page with.
+#' @param base_url The base URL to render the page with.
 #' @param timeout A timeout (in seconds) for the render (defaults to 30). Without
-#'        reconfiguring the startup parameters of the Splash server (not this package)
+#'        re-configuring the start-up parameters of the Splash server (not this package)
 #'        the maximum allowed value for the timeout is 60 seconds.
 #' @param resource_timeout A timeout (in seconds) for individual network requests.
 #' @param wait Time (in seconds) to wait for updates after page is loaded (defaults to 0).
@@ -25,13 +25,16 @@
 #'        present, Splash will abort any request if the response’s content type matches
 #'        any of the content types in this list. Wildcards are supported.
 #' @param viewport View width and height (in pixels) of the browser viewport to render the
-#'        web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".
+#'        web page. Format is “width>xheight”, e.g. 800x600. Default value is "full".
 #' @param images Whether to download images.
 #' @param headers HTTP headers to set for the first outgoing request.
 #' @param body Body of HTTP POST request to be sent if method is POST.
 #' @param http_method HTTP method of outgoing Splash request.
 #' @param save_args A list of argument names to put in cache.
 #' @param load_args Parameter values to load from cache
+#' @param http2 Enable or disable HTTP2 support. `TRUE` to enable; `FALSE` to disable; defaults to `FALSE`
+#'        when `engine` is `webkit` due to malformed behaviour in 3.4.x of Splash
+#' @param engine one of `webkit` or `chromium`; defaults to `webkit`
 #' @param raw_html if `TRUE` then return a character vector vs an XML document. Only valid for `render_html`
 #' @family splash_renderers
 #' @return An XML document. Note that this is processed by [xml2::read_html()] so it will not be
@@ -43,11 +46,23 @@
 render_html <- function(splash_obj = splash_local, url, base_url, timeout=30, resource_timeout, wait=0,
                         proxy, js, js_src, filters, allowed_domains, allowed_content_types,
                         forbidden_content_types, viewport="1024x768", images, headers, body,
-                        http_method, save_args, load_args, raw_html=FALSE) {
+                        http_method, save_args, load_args, http2 = FALSE,
+                        engine = c("webkit", "chromium"), raw_html=FALSE) {
 
   wait <- check_wait(wait)
 
-  params <- list(url=url, timeout=timeout, wait=wait, viewport=jsonlite::unbox(viewport))
+  engine <- match.arg(engine[1], c("webkit", "chromium"))
+
+  http2 <- ifelse(engine == "chromium", 1, as.integer(as.logical(http2[1])))
+
+  list(
+    url = url,
+    timeout = timeout,
+    wait = wait,
+    viewport = jsonlite::unbox(viewport),
+    http2 = http2,
+    engine = engine
+  ) -> params
 
   if (!missing(base_url)) params$base_url <- jsonlite::unbox(base_url)
   if (!missing(resource_timeout)) params$resource_timeout <- resource_timeout
@@ -74,7 +89,7 @@ render_html <- function(splash_obj = splash_local, url, base_url, timeout=30, re
     )
   }
 
-  httr::stop_for_status(res)
+  check_or_report_status(res)
 
   out <- httr::content(res, as="text", encoding="UTF-8")
 

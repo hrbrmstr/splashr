@@ -19,8 +19,10 @@ splash_perf_stats(sp)
 }
 }
 \seealso{
-Other splash_info_functions: \code{\link{splash_active}},
-  \code{\link{splash_debug}}, \code{\link{splash_history}},
-  \code{\link{splash_version}}
+Other splash_info_functions: 
+\code{\link{splash_active}()},
+\code{\link{splash_debug}()},
+\code{\link{splash_history}()},
+\code{\link{splash_version}()}
 }
 \concept{splash_info_functions}

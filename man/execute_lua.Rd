@@ -4,8 +4,16 @@
 \alias{execute_lua}
 \title{Execute a custom rendering script and return a result.}
 \usage{
-execute_lua(splash_obj, lua_source, timeout = 30, allowed_domains, proxy,
-  filters, save_args, load_args)
+execute_lua(
+  splash_obj,
+  lua_source,
+  timeout = 30,
+  allowed_domains,
+  proxy,
+  filters,
+  save_args,
+  load_args
+)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
@@ -54,8 +62,11 @@ member_scores
 }
 }
 \seealso{
-Other splash_renderers: \code{\link{render_har}},
-  \code{\link{render_html}}, \code{\link{render_jpeg}},
-  \code{\link{render_json}}, \code{\link{render_png}}
+Other splash_renderers: 
+\code{\link{render_har}()},
+\code{\link{render_html}()},
+\code{\link{render_jpeg}()},
+\code{\link{render_json}()},
+\code{\link{render_png}()}
 }
 \concept{splash_renderers}

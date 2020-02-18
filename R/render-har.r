@@ -13,12 +13,24 @@
 render_har <- function(splash_obj = splash_local, url, base_url, response_body=FALSE, timeout=30, resource_timeout, wait=0,
                        proxy, js, js_src, filters, allowed_domains, allowed_content_types,
                        forbidden_content_types, viewport="1024x768", images, headers, body,
-                       http_method, save_args, load_args) {
+                       http_method, save_args, load_args, http2 = FALSE,
+                       engine = c("webkit", "chromium")) {
 
   wait <- check_wait(wait)
 
-  params <- list(url=url, timeout=timeout, wait=wait, viewport=jsonlite::unbox(viewport),
-                 response_body=as.numeric(response_body))
+  engine <- match.arg(engine[1], c("webkit", "chromium"))
+
+  http2 <- ifelse(engine == "chromium", 1, as.integer(as.logical(http2[1])))
+
+  list(
+    url = url,
+    timeout = timeout,
+    wait = wait,
+    viewport = jsonlite::unbox(viewport),
+    response_body = as.numeric(response_body),
+    http2 = http2,
+    engine = engine
+  ) -> params
 
   if (!missing(base_url)) params$base_url <- jsonlite::unbox(base_url)
   if (!missing(resource_timeout)) params$resource_timeout <- resource_timeout
@@ -45,7 +57,7 @@ render_har <- function(splash_obj = splash_local, url, base_url, response_body=F
     )
   }
 
-  httr::stop_for_status(res)
+  check_or_report_status(res)
 
   out <- httr::content(res, as="text", encoding="UTF-8")
   spl <- jsonlite::fromJSON(out, flatten=FALSE, simplifyVector=FALSE)

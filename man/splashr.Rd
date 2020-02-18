@@ -3,7 +3,6 @@
 \docType{package}
 \name{splashr}
 \alias{splashr}
-\alias{splashr-package}
 \title{Tools to Work with the 'Splash' JavaScript Rendering Service}
 \description{
 'Splash' \url{https://github.com/scrapinghub/splash} is a 'JavaScript' rendering service.

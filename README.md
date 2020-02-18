@@ -1,29 +1,53 @@
 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr) [![Coverage Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/splashr)](https://cran.r-project.org/package=splashr) [![](http://cranlogs.r-pkg.org/badges/splashr)](http://cran.rstudio.com/web/packages/splashr/index.html)
+[![Travis-CI Build
+Status](https://travis-ci.org/hrbrmstr/splashr.svg?branch=master)](https://travis-ci.org/hrbrmstr/splashr)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/hrbrmstr/splashr/master.svg)](https://codecov.io/github/hrbrmstr/splashr?branch=master)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/splashr)](https://cran.r-project.org/package=splashr)
+[![](http://cranlogs.r-pkg.org/badges/splashr)](http://cran.rstudio.com/web/packages/splashr/index.html)
 
-# `splashr` : Tools to Work with the 'Splash' JavaScript Rendering Service
+# `splashr` : Tools to Work with the ‘Splash’ JavaScript Rendering Service
 
-TL;DR: This package works with Splash rendering servers which are really just a REST API & `lua` scripting interface to a QT browser. It's an alternative to the Selenium ecosystem which was really engineered for application testing & validation.
+TL;DR: This package works with Splash rendering servers which are really
+just a REST API & `lua` scripting interface to a QT browser. It’s an
+alternative to the Selenium ecosystem which was really engineered for
+application testing & validation.
 
-Sometimes, all you need is a page scrape after javascript has been allowed to roam wild and free over meticulously crafted HTML tags. So, this package does not do *everything* Selenium can in pure R (though, the Lua interface is equally as powerful and accessible via R), but if you're just trying to get a page back that needs javascript rendering, this is a nice, lightweight, consistent alternative.
+Sometimes, all you need is a page scrape after javascript has been
+allowed to roam wild and free over meticulously crafted HTML tags. So,
+this package does not do *everything* Selenium can in pure R (though,
+the Lua interface is equally as powerful and accessible via R), but if
+you’re just trying to get a page back that needs javascript rendering,
+this is a nice, lightweight, consistent alternative.
 
-It's also an alternative to the somewhat abandoned `phantomjs` (which you can use in R within or without a Selenium context as it's it's own webdriver) and it may be useful to compare renderings between this package & `phantomjs`.
+It’s also an alternative to the somewhat abandoned `phantomjs` (which
+you can use in R within or without a Selenium context as it’s it’s own
+webdriver) and it may be useful to compare renderings between this
+package & `phantomjs`.
 
-The package uses the [`stevedore`](https://github.com/richfitz/stevedore) package to orchestrate Docker on your system (if you have Docker and more on how to use the `stevedore` integration below) but you can also do get it running in Docker on the command-line with two commands:
+The package uses the
+[`stevedore`](https://github.com/richfitz/stevedore) package to
+orchestrate Docker on your system (if you have Docker and more on how to
+use the `stevedore` integration below) but you can also do get it
+running in Docker on the command-line with two commands:
 
-    sudo docker pull scrapinghub/splash:3.0
-    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash:3.0
-    
-Do whatever you Windows ppl do with Docker on your systems to make ^^ work. 
+    sudo docker pull scrapinghub/splash:latest --disable-browser-caches
+    sudo docker run -p 5023:5023 -p 8050:8050 -p 8051:8051 scrapinghub/splash:latest --disable-browser-caches
 
-Folks super-new to Docker on Unix-ish platforms should [make sure to do](https://github.com/hrbrmstr/splashr/issues/3#issuecomment-280686494):
+Do whatever you Windows ppl do with Docker on your systems to make ^^
+work.
+
+Folks super-new to Docker on Unix-ish platforms should [make sure to
+do](https://github.com/hrbrmstr/splashr/issues/3#issuecomment-280686494):
 
     sudo groupadd docker
     sudo usermod -aG docker $USER
 
-(`$USER` is your username and shld be defined for you in the environment)
+(`$USER` is your username and shld be defined for you in the
+environment)
 
-If using the [`stevedore`](https://github.com/richfitz/stevedore) package you can use the convience wrappers in this pacakge:
+If using the [`stevedore`](https://github.com/richfitz/stevedore)
+package you can use the convience wrappers in this pacakge:
 
     install_splash()
     splash_container <- start_splash()
@@ -31,85 +55,132 @@ If using the [`stevedore`](https://github.com/richfitz/stevedore) package you ca
 and then run:
 
     stop_splash(splash_container)
-    
-when done. All of that happens on your localhost and you will not need to specify `splash_obj` to many of the `splashr` functions if you're running Splash in this default configuration as long as you use named parameters. You can also use the pre-defined `splash_local` object if you want to use positional parameters.
 
-Now, you can run Selenium in Docker, so this is not unique to Splash. But, a Docker context makes it so that you don't have to run or maintain icky Python stuff directly on your system. Leave it in the abandoned warehouse district where it belongs.
+when done. All of that happens on your `localhost` and you will not need
+to specify `splash_obj` to many of the `splashr` functions if you’re
+running Splash in this default configuration as long as you use named
+parameters. You can also use the pre-defined `splash_local` object if
+you want to use positional parameters.
 
-All you need for this package to work is a running Splash instance. You provide the host/port for it and it's scrape-tastic fun from there!
+Now, you can run Selenium in Docker, so this is not unique to Splash.
+But, a Docker context makes it so that you don’t have to run or maintain
+icky Python stuff directly on your system. Leave it in the abandoned
+warehouse district where it belongs.
+
+All you need for this package to work is a running Splash instance. You
+provide the host/port for it and it’s scrape-tastic fun from there\!
 
 ### About Splash
 
-> 'Splash' <https://github.com/scrapinghub/splash> is a javascript rendering service. It’s a lightweight web browser with an 'HTTP' API, implemented in Python using 'Twisted'and 'QT' \[and provides some of the core functionality of the 'RSelenium' or 'seleniumPipes' R packages but with a Java-free footprint\]. The (twisted) 'QT' reactor is used to make the sever fully asynchronous allowing to take advantage of 'webkit' concurrency via QT main loop. Some of Splash features include the ability to process multiple webpages in parallel; retrieving HTML results and/or take screenshots; disabling images or use Adblock Plus rules to make rendering faster; executing custom JavaScript in page context; getting detailed rendering info in HAR format.
+> ‘Splash’ <https://github.com/scrapinghub/splash> is a javascript
+> rendering service. It’s a lightweight web browser with an ‘HTTP’ API,
+> implemented in Python using ‘Twisted’and ’QT’ \[and provides some of
+> the core functionality of the ‘RSelenium’ or ‘seleniumPipes’ R
+> packages but with a Java-free footprint\]. The (twisted) ‘QT’ reactor
+> is used to make the sever fully asynchronous allowing to take
+> advantage of ‘webkit’ concurrency via QT main loop. Some of Splash
+> features include the ability to process multiple webpages in parallel;
+> retrieving HTML results and/or take screenshots; disabling images or
+> use Adblock Plus rules to make rendering faster; executing custom
+> JavaScript in page context; getting detailed rendering info in HAR
+> format.
 
 The following functions are implemented:
 
--   `render_html`: Return the HTML of the javascript-rendered page.
--   `render_har`: Return information about Splash interaction with a website in [HAR](http://www.softwareishard.com/blog/har-12-spec/) format.
--   `render_jpeg`: Return a image (in JPEG format) of the javascript-rendered page.
--   `render_png`: Return a image (in PNG format) of the javascript-rendered page.
--   `execute_lua`: Execute a custom rendering script and return a result.
--   `splash`: Configure parameters for connecting to a Splash server
--   `install_splash`: Retrieve the Docker image for Splash
--   `start_splash`: Start a Splash server Docker container
--   `stop_splash`: Stop a running a Splash server Docker container
+  - `render_html`: Return the HTML of the javascript-rendered page.
+  - `render_har`: Return information about Splash interaction with a
+    website in [HAR](http://www.softwareishard.com/blog/har-12-spec/)
+    format.
+  - `render_jpeg`: Return a image (in JPEG format) of the
+    javascript-rendered page.
+  - `render_png`: Return a image (in PNG format) of the
+    javascript-rendered page.
+  - `execute_lua`: Execute a custom rendering script and return a
+    result.
+  - `splash`: Configure parameters for connecting to a Splash server
+  - `install_splash`: Retrieve the Docker image for Splash
+  - `start_splash`: Start a Splash server Docker container
+  - `stop_splash`: Stop a running a Splash server Docker container
 
-Mini-DSL (domain-specific language). These can be used to create a "script" without actually scripting in Lua. They are a less-powerful/configurable set of calls than what you can make with a full Lua function but the idea is to have it take care of very common but simple use-cases, like waiting a period of time before capturing a HAR/HTML/PNG image of a site:
+Mini-DSL (domain-specific language). These can be used to create a
+“script” without actually scripting in Lua. They are a
+less-powerful/configurable set of calls than what you can make with a
+full Lua function but the idea is to have it take care of very common
+but simple use-cases, like waiting a period of time before capturing a
+HAR/HTML/PNG image of a site:
 
--   `splash_plugins`: Enable or disable browser plugins (e.g. Flash).
--   `splash_click`: Trigger mouse click event in web page.
--   `splash_focus`: Focus on a document element provided by a CSS selector
--   `splash_images`: Enable/disable images
--   `splash_response_body`: Enable or disable response content tracking.
--   `splash_go`: Go to an URL.
--   `splash_wait`: Wait for a period time
--   `splash_har`: Return information about Splash interaction with a website in HAR format.
--   `splash_html`: Return a HTML snapshot of a current page.
--   `splash_png`: Return a screenshot of a current page in PNG format.
--   `splash_press`: Trigger mouse press event in web page.
--   `splash_release`: Trigger mouse release event in web page.
--   `splash_send_keys`: Send keyboard events to page context.
--   `splash_send_text`: Send text as input to page context, literally, character by character.
--   `splash_user_agent`: Overwrite the User-Agent header for all further requests. NOTE: There are many "helper" user agent strings to go with `splash_user_agent`. Look for objects in `splashr` starting with `ua_`.
+  - `splash_plugins`: Enable or disable browser plugins (e.g. Flash).
+  - `splash_click`: Trigger mouse click event in web page.
+  - `splash_focus`: Focus on a document element provided by a CSS
+    selector
+  - `splash_images`: Enable/disable images
+  - `splash_response_body`: Enable or disable response content tracking.
+  - `splash_go`: Go to an URL.
+  - `splash_wait`: Wait for a period time
+  - `splash_har`: Return information about Splash interaction with a
+    website in HAR format.
+  - `splash_html`: Return a HTML snapshot of a current page.
+  - `splash_png`: Return a screenshot of a current page in PNG format.
+  - `splash_press`: Trigger mouse press event in web page.
+  - `splash_release`: Trigger mouse release event in web page.
+  - `splash_send_keys`: Send keyboard events to page context.
+  - `splash_send_text`: Send text as input to page context, literally,
+    character by character.
+  - `splash_user_agent`: Overwrite the User-Agent header for all further
+    requests. NOTE: There are many “helper” user agent strings to go
+    with `splash_user_agent`. Look for objects in `splashr` starting
+    with `ua_`.
 
-`httr` helpers. These help turn various bits of `splashr` objects into `httr`-ish things:
+`httr` helpers. These help turn various bits of `splashr` objects into
+`httr`-ish things:
 
--   `as_req`: Turn a HAR response entry into a working `httr` function you can use to make a request with
--   `as_request`: Turn a HAR response entry into an `httr` `response`-like object (i.e. you can use `httr::content()` on it)
+  - `as_req`: Turn a HAR response entry into a working `httr` function
+    you can use to make a request with
+  - `as_request`: Turn a HAR response entry into an `httr`
+    `response`-like object (i.e. you can use `httr::content()` on it)
 
 Helpers:
 
--   `get_body_size`: Retrieve size of content | body | headers
--   `get_content_sie`: Retrieve size of content | body | headers
--   `get_content_type` Retrieve or test content type of a HAR request object
--   `get_headers_size` Retrieve size of content | body | headers
--   `is_binary`: Retrieve or test content type of a HAR request object
--   `is_content_type`: Retrieve or test content type of a HAR request object
--   `is_css`: Retrieve or test content type of a HAR request object
--   `is_gif`: Retrieve or test content type of a HAR request object
--   `is_html`: Retrieve or test content type of a HAR request object
--   `is_javascript`: Retrieve or test content type of a HAR request object
--   `is_jpeg`: Retrieve or test content type of a HAR request object
--   `is_json`: Retrieve or test content type of a HAR request object
--   `is_plain`: Retrieve or test content type of a HAR request object
--   `is_png`: Retrieve or test content type of a HAR request object
--   `is_svg`: Retrieve or test content type of a HAR request object
--   `is_xhr`: Retrieve or test content type of a HAR request object
--   `is_xml`: Retrieve or test content type of a HAR request object
+  - `tidy_har`: Turn a gnHARly HAR object into a tidy data frame
+  - `get_body_size`: Retrieve size of content | body | headers
+  - `get_content_sie`: Retrieve size of content | body | headers
+  - `get_content_type` Retrieve or test content type of a HAR request
+    object
+  - `get_headers_size` Retrieve size of content | body | headers
+  - `is_binary`: Retrieve or test content type of a HAR request object
+  - `is_content_type`: Retrieve or test content type of a HAR request
+    object
+  - `is_css`: Retrieve or test content type of a HAR request object
+  - `is_gif`: Retrieve or test content type of a HAR request object
+  - `is_html`: Retrieve or test content type of a HAR request object
+  - `is_javascript`: Retrieve or test content type of a HAR request
+    object
+  - `is_jpeg`: Retrieve or test content type of a HAR request object
+  - `is_json`: Retrieve or test content type of a HAR request object
+  - `is_plain`: Retrieve or test content type of a HAR request object
+  - `is_png`: Retrieve or test content type of a HAR request object
+  - `is_svg`: Retrieve or test content type of a HAR request object
+  - `is_xhr`: Retrieve or test content type of a HAR request object
+  - `is_xml`: Retrieve or test content type of a HAR request object
 
-Some functions from `HARtools` are imported/exported and `%>%` is imported/exported.
+Some functions from `HARtools` are imported/exported and `%>%` is
+imported/exported.
 
 ### TODO
 
-Suggest more in a feature req!
+Suggest more in a feature req\!
 
--   <strike>Implement `render.json`</strike>
--   <strike>Implement "file rendering"</strike>
--   <strike>Implement `execute` (you can script Splash!)</strike>
--   <strike>Add integration with [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
--   <strike>*Possibly* writing R function wrappers to install/start/stop Splash</strike> which would also support enabling javascript profiles, request filters and proxy profiles from with R directly, using [`harbor`](https://github.com/wch/harbor)
--   Re-implement `render_file()`
--   Testing results with all combinations of parameters
+  - <strike>Implement `render.json`</strike>
+  - <strike>Implement “file rendering”</strike>
+  - <strike>Implement `execute` (you can script Splash\!)</strike>
+  - <strike>Add integration with
+    [`HARtools`](https://github.com/johndharrison/HARtools)</strike>
+  - <strike>*Possibly* writing R function wrappers to install/start/stop
+    Splash</strike> which would also support enabling javascript
+    profiles, request filters and proxy profiles from with R directly,
+    using [`harbor`](https://github.com/wch/harbor)
+  - Re-implement `render_file()`
+  - Testing results with all combinations of parameters
 
 ### Installation
 
@@ -124,7 +195,9 @@ install.packages("splashr", repos = c("https://cinc.rud.is/"))
 
 ### Usage
 
-NOTE: ALL of these examples assume Splash is running in the default configuraiton on `localhost` (i.e. started with `start_splash()` or the docker example commands) unless otherwise noted.
+NOTE: ALL of these examples assume Splash is running in the default
+configuraiton on `localhost` (i.e. started with `start_splash()` or the
+docker example commands) unless otherwise noted.
 
 ``` r
 library(splashr)
@@ -137,7 +210,7 @@ library(tidyverse)
 packageVersion("splashr")
 ```
 
-    ## [1] '0.6.0'
+    ## [1] '0.7.0'
 
 ``` r
 splash_active()
@@ -152,37 +225,39 @@ splash_debug()
     ## List of 7
     ##  $ active  : list()
     ##  $ argcache: int 0
-    ##  $ fds     : int 19
-    ##  $ leaks   :List of 4
-    ##   ..$ Deferred  : int 50
-    ##   ..$ LuaRuntime: int 1
-    ##   ..$ QTimer    : int 1
-    ##   ..$ Request   : int 1
-    ##  $ maxrss  : int 191004
+    ##  $ fds     : int 59
+    ##  $ leaks   :List of 5
+    ##   ..$ Deferred   : int 20
+    ##   ..$ DelayedCall: int 3
+    ##   ..$ LuaRuntime : int 1
+    ##   ..$ QTimer     : int 1
+    ##   ..$ Request    : int 1
+    ##  $ maxrss  : int 219096
     ##  $ qsize   : int 0
     ##  $ url     : chr "http://localhost:8050"
     ##  - attr(*, "class")= chr [1:2] "splash_debug" "list"
     ## NULL
 
-Notice the difference between a rendered HTML scrape and a non-rendered one:
+Notice the difference between a rendered HTML scrape and a non-rendered
+one:
 
 ``` r
 render_html(url = "http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 ```
 
-    ## {xml_document}
-    ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<script src="http://widget-cdn.rpxnow.com/manifest/login?version=release%2F1.116.0_widgets_767" type="tex ...
-    ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
+    ## {html_document}
+    ## <html lang="en">
+    ## [1] <head class="at-element-marker">\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<meta char ...
+    ## [2] <body class="terrigen">\n<div id="__next"><div id="terrigen-page" class="page"><div id="page-wrapper" class="page ...
 
 ``` r
 xml2::read_html("http://marvel.com/universe/Captain_America_(Steve_Rogers)")
 ```
 
-    ## {xml_document}
-    ## <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
-    ## [1] <head>\n<meta http-equiv="X-UA-Compatible" content="IE=Edge">\n<link href="https://plus.google.com/10852333737344 ...
-    ## [2] <body id="index-index" class="index-index" onload="findLinks('myLink');">\n\n\t<div id="page_frame" style="overfl ...
+    ## {html_document}
+    ## <html lang="en">
+    ## [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">\n<meta charset="utf-8" class="next-he ...
+    ## [2] <body class="terrigen">\n<div id="__next"><div id="terrigen-page" class="page"><div id="page-wrapper" class="page ...
 
 You can also profile pages:
 
@@ -196,30 +271,53 @@ print(har)
     ## HAR specification version: 1.2 
     ## --------HAR CREATOR-------- 
     ## Created by: Splash 
-    ## version: 3.0 
+    ## version: 3.4.1 
     ## --------HAR BROWSER-------- 
     ## Browser: QWebKit 
     ## version: 602.1 
     ## --------HAR PAGES-------- 
-    ## Page id: 1 , Page title: Poynter - A global leader in journalism. 
+    ## Page id: 1 , Page title: Poynter - Poynter 
     ## --------HAR ENTRIES-------- 
-    ## Number of entries: 81 
+    ## Number of entries: 270 
     ## REQUESTS: 
     ## Page: 1 
-    ## Number of entries: 81 
+    ## Number of entries: 270 
     ##   -  http://www.poynter.org/ 
     ##   -  https://www.poynter.org/ 
-    ##   -  https://www.google-analytics.com/analytics.js 
     ##   -  https://www.googletagservices.com/tag/js/gpt.js 
-    ##   -  https://www.poynter.org/core/themes/stable/css/system/components/ajax-progress.module.css?ovintj 
+    ##   -  https://www.poynter.org/wp-includes/js/wp-emoji-release.min.js?ver=5.3.2 
+    ##   -  https://www.poynter.org/wp-includes/css/dist/block-library/style.min.css?ver=5.3.2 
     ##      ........ 
-    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterGothicTextCond/PoynterGothicTextCond-Bold.woff2 
-    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterOSDisplay/PoynterOSDisplay-Bold.woff2 
-    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterOSDisplay/PoynterOSDisplay-Semibold.woff2 
-    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterSerifRE/PoynterSerifRE-Italic.woff2 
-    ##   -  https://www.poynter.org/themes/custom/poynter_theme/fonts/PoynterSerifRE/PoynterSerifRE-BoldItalic.woff2
+    ##   -  https://www.poynter.org/wp-content/themes/elumine-child/assets/fonts/PoynterOSDisplay/PoynterOSDisplay-BoldItalic... 
+    ##   -  https://securepubads.g.doubleclick.net/gampad/ads?gdfp_req=1&pvsid=3405643238502098&correlator=142496486392385&ou... 
+    ##   -  https://securepubads.g.doubleclick.net/gpt/pubads_impl_rendering_2020021101.js 
+    ##   -  https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html 
+    ##   -  https://static.chartbeat.com/js/chartbeat.js
 
-You can use [`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R) — which this pkg import/exports — to get view the HAR in an interactive HTML widget.
+``` r
+tidy_har(har)
+```
+
+    ## # A tibble: 270 x 20
+    ##    status started total_time page_ref timings req_url req_method req_http_version req_hdr_size req_headers req_cookies
+    ##     <int> <chr>        <int> <chr>    <I<lis> <chr>   <chr>      <chr>                   <int> <I<list>>   <I<list>>  
+    ##  1    301 2020-0…        171 1        <tibbl… http:/… GET        HTTP/1.1                  189 <tibble [2… <tibble [0…
+    ##  2    200 2020-0…        238 1        <tibbl… https:… GET        HTTP/1.1                  189 <tibble [2… <tibble [0…
+    ##  3    200 2020-0…        135 1        <tibbl… https:… GET        HTTP/1.1                  164 <tibble [3… <tibble [0…
+    ##  4    200 2020-0…         93 1        <tibbl… https:… GET        HTTP/1.1                  164 <tibble [3… <tibble [0…
+    ##  5    200 2020-0…        158 1        <tibbl… https:… GET        HTTP/1.1                  179 <tibble [3… <tibble [0…
+    ##  6    200 2020-0…        218 1        <tibbl… https:… GET        HTTP/1.1                  179 <tibble [3… <tibble [0…
+    ##  7    200 2020-0…        262 1        <tibbl… https:… GET        HTTP/1.1                  179 <tibble [3… <tibble [0…
+    ##  8    200 2020-0…        265 1        <tibbl… https:… GET        HTTP/1.1                  179 <tibble [3… <tibble [0…
+    ##  9    200 2020-0…        266 1        <tibbl… https:… GET        HTTP/1.1                  179 <tibble [3… <tibble [0…
+    ## 10    200 2020-0…        269 1        <tibbl… https:… GET        HTTP/1.1                  179 <tibble [3… <tibble [0…
+    ## # … with 260 more rows, and 9 more variables: resp_url <chr>, resp_rdrurl <chr>, resp_type <chr>, resp_size <int>,
+    ## #   resp_cookies <I<list>>, resp_headers <I<list>>, resp_encoding <chr>, resp_content_size <dbl>, resp_content <chr>
+
+You can use
+[`HARtools::HARviewer`](https://github.com/johndharrison/HARtools/blob/master/R/HARviewer.R)
+— which this pkg import/exports — to get view the HAR in an interactive
+HTML widget.
 
 Full web page snapshots are easy-peasy too:
 
@@ -278,4 +376,6 @@ stop_splash(splash_vm)
 
 ### Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to
+abide by its terms.

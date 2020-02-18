@@ -4,24 +4,46 @@
 \alias{render_png}
 \title{Return an image (in PNG format) of the javascript-rendered page.}
 \usage{
-render_png(splash_obj = splash_local, url, base_url = NULL, width,
-  height, timeout = 30, resource_timeout, wait = 0,
-  render_all = TRUE, proxy, js, js_src, filters, allowed_domains,
-  allowed_content_types, forbidden_content_types, viewport = "full",
-  images, headers, body, http_method, save_args, load_args)
+render_png(
+  splash_obj = splash_local,
+  url,
+  base_url = NULL,
+  width,
+  height,
+  timeout = 30,
+  resource_timeout,
+  wait = 0,
+  render_all = TRUE,
+  proxy,
+  js,
+  js_src,
+  filters,
+  allowed_domains,
+  allowed_content_types,
+  forbidden_content_types,
+  viewport = "full",
+  images,
+  headers,
+  body,
+  http_method,
+  save_args,
+  load_args,
+  http2 = FALSE,
+  engine = c("webkit", "chromium")
+)
 }
 \arguments{
 \item{splash_obj}{Object created by a call to \code{\link[=splash]{splash()}}}
 
 \item{url}{The URL to render (required)}
 
-\item{base_url}{The base url to render the page with.}
+\item{base_url}{The base URL to render the page with.}
 
 \item{width, height}{Resize the rendered image to the given width/height (in
 pixels) keeping the aspect ratio. These are optional}
 
 \item{timeout}{A timeout (in seconds) for the render (defaults to 30). Without
-reconfiguring the startup parameters of the Splash server (not this package)
+re-configuring the start-up parameters of the Splash server (not this package)
 the maximum allowed value for the timeout is 60 seconds.}
 
 \item{resource_timeout}{A timeout (in seconds) for individual network requests.}
@@ -52,7 +74,7 @@ present, Splash will abort any request if the response’s content type matches
 any of the content types in this list. Wildcards are supported.}
 
 \item{viewport}{View width and height (in pixels) of the browser viewport to render the
-web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full".}
+web page. Format is “width>xheight”, e.g. 800x600. Default value is "full".}
 
 \item{images}{Whether to download images.}
 
@@ -65,6 +87,11 @@ web page. Format is “<width>x<height>”, e.g. 800x600. Default value is "full
 \item{save_args}{A list of argument names to put in cache.}
 
 \item{load_args}{Parameter values to load from cache}
+
+\item{http2}{Enable or disable HTTP2 support. \code{TRUE} to enable; \code{FALSE} to disable; defaults to \code{FALSE}
+when \code{engine} is \code{webkit} due to malformed behaviour in 3.4.x of Splash}
+
+\item{engine}{one of \code{webkit} or \code{chromium}; defaults to \code{webkit}}
 }
 \value{
 a \link{magick} image object
@@ -81,8 +108,11 @@ render_png(url = "https://httpbin.org/")
 \href{http://splash.readthedocs.io/en/stable/index.html}{Splash docs}
 }
 \seealso{
-Other splash_renderers: \code{\link{execute_lua}},
-  \code{\link{render_har}}, \code{\link{render_html}},
-  \code{\link{render_jpeg}}, \code{\link{render_json}}
+Other splash_renderers: 
+\code{\link{execute_lua}()},
+\code{\link{render_har}()},
+\code{\link{render_html}()},
+\code{\link{render_jpeg}()},
+\code{\link{render_json}()}
 }
 \concept{splash_renderers}

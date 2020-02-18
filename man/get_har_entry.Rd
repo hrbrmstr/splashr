@@ -15,13 +15,15 @@ get_har_entry(x, i = 1)
 Retrieve an entry by index from a HAR object
 }
 \seealso{
-Other splash_har_helpers: \code{\link{get_content_size}},
-  \code{\link{get_content_type}},
-  \code{\link{get_header_val}}, \code{\link{get_headers}},
-  \code{\link{get_request_type}},
-  \code{\link{get_request_url}},
-  \code{\link{get_response_body}},
-  \code{\link{get_response_url}},
-  \code{\link{har_entry_count}}
+Other splash_har_helpers: 
+\code{\link{get_content_size}()},
+\code{\link{get_content_type}()},
+\code{\link{get_header_val}()},
+\code{\link{get_headers}()},
+\code{\link{get_request_type}()},
+\code{\link{get_request_url}()},
+\code{\link{get_response_body}()},
+\code{\link{get_response_url}()},
+\code{\link{har_entry_count}()}
 }
 \concept{splash_har_helpers}

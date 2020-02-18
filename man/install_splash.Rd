@@ -23,7 +23,8 @@ stop_splash(splash_container)
 }
 }
 \seealso{
-Other splash_docker_helpers: \code{\link{start_splash}},
-  \code{\link{stop_splash}}
+Other splash_docker_helpers: 
+\code{\link{start_splash}()},
+\code{\link{stop_splash}()}
 }
 \concept{splash_docker_helpers}

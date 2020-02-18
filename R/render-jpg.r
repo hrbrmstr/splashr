@@ -13,15 +13,29 @@ render_jpeg <- render_jpg <- function(
   timeout=30, resource_timeout, wait=0, render_all=TRUE,
   proxy, js, js_src, filters, allowed_domains, allowed_content_types,
   forbidden_content_types, viewport="full", images, headers, body,
-  http_method, save_args, load_args) {
+  http_method, save_args, load_args, http2 = FALSE,
+  engine = c("webkit", "chromium")) {
 
   wait <- check_wait(wait)
 
-  params <- list(url=url, timeout=timeout,
-                 wait=if (render_all & wait == 0) 0.5 else wait,
-                 viewport=viewport,
-                 quality=quality,
-                 render_all=as.numeric(render_all))
+  engine <- match.arg(engine[1], c("webkit", "chromium"))
+
+  http2 <- if (engine == "chromium") NULL else as.integer(as.logical(http2[1]))
+  viewport <- if (engine == "chromium") NULL else jsonlite::unbox(viewport[1])
+  render_all <- if (engine == "chromium") NULL else as.integer(render_all[1])
+
+  wait <- if (is.null(render_all)) 0.5 else if (render_all & wait == 0) 0.5 else wait
+
+  list(
+    url = url,
+    timeout = timeout,
+    wait = wait,
+    viewport = viewport,
+    render_all = render_all,
+    quality = quality,
+    http2 = http2,
+    engine = engine
+  ) -> params
 
   if (!missing(width)) params$width <- width
   if (!missing(height)) params$height <- height
@@ -51,7 +65,7 @@ render_jpeg <- render_jpg <- function(
     )
   }
 
-  httr::stop_for_status(res)
+  check_or_report_status(res)
 
   magick::image_read(httr::content(res, as="raw"))
 

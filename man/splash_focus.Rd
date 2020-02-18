@@ -18,12 +18,18 @@ Focus on a document element provided by a CSS selector
 See \href{https://splash.readthedocs.io/en/stable/scripting-ref.html#splash-send-text}{the docs} for more info
 }
 \seealso{
-Other splash_dsl_functions: \code{\link{splash_add_lua}},
-  \code{\link{splash_click}}, \code{\link{splash_go}},
-  \code{\link{splash_har_reset}}, \code{\link{splash_har}},
-  \code{\link{splash_html}}, \code{\link{splash_png}},
-  \code{\link{splash_press}}, \code{\link{splash_release}},
-  \code{\link{splash_send_keys}},
-  \code{\link{splash_send_text}}, \code{\link{splash_wait}}
+Other splash_dsl_functions: 
+\code{\link{splash_add_lua}()},
+\code{\link{splash_click}()},
+\code{\link{splash_go}()},
+\code{\link{splash_har_reset}()},
+\code{\link{splash_har}()},
+\code{\link{splash_html}()},
+\code{\link{splash_png}()},
+\code{\link{splash_press}()},
+\code{\link{splash_release}()},
+\code{\link{splash_send_keys}()},
+\code{\link{splash_send_text}()},
+\code{\link{splash_wait}()}
 }
 \concept{splash_dsl_functions}

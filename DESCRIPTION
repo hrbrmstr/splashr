@@ -1,8 +1,8 @@
 Package: splashr
 Type: Package
 Title: Tools to Work with the 'Splash' 'JavaScript' Rendering and Scraping Service
-Version: 0.6.0
-Date: 2019-02-24
+Version: 0.7.0
+Date: 2020-02-18
 Encoding: UTF-8
 Authors@R: c(
     person("Bob", "Rudis", email = "bob@rud.is", role = c("aut", "cre"), 
@@ -46,5 +46,5 @@ Imports:
     HARtools,
     jsonlite,
     lubridate
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr

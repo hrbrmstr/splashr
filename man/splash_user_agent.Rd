@@ -62,7 +62,7 @@ ua_chromecast
 \arguments{
 \item{splash_obj}{splashr object}
 
-\item{user_agent}{1 element character vector, defaults to \code{splashr/#.#.#}.}
+\item{user_agent}{1 element character vector, defaults to \verb{splashr/#.#.#}.}
 }
 \description{
 There are a few built-in user agents, all beginning with \code{ua_}.
