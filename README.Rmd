@@ -134,7 +134,7 @@ options(width=120)
 
 ### Usage
 
-NOTE: ALL of these examples assume Splash is running in the default configuraiton on `localhost` (i.e. started with `start_splash()` or the docker example commands) unless otherwise noted.
+NOTE: ALL of these examples assume Splash is running in the default configuration on `localhost` (i.e. started with `start_splash()` or the docker example commands) unless otherwise noted.
 
 ```{r message=FALSE, warning=FALSE, error=FALSE}
 library(splashr)
@@ -143,7 +143,7 @@ library(rvest)
 library(anytime)
 library(tidyverse)
 
-# current verison
+# current version
 packageVersion("splashr")
 
 splash_active()

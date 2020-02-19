@@ -77,11 +77,11 @@
     resp_cookies = I(list(res_cookies)),
     resp_headers = I(list(headers)),
     resp_encoding = .x[["resonse"]][["content"]][["encoding"]] %l0% NA_character_,
-    resp_content_size = as.numeric(.x[["resonse"]][["content"]][["size"]]) %l0% NA_real_,
+    resp_content_size = as.numeric(.x[["response"]][["content"]][["size"]]) %l0% NA_real_,
     stringsAsFactors = FALSE
   ) -> out
 
-  if (include_content) out$resp_content <- .x[["resonse"]][["content"]][["text"]] %l0% NA_character_
+  if (include_content) out$resp_content <- .x[["response"]][["content"]][["text"]] %l0% NA_character_
 
   class(out) <- c("tbl_df", "tbl", "data.frame")
 
